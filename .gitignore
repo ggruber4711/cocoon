@@ -1,0 +1,49 @@
+# eclipse
+.project
+.settings/
+*.settings/
+.classpath
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+/RemoteSystemsTempFiles/
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# sbteclipse plugin
+.target
+
+# Code Recommenders
+.recommenders
+.recommenders/
+/.recommenders/
+
+# maven
+target/
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# nodejs
+node_modules/
+.nyc_output
+coverage/
+
+# visual studio code
+.vscode
+.vscode/
+/.vscode/
+

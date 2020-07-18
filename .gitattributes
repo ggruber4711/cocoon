@@ -1,0 +1,179 @@
+#Default all files it determins as text, normalize them.
+* text=auto
+
+# These files are text and should be normalized (convert crlf => lf)
+# Git Files
+.gitattributes text eol=lf
+.gitignore text eol=lf
+.gitconfig text eol=lf
+
+## SOURCE CODE
+*.bat      text eol=crlf
+*.cmd      text eol=crlf
+*.coffee   text
+*.css      text
+*.htm      text diff=html
+*.html     text diff=html
+*.inc      text
+*.ini      text
+*.java     text
+*.js       text
+*.json     text
+*.jsx      text
+*.less     text
+*.od       text
+*.onlydata text
+*.php      text diff=php
+*.pl       text
+*.py       text diff=python
+*.rb       text diff=ruby
+*.sass     text
+*.scm      text
+*.scss     text
+*.sh       text eol=lf
+*.sql      text
+*.styl     text
+*.tag      text
+*.ts       text
+*.tsx      text
+*.vue      text
+*.xml      text
+*.xhtml    text diff=html
+
+*.map           text
+*.ts            text
+*.svg           text
+*.yml           text
+*.properties    text
+
+
+# Nullsoft Installer
+*.nsh     text eol=crlf
+*.nlf     text eol=crlf
+
+# Cocoon
+*.xsl     text
+*.xsd     text
+*.xmap    text
+*.xconf   text
+*.xweb    text
+
+# Images & Media
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.ico     binary
+*.mov     binary
+*.ico     binary
+*.pdf     binary
+*.bmp     binary
+
+
+# Compression
+*.gz      binary
+*.zip     binary
+*.7z      binary
+*.nupkg   binary
+*.rar binary
+*.tar binary
+*.zip binary
+
+# Java compiled
+*.jar     binary
+*.war     binary
+*.ear     binary
+*.class   binary
+
+# Fonts
+*.ttf   binary
+*.eot   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+
+# Config
+*.conf text
+
+# Documents
+*.doc  diff=astextplain 
+*.DOC  diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF  diff=astextplain
+*.rtf  diff=astextplain
+*.RTF  diff=astextplain
+
+
+*.txt text
+*.md text
+*.adoc text
+*.textile text
+*.csv text
+*.tab text
+*.tsv text
+*.sql text
+*.ini text
+
+*.psd binary
+*.ai binary
+*.eps binary
+
+# Compiled Dynamic libraries
+*.so      binary
+*.dll     binary
+
+# Executables
+*.exe binary
+
+# Documentation
+AUTHORS      text
+CHANGELOG    text
+CHANGES      text
+CONTRIBUTING text
+COPYING      text
+copyright    text
+*COPYRIGHT*  text
+INSTALL      text
+license      text
+LICENSE      text
+NEWS         text
+readme       text
+*README*     text
+TODO         text
+
+## LINTERS
+.csslintrc    text
+.eslintrc     text
+.htmlhintrc   text
+.jscsrc       text
+.jshintrc     text
+.jshintignore text
+.stylelintrc  text
+
+## CONFIGS
+*.bowerrc      text
+*.cnf          text
+*.conf         text
+*.config       text
+.babelrc       text
+.browserslistrc    text
+.editorconfig  text
+.env           text
+.gitattributes text
+.gitconfig     text
+.htaccess      text
+*.lock         text
+*.npmignore    text eol=lf
+*.yaml         text
+*.yml          text
+browserslist   text
+Makefile       text
+makefile       text
+
+## DOCKER
+*.dockerignore    text
+Dockerfile    text
