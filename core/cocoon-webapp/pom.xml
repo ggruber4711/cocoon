@@ -70,6 +70,13 @@
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-core</artifactId>
+
+      <exclusions>
+        <exclusion>
+          <groupId>rhino</groupId>
+          <artifactId>js</artifactId>
+        </exclusion>        
+      </exclusions>      
     </dependency>
 
     <dependency>
@@ -104,6 +111,11 @@
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-servlet-service-components-sample</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-flowscript-impl</artifactId>
+      <version>1.1.1-SNAPSHOT</version>
+    </dependency>
 	
     <!-- Cocoon Sample Blocks -->
     <dependency>
@@ -113,6 +125,12 @@
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-forms-sample</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>rhino</groupId>
+          <artifactId>js</artifactId>
+        </exclusion>        
+      </exclusions>      
     </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
@@ -130,7 +148,15 @@
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-it-fw</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>rhino</groupId>
+          <artifactId>js</artifactId>
+        </exclusion>        
+      </exclusions>
     </dependency>
+
+    
   </dependencies>
 
   <profiles>
