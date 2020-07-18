@@ -29,7 +29,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.Wrapper;
-import org.mozilla.javascript.continuations.Continuation;
+import org.mozilla.javascript.NativeContinuation;
 
 /**
  *
@@ -74,7 +74,7 @@ public class FOM_WebContinuation extends ScriptableObject {
         if (args.length < 1) {
             // error
         }
-        Continuation c = (Continuation) unwrap(args[0]);
+        NativeContinuation c = (NativeContinuation) unwrap(args[0]);
         FOM_WebContinuation parent = null;
         if (args.length > 1) {
             parent = (FOM_WebContinuation) args[1];
@@ -132,8 +132,8 @@ public class FOM_WebContinuation extends ScriptableObject {
     }
 
 
-    public Continuation jsGet_continuation() {
-        return (Continuation)wk.getContinuation();
+    public NativeContinuation jsGet_continuation() {
+        return (NativeContinuation)wk.getContinuation();
     }
 
     public FOM_WebContinuation jsFunction_getParent() {

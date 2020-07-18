@@ -152,6 +152,10 @@ public class LocationTrackingDebugger implements Debugger {
                 locations = null;
             }
         }
+
+        public void onDebuggerStatement(Context cx) {
+            // no implementation
+        }        
     }
 }
 
