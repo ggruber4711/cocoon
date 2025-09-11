@@ -135,7 +135,7 @@
         <module>cocoon-asciiart</module>
         <module>cocoon-auth</module>
         <module>cocoon-authentication-fw</module>
-        <module>cocoon-axis</module>
+        <!-- Legacy (javax-only) moved to legacy-blocks profile: cocoon-axis -->
         <module>cocoon-bsf</module>
         <module>cocoon-captcha</module>
         <!--module>cocoon-chaperon</module-->
@@ -159,7 +159,7 @@
         <module>cocoon-mail</module>
         <module>cocoon-midi</module>
         <module>cocoon-naming</module>
-        <module>cocoon-ojb</module>
+        <!-- Legacy (javax-only) moved to legacy-blocks profile: cocoon-ojb -->
         <module>cocoon-petstore</module>
         <module>cocoon-poi</module>
         <module>cocoon-portal</module>
@@ -183,6 +183,18 @@
         <module>cocoon-webdav</module>
         <!--module>cocoon-xmldb</module-->
         <module>cocoon-xsp</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>legacy-blocks</id>
+      <modules>
+        <module>cocoon-axis</module>
+        <module>cocoon-ojb</module>
+        <!-- javax.portlet-based modules kept separate to ease Jakarta migration -->
+        <module>cocoon-portal/cocoon-portal-portlet-impl</module>
+        <module>cocoon-portal/cocoon-portal-portlet-newimpl</module>
+        <module>cocoon-portal/cocoon-portal-wsrp-impl</module>
       </modules>
     </profile>
   </profiles>
