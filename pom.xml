@@ -2749,6 +2749,42 @@
   </reporting>
 
   <profiles>
+    <profile>
+      <id>jakarta-migration</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.openrewrite.maven</groupId>
+            <artifactId>rewrite-maven-plugin</artifactId>
+            <version>5.28.0</version>
+            <configuration>
+              <activeRecipes>
+                <!-- javax.* -> jakarta.* migration -->
+                <recipe>org.openrewrite.java.migrate.javax.JavaxMigrationToJakarta</recipe>
+                <!-- Spring Framework 6 upgrade guidance -->
+                <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_2</recipe>
+                <recipe>org.openrewrite.java.spring.framework.UpgradeSpringFramework_6_0</recipe>
+              </activeRecipes>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>org.openrewrite.recipe</groupId>
+                <artifactId>rewrite-migrate-java</artifactId>
+                <version>2.16.0</version>
+              </dependency>
+              <dependency>
+                <groupId>org.openrewrite.recipe</groupId>
+                <artifactId>rewrite-spring</artifactId>
+                <version>5.25.1</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <profiles>
     <!--
       Some dependencies in their latest version are no longer compatible with Jaca 1.8,
       so if we're building with Java 1.8, we need to downgrade some of them.
