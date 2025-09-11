@@ -1152,7 +1152,7 @@
   </distributionManagement>
 
   <properties>
-    <targetJdk>1.8</targetJdk>
+    <targetJdk>17</targetJdk>
     <maven.version>2.0.11</maven.version>
 
     <!-- General doc properties -->
@@ -2588,6 +2588,16 @@
           <source>${targetJdk}</source>
           <target>${targetJdk}</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.1.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
