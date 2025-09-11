@@ -30,13 +30,13 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.UnavailableException;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.pluto.core.CoreUtils;
 import org.apache.pluto.core.InternalPortletRequest;
@@ -59,7 +59,7 @@ public class PortletServlet extends HttpServlet {
     protected Map portlets = new HashMap();
 
     /**
-     * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+     * @see jakarta.servlet.GenericServlet#init(jakarta.servlet.ServletConfig)
      */
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -101,14 +101,14 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#getLastModified(javax.servlet.http.HttpServletRequest)
+     * @see jakarta.servlet.http.HttpServlet#getLastModified(jakarta.servlet.http.HttpServletRequest)
      */
     protected long getLastModified(HttpServletRequest req) {
         return -1;
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse)
      */
     public final void service(ServletRequest request, ServletResponse response)
     throws ServletException, IOException {
@@ -116,7 +116,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doGet(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -124,7 +124,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doPost(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -132,7 +132,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doPut(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doPut(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -140,7 +140,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doDelete(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doDelete(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -148,7 +148,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doOptions(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doOptions(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -156,7 +156,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#doTrace(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#doTrace(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     protected void doTrace(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
@@ -164,7 +164,7 @@ public class PortletServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.GenericServlet#destroy()
+     * @see jakarta.servlet.GenericServlet#destroy()
      */
     public void destroy() {
         synchronized (this.portlets) {
@@ -234,7 +234,7 @@ public class PortletServlet extends HttpServlet {
             }
 
             // handle everything as permanently for now
-            throw new javax.servlet.UnavailableException(e.getMessage());
+            throw new jakarta.servlet.UnavailableException(e.getMessage());
         } catch (PortletException e) {
             throw new ServletException(e);
         } finally {

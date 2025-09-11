@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * 
@@ -57,21 +57,21 @@ public class UriHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getPathInfo()
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getPathInfo()
      */
     public String getPathInfo() {
         return this.pathInfo;
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURI()
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getRequestURI()
      */
     public String getRequestURI() {
         return this.uri;
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURL()
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getRequestURL()
      */
     public StringBuffer getRequestURL() {
         final StringBuffer buffer = new StringBuffer();
@@ -94,7 +94,7 @@ public class UriHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletRequestWrapper#getServletPath()
+     * @see jakarta.servlet.http.HttpServletRequestWrapper#getServletPath()
      */
     public String getServletPath() {
         return this.servletPath;

@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.Map;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;

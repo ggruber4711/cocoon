@@ -23,20 +23,20 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * This class implements a Servlet 2.3 Cocoon post-processing filter.
@@ -235,11 +235,11 @@ public class CocoonFilterGeneratorImpl implements Filter {
      * @param  res                                 the final http response
      * @param  fc                                  the filter chain
      * @exception  java.io.IOException             reading/writing failed
-     * @exception  javax.servlet.ServletException  processing failed
+     * @exception  jakarta.servlet.ServletException  processing failed
      * @since                                      1.0
      */
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain fc)
-             throws java.io.IOException, javax.servlet.ServletException {
+             throws java.io.IOException, jakarta.servlet.ServletException {
 
         log("doFilter...");
         if (verbose) {

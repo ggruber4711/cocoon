@@ -48,11 +48,11 @@ public class ResponseWrapper extends AbstractResponse implements Response {
         return res.getLocale();
     }
 
-    public javax.servlet.http.Cookie createCookie(String name, String value) {
+    public jakarta.servlet.http.Cookie createCookie(String name, String value) {
         return res.createCookie(name, value);
     }
 
-    public void addCookie(javax.servlet.http.Cookie cookie) {
+    public void addCookie(jakarta.servlet.http.Cookie cookie) {
         res.addCookie(cookie);
     }
 

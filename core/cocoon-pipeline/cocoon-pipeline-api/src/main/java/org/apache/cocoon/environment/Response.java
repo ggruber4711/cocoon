@@ -18,7 +18,7 @@ package org.apache.cocoon.environment;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Defines an interface to provide client response information.
@@ -96,7 +96,7 @@ public interface Response extends HttpServletResponse {
      *                                        by the cookie protocol
      *
      */
-    javax.servlet.http.Cookie createCookie(String name, String value);
+    jakarta.servlet.http.Cookie createCookie(String name, String value);
 
     /**
      * Adds the specified cookie to the response.  This method can be called
@@ -106,7 +106,7 @@ public interface Response extends HttpServletResponse {
      *
      */
 
-    void addCookie(javax.servlet.http.Cookie cookie);
+    void addCookie(jakarta.servlet.http.Cookie cookie);
 
     /**
      * Constructs a cookie with a specified name and value.
@@ -145,7 +145,7 @@ public interface Response extends HttpServletResponse {
      *
      * @param cookie the Cookie to return to the client
      *
-     * @deprecated use {@link #addCookie(javax.servlet.http.Cookie)} instead.
+     * @deprecated use {@link #addCookie(jakarta.servlet.http.Cookie)} instead.
      */
 
     void addCookie(Cookie cookie);

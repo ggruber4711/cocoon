@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.portal.services.aspects.impl;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.portal.services.aspects.RequestProcessorAspect;
 import org.apache.cocoon.portal.services.aspects.RequestProcessorAspectContext;

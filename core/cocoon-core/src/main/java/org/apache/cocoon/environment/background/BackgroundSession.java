@@ -21,7 +21,7 @@ import org.apache.cocoon.environment.impl.AbstractSession;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *

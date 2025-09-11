@@ -18,8 +18,8 @@ package org.apache.cocoon.environment.impl;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSessionContext;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSessionContext;
 
 import org.apache.cocoon.environment.Session;
 

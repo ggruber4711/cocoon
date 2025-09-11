@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.cocoon.portal.om.CopletInstance;
 import org.apache.cocoon.portal.pluto.PortletURLProviderImpl;
@@ -70,7 +70,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
+     * @see jakarta.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
      */
     public void setCharacterEncoding(String arg0)
     throws UnsupportedEncodingException {
@@ -78,7 +78,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getContentType()
+     * @see jakarta.servlet.ServletRequest#getContentType()
      */
     public String getContentType() {
         String contentType = "text/html";
@@ -89,7 +89,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
+     * @see jakarta.servlet.ServletRequest#getParameter(java.lang.String)
      */
     public String getParameter(String name) {
         final String[] values = (String[])this.getParameterMap().get(name);
@@ -101,7 +101,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getParameterMap()
+     * @see jakarta.servlet.ServletRequest#getParameterMap()
      */
     public Map getParameterMap() {
         HttpServletRequest currentRequest = (HttpServletRequest)this.getRequest();
@@ -166,21 +166,21 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getParameterNames()
+     * @see jakarta.servlet.ServletRequest#getParameterNames()
      */
     public Enumeration getParameterNames() {
         return Collections.enumeration(this.getParameterMap().keySet());
     }
 
     /**
-     * @see javax.servlet.ServletRequest#getParameterValues(java.lang.String)
+     * @see jakarta.servlet.ServletRequest#getParameterValues(java.lang.String)
      */
     public String[] getParameterValues(String name) {
         return (String[]) this.getParameterMap().get(name);
     }
     /**
      * JST-168 PLT.16.3.3 cxxix
-     * @see javax.servlet.ServletRequest#getProtocol()
+     * @see jakarta.servlet.ServletRequest#getProtocol()
      */
     public String getProtocol() {
         return null;
@@ -188,7 +188,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxix
-     * @see javax.servlet.ServletRequest#getRemoteAddr()
+     * @see jakarta.servlet.ServletRequest#getRemoteAddr()
      */
     public String getRemoteAddr() {
         return null;
@@ -196,7 +196,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxix
-     * @see javax.servlet.ServletRequest#getRemoteHost()
+     * @see jakarta.servlet.ServletRequest#getRemoteHost()
      */
     public String getRemoteHost() {
         return null;
@@ -204,7 +204,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxix
-     * @see javax.servlet.http.HttpServletRequest#getRequestURL()
+     * @see jakarta.servlet.http.HttpServletRequest#getRequestURL()
      */
     public StringBuffer getRequestURL() {
         return null;
@@ -212,7 +212,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxx
-     * @see javax.servlet.http.HttpServletRequest#getPathInfo()
+     * @see jakarta.servlet.http.HttpServletRequest#getPathInfo()
      */
     public String getPathInfo() {
         String attr = (String)super.getAttribute("javax.servlet.include.path_info");
@@ -221,7 +221,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxx
-     * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
+     * @see jakarta.servlet.http.HttpServletRequest#getPathTranslated()
      */
     public String getPathTranslated() {
         // TODO: Don't know yet how to implement this. 
@@ -231,7 +231,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxx
-     * @see javax.servlet.http.HttpServletRequest#getQueryString()
+     * @see jakarta.servlet.http.HttpServletRequest#getQueryString()
      */
     public String getQueryString() {
         String attr = (String)super.getAttribute("javax.servlet.include.query_string");
@@ -240,7 +240,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxx
-     * @see javax.servlet.http.HttpServletRequest#getRequestURI()
+     * @see jakarta.servlet.http.HttpServletRequest#getRequestURI()
      */
     public String getRequestURI() {
         String attr = (String)super.getAttribute("javax.servlet.include.request_uri");
@@ -249,7 +249,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxx
-     * @see javax.servlet.http.HttpServletRequest#getServletPath()
+     * @see jakarta.servlet.http.HttpServletRequest#getServletPath()
      */
     public String getServletPath() {
         String attr = (String)super.getAttribute("javax.servlet.include.servlet_path");
@@ -258,7 +258,7 @@ public class ServletRequestImpl extends HttpServletRequestWrapper {
 
     /**
      * JST-168 PLT.16.3.3 cxxxi
-     * @see javax.servlet.http.HttpServletRequest#getContextPath()
+     * @see jakarta.servlet.http.HttpServletRequest#getContextPath()
      */
     public String getContextPath() {
         String attr = (String)super.getAttribute("javax.servlet.include.context_path");

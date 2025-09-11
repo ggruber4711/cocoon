@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.portal.pluto;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.cocoon.portal.util.AbstractBean;
 import org.apache.pluto.PortletContainer;
@@ -129,7 +129,7 @@ public class PortalStartup
     }
 
     /**
-     * @see org.springframework.web.context.ServletContextAware#setServletContext(javax.servlet.ServletContext)
+     * @see org.springframework.web.context.ServletContextAware#setServletContext(jakarta.servlet.ServletContext)
      */
     public void setServletContext(ServletContext context) {
         this.servletContext = context;

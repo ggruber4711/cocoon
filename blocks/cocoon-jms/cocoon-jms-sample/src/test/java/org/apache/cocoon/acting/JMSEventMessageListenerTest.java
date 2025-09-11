@@ -16,9 +16,9 @@
  */
 package org.apache.cocoon.acting;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.TextMessage;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.TextMessage;
 
 import junit.framework.TestCase;
 

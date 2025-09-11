@@ -19,9 +19,9 @@ package org.apache.cocoon.portal.servlet;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.components.serializers.util.EncodingSerializer;
 import org.apache.cocoon.components.serializers.util.XHTMLSerializer;
@@ -44,7 +44,7 @@ public class PortalServlet implements HttpRequestHandler {
     protected Properties properties;
 
     /**
-     * @see org.springframework.web.HttpRequestHandler#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.springframework.web.HttpRequestHandler#handleRequest(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public void handleRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {

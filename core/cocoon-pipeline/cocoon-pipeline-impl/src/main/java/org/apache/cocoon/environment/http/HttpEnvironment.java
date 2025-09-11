@@ -19,9 +19,9 @@ package org.apache.cocoon.environment.http;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.environment.AbstractEnvironment;
 import org.apache.cocoon.environment.Context;

@@ -19,9 +19,9 @@ package org.apache.cocoon.servletservice.shielding;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 
 
 import org.springframework.aop.framework.ProxyFactory;

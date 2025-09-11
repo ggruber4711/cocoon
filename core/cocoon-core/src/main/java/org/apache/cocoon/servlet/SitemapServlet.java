@@ -18,10 +18,10 @@ package org.apache.cocoon.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * This is the entry point for Cocoon execution as an HTTP Servlet.
@@ -43,7 +43,7 @@ public class SitemapServlet extends HttpServlet {
     }
 
     /**
-     * @see javax.servlet.GenericServlet#init()
+     * @see jakarta.servlet.GenericServlet#init()
      */
     public void init() throws ServletException {
         super.init();

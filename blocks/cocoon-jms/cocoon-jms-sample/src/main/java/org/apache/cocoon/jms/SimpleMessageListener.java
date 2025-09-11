@@ -19,8 +19,8 @@ package org.apache.cocoon.jms;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
 
 import org.apache.cocoon.components.jms.AbstractMessageListener;
 
@@ -47,7 +47,7 @@ public final class SimpleMessageListener extends AbstractMessageListener {
     /**
      * Callback method for message receipt called by the broker.
      * 
-     * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
+     * @see jakarta.jms.MessageListener#onMessage(jakarta.jms.Message)
      */
     public void onMessage(Message message) {
         try {

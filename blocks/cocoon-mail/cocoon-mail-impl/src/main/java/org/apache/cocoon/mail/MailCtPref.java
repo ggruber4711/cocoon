@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.mail;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimePart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimePart;
 
 /**
  *  A simple MimePart preference selecting algorithm

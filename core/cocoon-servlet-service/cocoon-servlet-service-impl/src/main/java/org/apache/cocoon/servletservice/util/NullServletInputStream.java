@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.servletservice.util;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ReadListener;
 
 import java.io.IOException;
 

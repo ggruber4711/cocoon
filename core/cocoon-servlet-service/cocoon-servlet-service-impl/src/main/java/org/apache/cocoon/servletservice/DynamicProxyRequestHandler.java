@@ -19,7 +19,7 @@ package org.apache.cocoon.servletservice;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * A dynamic wrapper for servlet requests that overwrites the

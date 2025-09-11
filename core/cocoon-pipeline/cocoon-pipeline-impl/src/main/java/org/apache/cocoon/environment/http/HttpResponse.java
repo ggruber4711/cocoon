@@ -21,8 +21,8 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Response;
@@ -49,11 +49,11 @@ public final class HttpResponse extends AbstractResponse implements Response {
     /**
      * Create a new cookie which is not added to the response
      */
-    public javax.servlet.http.Cookie createCookie(String name, String value) {
-        return new javax.servlet.http.Cookie(name, value);
+    public jakarta.servlet.http.Cookie createCookie(String name, String value) {
+        return new jakarta.servlet.http.Cookie(name, value);
     }
 
-    public void addCookie(javax.servlet.http.Cookie cookie) {
+    public void addCookie(jakarta.servlet.http.Cookie cookie) {
         this.res.addCookie(cookie);
     }
 
@@ -65,8 +65,8 @@ public final class HttpResponse extends AbstractResponse implements Response {
         if (cookie instanceof HttpCookie) {
             this.res.addCookie(((HttpCookie)cookie).getServletCookie());
         } else {
-            javax.servlet.http.Cookie newCookie;
-            newCookie = new javax.servlet.http.Cookie(cookie.getName(), cookie.getValue());
+            jakarta.servlet.http.Cookie newCookie;
+            newCookie = new jakarta.servlet.http.Cookie(cookie.getName(), cookie.getValue());
             newCookie.setComment(cookie.getComment());
             newCookie.setDomain(cookie.getDomain());
             newCookie.setMaxAge(cookie.getMaxAge());

@@ -22,7 +22,7 @@ import java.util.Vector;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.cocoon.Constants;
 import org.apache.cocoon.portal.RequestContext;

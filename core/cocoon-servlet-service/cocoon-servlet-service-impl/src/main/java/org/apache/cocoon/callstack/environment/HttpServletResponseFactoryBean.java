@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.callstack.environment;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.FactoryBean;
 

@@ -18,7 +18,7 @@ package org.apache.cocoon.webapps.session.components;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;

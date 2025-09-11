@@ -28,17 +28,17 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.WeakHashMap;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Session;
@@ -119,7 +119,7 @@ public final class HttpRequest extends AbstractRequest {
     private Map wrappedCookieMap = null;
     private Map cookieMap = null;
 
-    public javax.servlet.http.Cookie[] getCookies() {
+    public jakarta.servlet.http.Cookie[] getCookies() {
         return this.req.getCookies();
     }
 
@@ -132,10 +132,10 @@ public final class HttpRequest extends AbstractRequest {
 
     private synchronized void createCookieMap() {
         Map cookieMap = new HashMap();
-        javax.servlet.http.Cookie[] cookies = this.req.getCookies();
+        jakarta.servlet.http.Cookie[] cookies = this.req.getCookies();
         if (cookies != null) {
             for (int i=0; i < cookies.length; i++) {
-                javax.servlet.http.Cookie cookie = cookies[i];
+                jakarta.servlet.http.Cookie cookie = cookies[i];
                 cookieMap.put(cookie.getName(),cookie);
             }
         }
@@ -158,7 +158,7 @@ public final class HttpRequest extends AbstractRequest {
 
     private synchronized void wrapCookies() {
         this.wrappedCookieMap = new HashMap();
-        javax.servlet.http.Cookie[] cookies = this.req.getCookies();
+        jakarta.servlet.http.Cookie[] cookies = this.req.getCookies();
         if (cookies != null) {
             this.wrappedCookies = new Cookie[cookies.length];
             for(int i=0; i<cookies.length;i++) {
@@ -271,8 +271,8 @@ public final class HttpRequest extends AbstractRequest {
     /* (non-Javadoc)
      * @see org.apache.cocoon.environment.Request#getSession(boolean)
      */
-    public javax.servlet.http.HttpSession getSession(boolean create) {
-        javax.servlet.http.HttpSession serverSession = this.req.getSession(create);
+    public jakarta.servlet.http.HttpSession getSession(boolean create) {
+        jakarta.servlet.http.HttpSession serverSession = this.req.getSession(create);
         HttpSession session;
         if (serverSession != null)
         {
@@ -296,7 +296,7 @@ public final class HttpRequest extends AbstractRequest {
         return session;
     }
 
-    public javax.servlet.http.HttpSession getSession() {
+    public jakarta.servlet.http.HttpSession getSession() {
         return this.getSession(true);
     }
 
@@ -515,13 +515,13 @@ public final class HttpRequest extends AbstractRequest {
         return this.req.getRequestDispatcher(path);
     }
 
-    public javax.servlet.ServletContext getServletContext() {
+    public jakarta.servlet.ServletContext getServletContext() {
         return this.req.getServletContext();
     }
 
     /**
      * @deprecated As of Version 2.1 of the Java Servlet API, use
-     * {@link javax.servlet.ServletContext#getRealPath(java.lang.String)}instead.
+     * {@link jakarta.servlet.ServletContext#getRealPath(java.lang.String)}instead.
      */
     public String getRealPath(String path) {
         return this.req.getRealPath(path);

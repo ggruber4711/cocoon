@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.classloader;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * A <code>ClassLoader</code> factory, setting up the classpath given a

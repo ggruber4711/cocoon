@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import org.apache.cocoon.servletservice.AbsoluteServletConnection;
 import org.apache.cocoon.servletservice.Absolutizable;

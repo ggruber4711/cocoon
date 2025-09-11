@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.mail;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 
 import org.apache.cocoon.environment.SourceResolver;
 
@@ -64,44 +64,44 @@ public interface MailSender {
     /**
      * Sets the destination address(es) for the message. The address
      * is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param to the destination address(es)
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     void setTo(String to);
 
     /**
      * Sets the reply-to address(es) for the message. The address
      * is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param replyTo the address(es) that replies should be sent to
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     void setReplyTo(String replyTo);
 
     /**
      * Sets the address(es), which should receive a carbon copy of the
      * message. The address is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param cc the address(es), which should receive a carbon copy.
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     void setCc(String cc);
 
     /**
      * Sets the address(es), which should receive a black carbon copy of
      * the message. The address is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param bcc the address(es), which should receive a black carbon copy.
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     void setBcc(String bcc);
 

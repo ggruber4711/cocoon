@@ -18,7 +18,7 @@ package org.apache.cocoon.portal.services.aspects.impl;
 
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.cocoon.portal.PortalService;
 import org.apache.cocoon.portal.event.Event;

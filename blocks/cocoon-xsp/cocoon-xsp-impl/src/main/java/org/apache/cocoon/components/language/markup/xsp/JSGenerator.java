@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Class representing interpreted XSP-generated

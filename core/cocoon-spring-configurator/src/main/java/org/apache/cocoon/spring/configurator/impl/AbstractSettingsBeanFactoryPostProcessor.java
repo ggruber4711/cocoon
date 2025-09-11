@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.cocoon.configuration.MutableSettings;
 import org.apache.cocoon.configuration.PropertyHelper;
@@ -95,7 +95,7 @@ public abstract class AbstractSettingsBeanFactoryPostProcessor
     }
 
     /**
-     * @see org.springframework.web.context.ServletContextAware#setServletContext(javax.servlet.ServletContext)
+     * @see org.springframework.web.context.ServletContextAware#setServletContext(jakarta.servlet.ServletContext)
      */
     public void setServletContext(ServletContext sContext) {
         this.servletContext = sContext;

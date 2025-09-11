@@ -17,7 +17,7 @@
 package org.apache.cocoon.environment;
 
 import java.io.IOException;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.util.AbstractLogEnabled;

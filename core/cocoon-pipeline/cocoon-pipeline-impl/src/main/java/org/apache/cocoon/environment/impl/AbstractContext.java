@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 import org.apache.cocoon.environment.Context;
 
@@ -45,84 +45,84 @@ public abstract class AbstractContext
     protected final Map attributes = new HashMap();
 
     /**
-     * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getAttribute(java.lang.String)
      */
     public Object getAttribute(String key) {
         return this.attributes.get(key);
     }
 
     /**
-     * @see javax.servlet.ServletContext#getAttributeNames()
+     * @see jakarta.servlet.ServletContext#getAttributeNames()
      */
     public Enumeration getAttributeNames() {
         return Collections.enumeration(this.attributes.keySet());
     }
 
     /**
-     * @see javax.servlet.ServletContext#getContext(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getContext(java.lang.String)
      */
     public ServletContext getContext(String arg0) {
         return this;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getInitParameter(java.lang.String)
      */
     public String getInitParameter(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getInitParameterNames()
+     * @see jakarta.servlet.ServletContext#getInitParameterNames()
      */
     public Enumeration getInitParameterNames() {
         return Collections.enumeration(Collections.EMPTY_LIST);
     }
 
     /**
-     * @see javax.servlet.ServletContext#getMajorVersion()
+     * @see jakarta.servlet.ServletContext#getMajorVersion()
      */
     public int getMajorVersion() {
         return 2;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getMimeType(java.lang.String)
      */
     public String getMimeType(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getMinorVersion()
+     * @see jakarta.servlet.ServletContext#getMinorVersion()
      */
     public int getMinorVersion() {
         return 3;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getNamedDispatcher(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getNamedDispatcher(java.lang.String)
      */
     public RequestDispatcher getNamedDispatcher(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getRealPath(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getRealPath(java.lang.String)
      */
     public String getRealPath(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getRequestDispatcher(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getRequestDispatcher(java.lang.String)
      */
     public RequestDispatcher getRequestDispatcher(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getResource(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getResource(java.lang.String)
      */
     public URL getResource(String arg0) throws MalformedURLException {
         return null;
@@ -132,7 +132,7 @@ public abstract class AbstractContext
      * Get access to the resource as @link {@link InputStream}. If there is any problem,
      * <code>null</code> is returned.
      * 
-     * @see javax.servlet.ServletContext#getResourceAsStream(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getResourceAsStream(java.lang.String)
      */
     public InputStream getResourceAsStream(String path) {
     	URL resourceURL = null;
@@ -152,56 +152,56 @@ public abstract class AbstractContext
     }
 
     /**
-     * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getResourcePaths(java.lang.String)
      */
     public Set getResourcePaths(String arg0) {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getServerInfo()
+     * @see jakarta.servlet.ServletContext#getServerInfo()
      */
     public String getServerInfo() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getServlet(java.lang.String)
+     * @see jakarta.servlet.ServletContext#getServlet(java.lang.String)
      */
     public Servlet getServlet(String arg0) throws ServletException {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getServletContextName()
+     * @see jakarta.servlet.ServletContext#getServletContextName()
      */
     public String getServletContextName() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getServletNames()
+     * @see jakarta.servlet.ServletContext#getServletNames()
      */
     public Enumeration getServletNames() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#getServlets()
+     * @see jakarta.servlet.ServletContext#getServlets()
      */
     public Enumeration getServlets() {
         return null;
     }
 
     /**
-     * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
+     * @see jakarta.servlet.ServletContext#removeAttribute(java.lang.String)
      */
     public void removeAttribute(String key) {
         this.attributes.remove(key);
     }
 
     /**
-     * @see javax.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
+     * @see jakarta.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
      */
     public void setAttribute(String key, Object object) {
         this.attributes.put(key, object);

@@ -18,15 +18,15 @@ package org.apache.cocoon.servlet.multipart;
 
 import java.io.File;
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -63,14 +63,14 @@ public class MultipartFilter extends AbstractLogEnabled
     protected ServletContext servletContext;
 
     /**
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     * @see jakarta.servlet.Filter#init(jakarta.servlet.FilterConfig)
      */
     public void init(FilterConfig config) throws ServletException {
         this.servletContext = config.getServletContext();
     }
 
     /**
-     * @see javax.servlet.Filter#destroy()
+     * @see jakarta.servlet.Filter#destroy()
      */
     public void destroy() {
         // nothing to do
@@ -102,7 +102,7 @@ public class MultipartFilter extends AbstractLogEnabled
     }
 
     /**
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     * @see jakarta.servlet.Filter#doFilter(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse, jakarta.servlet.FilterChain)
      */
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
     throws IOException, ServletException {

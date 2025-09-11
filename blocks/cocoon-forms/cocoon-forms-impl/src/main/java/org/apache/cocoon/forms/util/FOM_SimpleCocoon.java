@@ -18,7 +18,7 @@ package org.apache.cocoon.forms.util;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.components.flow.javascript.fom.FOM_Cocoon;
 import org.apache.cocoon.components.flow.javascript.fom.FOM_Cocoon.FOM_Context;

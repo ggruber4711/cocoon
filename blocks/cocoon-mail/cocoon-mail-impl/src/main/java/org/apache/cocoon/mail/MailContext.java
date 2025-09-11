@@ -19,9 +19,9 @@ package org.apache.cocoon.mail;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-import javax.mail.Store;
+import jakarta.mail.Folder;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Store;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.ContextException;

@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.portal.pluto;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.cocoon.portal.avalon.AbstractComponent;
 import org.apache.cocoon.portal.pluto.om.PortletDefinitionRegistry;
@@ -65,7 +65,7 @@ public class InformationProviderServiceImpl
     }
 
     /**
-     * @see org.apache.pluto.services.information.InformationProviderService#getDynamicProvider(javax.servlet.http.HttpServletRequest)
+     * @see org.apache.pluto.services.information.InformationProviderService#getDynamicProvider(jakarta.servlet.http.HttpServletRequest)
      */
     public DynamicInformationProvider getDynamicProvider(HttpServletRequest request) {
         DynamicInformationProvider dynProvider = (DynamicInformationProvider)request.getAttribute(dynamicProviderRole);

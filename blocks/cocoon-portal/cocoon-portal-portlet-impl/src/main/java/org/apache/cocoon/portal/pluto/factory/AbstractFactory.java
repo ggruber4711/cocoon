@@ -17,7 +17,7 @@
 package org.apache.cocoon.portal.pluto.factory;
 
 import java.util.Map;
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 
 import org.apache.cocoon.util.AbstractLogEnabled;
 import org.apache.pluto.factory.Factory;
@@ -38,7 +38,7 @@ public abstract class AbstractFactory
     protected Map properties;
 
     /**
-     * @see org.apache.pluto.factory.Factory#init(javax.servlet.ServletConfig, java.util.Map)
+     * @see org.apache.pluto.factory.Factory#init(jakarta.servlet.ServletConfig, java.util.Map)
      */
     public void init(ServletConfig config, Map factoryProperties) 
     throws Exception {

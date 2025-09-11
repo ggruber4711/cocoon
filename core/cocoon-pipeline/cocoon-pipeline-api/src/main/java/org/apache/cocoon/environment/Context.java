@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.io.InputStream;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * Defines an interface to provide context information.

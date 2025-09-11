@@ -55,22 +55,22 @@ import org.apache.cocoon.environment.Cookie;
  *
  * @version $Id$
  * 
- * @deprecated use {@link javax.servlet.http.Cookie} instead.
+ * @deprecated use {@link jakarta.servlet.http.Cookie} instead.
  */
 public final class HttpCookie
 implements Cookie {
 
-    private javax.servlet.http.Cookie cookie;
+    private jakarta.servlet.http.Cookie cookie;
 
     public HttpCookie(String name, String value) {
-        this.cookie = new javax.servlet.http.Cookie(name, value);
+        this.cookie = new jakarta.servlet.http.Cookie(name, value);
     }
 
-    public HttpCookie(javax.servlet.http.Cookie cookie) {
+    public HttpCookie(jakarta.servlet.http.Cookie cookie) {
         this.cookie = cookie;
     }
 
-    public javax.servlet.http.Cookie getServletCookie() {
+    public jakarta.servlet.http.Cookie getServletCookie() {
         this.checkState();
         return this.cookie;
     }
@@ -108,7 +108,7 @@ implements Cookie {
 
     public void init(String name, String value) {
         if (this.cookie == null) {
-            this.cookie = new javax.servlet.http.Cookie(name, value);
+            this.cookie = new jakarta.servlet.http.Cookie(name, value);
         } else {
             throw new IllegalStateException("Cookie is already initialised");
         }

@@ -27,7 +27,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.container.ContainerUtil;

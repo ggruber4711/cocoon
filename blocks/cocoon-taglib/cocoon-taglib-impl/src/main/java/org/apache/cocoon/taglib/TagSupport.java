@@ -18,7 +18,7 @@ package org.apache.cocoon.taglib;
 
 import java.io.IOException;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.parameters.Parameters;

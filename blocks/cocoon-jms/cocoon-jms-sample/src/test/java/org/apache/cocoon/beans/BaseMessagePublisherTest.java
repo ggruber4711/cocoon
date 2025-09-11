@@ -18,8 +18,8 @@ package org.apache.cocoon.beans;
 
 import java.util.List;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
 
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.apache.cocoon.BaseSpringTest;

@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 
 import org.apache.cocoon.callstack.environment.CallFrameHelper;
 import org.apache.cocoon.servletservice.util.ServletServiceRequest;

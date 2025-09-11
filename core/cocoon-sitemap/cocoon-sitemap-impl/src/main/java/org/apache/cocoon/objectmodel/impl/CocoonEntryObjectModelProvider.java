@@ -19,7 +19,7 @@ package org.apache.cocoon.objectmodel.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.configuration.Settings;
 import org.apache.cocoon.el.objectmodel.ObjectModelProvider;

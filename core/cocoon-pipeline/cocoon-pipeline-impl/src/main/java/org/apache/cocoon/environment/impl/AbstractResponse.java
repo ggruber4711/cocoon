@@ -19,7 +19,7 @@ package org.apache.cocoon.environment.impl;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
 
 import org.apache.cocoon.environment.Response;
 

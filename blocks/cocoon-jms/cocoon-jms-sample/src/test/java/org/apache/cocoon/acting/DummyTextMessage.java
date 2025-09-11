@@ -18,9 +18,9 @@ package org.apache.cocoon.acting;
 
 import java.util.Enumeration;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.TextMessage;
 
 /**
  * Provides a dummy {@link TextMessage} class to serve simple text messages,

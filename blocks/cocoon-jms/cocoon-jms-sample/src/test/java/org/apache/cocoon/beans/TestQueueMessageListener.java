@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.beans;
 
-import javax.jms.Destination;
-import javax.jms.Queue;
+import jakarta.jms.Destination;
+import jakarta.jms.Queue;
 
 /**
  * This test verifies correct startup of various components (Spring beans).

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.portal.Constants;
 import org.apache.cocoon.portal.PortalService;

@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import oasis.names.tc.wsrp.v1.types.BlockingInteractionResponse;
 import oasis.names.tc.wsrp.v1.types.LocalizedString;

@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.forms.FormsConstants;
 import org.apache.cocoon.processing.ProcessInfoProvider;

@@ -44,8 +44,8 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Component that allocate and cache JXPathContexts bound to VariableContext,
@@ -259,7 +259,7 @@ public final class JXPathCocoonContexts implements Contextualizable, ThreadSafe 
             return this.delegate.isSecure();
         }
 
-        public javax.servlet.http.Cookie[] getCookies() {
+        public jakarta.servlet.http.Cookie[] getCookies() {
             return this.delegate.getCookies();
         }
 

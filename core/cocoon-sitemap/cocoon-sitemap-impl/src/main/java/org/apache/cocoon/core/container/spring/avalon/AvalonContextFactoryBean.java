@@ -18,7 +18,7 @@ package org.apache.cocoon.core.container.spring.avalon;
 
 import java.io.File;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
@@ -48,7 +48,7 @@ public class AvalonContextFactoryBean
     protected Context context;
 
     /**
-     * @see org.springframework.web.context.ServletContextAware#setServletContext(javax.servlet.ServletContext)
+     * @see org.springframework.web.context.ServletContextAware#setServletContext(jakarta.servlet.ServletContext)
      */
     public void setServletContext(ServletContext sContext) {
         this.servletContext = sContext;

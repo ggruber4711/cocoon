@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.Header;
@@ -83,7 +83,7 @@ public class RequestForwardingHttpMethod extends EntityEnclosingMethod {
      */
     private void cloneCookies() {
         ArrayList newCookiesList = new ArrayList();
-        javax.servlet.http.Cookie[] cookies = originalRequest.getCookies();
+        jakarta.servlet.http.Cookie[] cookies = originalRequest.getCookies();
         if (cookies != null) {
             for (int i = 0; i < cookies.length; i++) {
                 String domain = cookies[i].getDomain();

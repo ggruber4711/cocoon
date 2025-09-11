@@ -24,21 +24,21 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.mail.Authenticator;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimePart;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimePart;
 
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.activity.Initializable;
@@ -547,11 +547,11 @@ public class MailMessageSender extends AbstractLogEnabled
     /**
      * Sets the destination address(es) for the message. The address
      * is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param to the destination address(es)
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     public void setTo(String to) {
         if (!isNullOrEmpty(to)) {
@@ -562,11 +562,11 @@ public class MailMessageSender extends AbstractLogEnabled
     /**
      * Sets the reply-to address(es) for the message. The address
      * is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param replyTo the address(es) that replies should be sent to
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     public void setReplyTo(String replyTo) {
         if (!isNullOrEmpty(replyTo)) {
@@ -577,11 +577,11 @@ public class MailMessageSender extends AbstractLogEnabled
     /**
      * Sets the address(es), which should receive a carbon copy of the
      * message. The address is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param cc the address(es), which should receive a carbon copy.
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     public void setCc(String cc) {
         if (!isNullOrEmpty(cc)) {
@@ -592,11 +592,11 @@ public class MailMessageSender extends AbstractLogEnabled
     /**
      * Sets the address(es), which should receive a black carbon copy of
      * the message. The address is in the format, that
-     * {@link javax.mail.internet.InternetAddress#parse(String)} can handle
+     * {@link jakarta.mail.internet.InternetAddress#parse(String)} can handle
      * (one or more email addresses separated by a commas).
      *
      * @param bcc the address(es), which should receive a black carbon copy.
-     * @see javax.mail.internet.InternetAddress#parse(String)
+     * @see jakarta.mail.internet.InternetAddress#parse(String)
      */
     public void setBcc(String bcc) {
         if (!isNullOrEmpty(bcc)) {

@@ -34,8 +34,8 @@ import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.parameters.ParameterException;
@@ -98,28 +98,28 @@ public class FactoryManagerServiceImpl
         }
 
         /**
-         * @see javax.servlet.ServletConfig#getInitParameter(java.lang.String)
+         * @see jakarta.servlet.ServletConfig#getInitParameter(java.lang.String)
          */
         public String getInitParameter(String arg0) {
             return this.servletContext.getInitParameter(arg0);
         }
 
         /**
-         * @see javax.servlet.ServletConfig#getInitParameterNames()
+         * @see jakarta.servlet.ServletConfig#getInitParameterNames()
          */
         public Enumeration getInitParameterNames() {
             return this.servletContext.getInitParameterNames();
         }
 
         /**
-         * @see javax.servlet.ServletConfig#getServletContext()
+         * @see jakarta.servlet.ServletConfig#getServletContext()
          */
         public ServletContext getServletContext() {
             return this.servletContext;
         }
 
         /**
-         * @see javax.servlet.ServletConfig#getServletName()
+         * @see jakarta.servlet.ServletConfig#getServletName()
          */
         public String getServletName() {
             return this.servletContext.getServletContextName();

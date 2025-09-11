@@ -16,8 +16,8 @@
  */
 package org.apache.cocoon.jms;
 
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
+import jakarta.jms.JMSException;
+import jakarta.jms.TextMessage;
 
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.apache.cocoon.components.jms.AbstractMessagePublisher;

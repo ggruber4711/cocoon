@@ -19,7 +19,7 @@ package org.apache.cocoon.components.modules.output;
 
 import java.util.Iterator;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.thread.ThreadSafe;

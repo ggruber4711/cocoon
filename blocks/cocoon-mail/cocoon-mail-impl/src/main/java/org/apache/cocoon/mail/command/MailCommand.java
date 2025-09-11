@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.mail.command;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 /**
  * This interface the basic contract of a MailCommand

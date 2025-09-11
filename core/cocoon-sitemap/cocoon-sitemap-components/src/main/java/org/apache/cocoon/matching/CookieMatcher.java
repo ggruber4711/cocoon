@@ -18,7 +18,7 @@ package org.apache.cocoon.matching;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.thread.ThreadSafe;

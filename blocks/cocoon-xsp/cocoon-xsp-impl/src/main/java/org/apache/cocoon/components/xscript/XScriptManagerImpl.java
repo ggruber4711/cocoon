@@ -17,7 +17,7 @@
 package org.apache.cocoon.components.xscript;
 
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.context.ContextException;

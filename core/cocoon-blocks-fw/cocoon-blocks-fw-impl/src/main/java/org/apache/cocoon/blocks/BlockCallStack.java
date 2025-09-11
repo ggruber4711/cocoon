@@ -18,8 +18,8 @@ package org.apache.cocoon.blocks;
 
 import java.util.Stack;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 /**
  * Stack used for geting hold on the current block servlet

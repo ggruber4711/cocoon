@@ -30,18 +30,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.ReadListener;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+import jakarta.servlet.http.HttpSession;
 
 import junit.framework.AssertionFailedError;
 
@@ -262,12 +262,12 @@ public class MockRequest extends AbstractRequest {
     /**
      * @see org.apache.cocoon.environment.Request#getCookies()
      */
-    public javax.servlet.http.Cookie[] getCookies() {
+    public jakarta.servlet.http.Cookie[] getCookies() {
         if (cookies.isEmpty()) {
             return null;
         }
-        javax.servlet.http.Cookie[] cookieArray = new javax.servlet.http.Cookie[cookies.size()];
-        return (javax.servlet.http.Cookie[]) cookies.values().toArray(cookieArray);
+        jakarta.servlet.http.Cookie[] cookieArray = new jakarta.servlet.http.Cookie[cookies.size()];
+        return (jakarta.servlet.http.Cookie[]) cookies.values().toArray(cookieArray);
     }
 
     /**

@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.spring.configurator.impl;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.web.context.ServletContextAware;
@@ -40,7 +40,7 @@ public class ServletContextFactoryBean implements FactoryBean, ServletContextAwa
     }
 
     /**
-     * @see org.springframework.web.context.ServletContextAware#setServletContext(javax.servlet.ServletContext)
+     * @see org.springframework.web.context.ServletContextAware#setServletContext(jakarta.servlet.ServletContext)
      */
     public void setServletContext(ServletContext context) {
         servletContext = context;

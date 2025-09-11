@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.cocoon.environment.ObjectModelHelper;

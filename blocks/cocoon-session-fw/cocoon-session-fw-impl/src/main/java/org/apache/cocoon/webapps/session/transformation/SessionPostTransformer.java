@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Objects;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import javax.xml.transform.OutputKeys;
 
 import org.apache.avalon.framework.configuration.Configuration;

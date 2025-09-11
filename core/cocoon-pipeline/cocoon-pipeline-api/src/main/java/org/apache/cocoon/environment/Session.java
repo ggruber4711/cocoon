@@ -16,11 +16,11 @@
  */
 package org.apache.cocoon.environment;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * For Cocoon 2.2 the return type of {@link org.apache.cocoon.environment.Request#getSession()}
- * was changed to {@link javax.servlet.HttpSession}.
+ * was changed to {@link jakarta.servlet.HttpSession}.
  * In order to allow for a smooth migration, Cocoon 2.1.11 added the
  * {@link org.apache.cocoon.environment.Request#getCocoonSession()} method returning the old
  * Session interface type.
@@ -36,7 +36,7 @@ import javax.servlet.http.HttpSession;
  *   HttpSession session = request.getSession();
  * </pre>
  *
- * @see javax.servlet.HttpSession
+ * @see jakarta.servlet.HttpSession
  * @deprecated This interface is deprecated and will be removed in future versions.
  * @version $Id$
  */

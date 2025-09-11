@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Response;
@@ -56,12 +56,12 @@ public class MockResponse extends AbstractResponse implements Response {
         return locale;
     }
 
-    public javax.servlet.http.Cookie createCookie(String name, String value) {
-        javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(name, value);
+    public jakarta.servlet.http.Cookie createCookie(String name, String value) {
+        jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie(name, value);
         return cookie;
     }
 
-    public void addCookie(javax.servlet.http.Cookie cookie) {
+    public void addCookie(jakarta.servlet.http.Cookie cookie) {
         cookies.add(cookie);
     }
 

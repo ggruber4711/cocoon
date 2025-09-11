@@ -17,7 +17,7 @@
 package org.apache.cocoon.selection;
 
 import java.util.Map;
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;

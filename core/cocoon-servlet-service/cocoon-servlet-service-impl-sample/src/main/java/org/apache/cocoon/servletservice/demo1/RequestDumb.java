@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class RequestDumb {
 

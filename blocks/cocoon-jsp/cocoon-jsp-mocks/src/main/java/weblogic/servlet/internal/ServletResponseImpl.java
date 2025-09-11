@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * **********************************************************************
@@ -52,7 +52,7 @@ public class ServletResponseImpl implements HttpServletResponse {
     public void setOutputStream(ServletOutputStreamImpl sosi) {
     }
     
-    public void addCookie(javax.servlet.http.Cookie arg1) {
+    public void addCookie(jakarta.servlet.http.Cookie arg1) {
     }
 
     public void addDateHeader(java.lang.String arg1, long arg2) {
@@ -103,7 +103,7 @@ public class ServletResponseImpl implements HttpServletResponse {
         return Locale.getDefault();
     }
 
-    public javax.servlet.ServletOutputStream getOutputStream()
+    public jakarta.servlet.ServletOutputStream getOutputStream()
         throws java.io.IOException {
         return null;
     }

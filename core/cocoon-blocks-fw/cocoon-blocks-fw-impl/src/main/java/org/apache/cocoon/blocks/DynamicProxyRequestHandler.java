@@ -19,7 +19,7 @@ package org.apache.cocoon.blocks;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 /**
  * A dynamic wrapper for servlet requests that overwrites the
  * getServletPath and getPathInfo methods to relect the mount

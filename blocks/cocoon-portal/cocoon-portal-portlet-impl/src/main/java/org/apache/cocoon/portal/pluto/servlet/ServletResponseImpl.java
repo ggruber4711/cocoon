@@ -23,9 +23,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * Our response wrapper.
@@ -87,63 +87,63 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
     }
 
     /**
-     * @see javax.servlet.http.HttpServletResponse#sendError(int, String)
+     * @see jakarta.servlet.http.HttpServletResponse#sendError(int, String)
      */
     public void sendError(int arg0, String arg1) throws IOException {
         //this.response.sendError(arg0, arg1);
     }
 
     /**
-     * @see javax.servlet.http.HttpServletResponse#sendError(int)
+     * @see jakarta.servlet.http.HttpServletResponse#sendError(int)
      */
     public void sendError(int arg0) throws IOException {
         //this.response.sendError(arg0);
     }
 
     /**
-     * @see javax.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
+     * @see jakarta.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
      */
     public void sendRedirect(String arg0) throws IOException {
         this.redirectURL = arg0;
     }
 
     /**
-     * @see javax.servlet.http.HttpServletResponse#setStatus(int, String)
+     * @see jakarta.servlet.http.HttpServletResponse#setStatus(int, String)
      */
     public void setStatus(int arg0, String arg1) {
         //this.response.setStatus(arg0, arg1);
     }
 
     /**
-     * @see javax.servlet.http.HttpServletResponse#setStatus(int)
+     * @see jakarta.servlet.http.HttpServletResponse#setStatus(int)
      */
     public void setStatus(int arg0) {
         //this.response.setStatus(arg0);
     }
 
     /**
-     * @see javax.servlet.ServletResponse#flushBuffer()
+     * @see jakarta.servlet.ServletResponse#flushBuffer()
      */
     public void flushBuffer() throws IOException {
         this.committed = true;
     }
 
     /**
-     * @see javax.servlet.ServletResponse#getBufferSize()
+     * @see jakarta.servlet.ServletResponse#getBufferSize()
      */
     public int getBufferSize() {
         return this.bufferSize = 1024;
     }
 
     /**
-     * @see javax.servlet.ServletResponse#getOutputStream()
+     * @see jakarta.servlet.ServletResponse#getOutputStream()
      */
     public ServletOutputStream getOutputStream() throws IOException {
         return this.stream;
     }
 
     /**
-     * @see javax.servlet.ServletResponse#getWriter()
+     * @see jakarta.servlet.ServletResponse#getWriter()
      */
     public PrintWriter getWriter() throws IOException {
         if ( this.writer == null ) {
@@ -153,14 +153,14 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletResponse#isCommitted()
+     * @see jakarta.servlet.ServletResponse#isCommitted()
      */
     public boolean isCommitted() {
         return this.committed;
     }
 
     /**
-     * @see javax.servlet.ServletResponse#reset()
+     * @see jakarta.servlet.ServletResponse#reset()
      */
     public void reset() {
         if (!this.committed) {
@@ -169,21 +169,21 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletResponse#setBufferSize(int)
+     * @see jakarta.servlet.ServletResponse#setBufferSize(int)
      */
     public void setBufferSize(int arg0) {
         this.bufferSize = arg0;
     }
 
     /**
-     * @see javax.servlet.ServletResponse#setContentLength(int)
+     * @see jakarta.servlet.ServletResponse#setContentLength(int)
      */
     public void setContentLength(int arg0) {
         // nothing to do 
     }
 
     /**
-     * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
+     * @see jakarta.servlet.ServletResponse#setContentType(java.lang.String)
      */
     public void setContentType(String typeInfo) {
         if ( typeInfo != null ) {
@@ -199,14 +199,14 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
     }
 
     /**
-     * @see javax.servlet.ServletResponse#setLocale(java.util.Locale)
+     * @see jakarta.servlet.ServletResponse#setLocale(java.util.Locale)
      */
     public void setLocale(Locale locale) {
         // nothing to do 
     }
 
     /**
-     * @see javax.servlet.ServletResponse#resetBuffer()
+     * @see jakarta.servlet.ServletResponse#resetBuffer()
      */
     public void resetBuffer() {
         // nothing to do 
@@ -241,7 +241,7 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
         }
 
         @Override
-        public void setWriteListener(javax.servlet.WriteListener writeListener) {
+        public void setWriteListener(jakarta.servlet.WriteListener writeListener) {
             // no-op
         }
     }

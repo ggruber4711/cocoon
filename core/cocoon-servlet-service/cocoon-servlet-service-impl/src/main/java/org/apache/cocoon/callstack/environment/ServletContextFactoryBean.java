@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.callstack.environment;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.cocoon.servletservice.ServletServiceContext;
 import org.springframework.beans.factory.FactoryBean;

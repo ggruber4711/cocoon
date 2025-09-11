@@ -17,8 +17,8 @@
 package org.apache.cocoon.portal.pluto.factory;
 
 import javax.portlet.ActionRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -63,7 +63,7 @@ public class ActionRequestFactoryImpl
     }
 
     /**
-     * @see org.apache.pluto.factory.ActionRequestFactory#getActionRequest(org.apache.pluto.om.window.PortletWindow, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.apache.pluto.factory.ActionRequestFactory#getActionRequest(org.apache.pluto.om.window.PortletWindow, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public ActionRequest getActionRequest(PortletWindow       portletWindow,
                                           HttpServletRequest  servletRequest,

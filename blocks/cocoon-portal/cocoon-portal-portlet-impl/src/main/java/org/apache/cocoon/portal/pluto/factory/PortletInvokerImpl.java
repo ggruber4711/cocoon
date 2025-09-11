@@ -21,8 +21,8 @@ import java.io.IOException;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletRequest;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletRequest;
 
 import org.apache.cocoon.portal.pluto.servlet.PortletServlet;
 import org.apache.pluto.core.CoreUtils;
@@ -51,7 +51,7 @@ public class PortletInvokerImpl
     protected void invoke(PortletRequest portletRequest, PortletResponse portletResponse, Integer methodID) 
     throws PortletException,IOException {
         InternalPortletRequest internalPortletRequest = CoreUtils.getInternalRequest(portletRequest);
-        ServletRequest servletRequest = ((javax.servlet.http.HttpServletRequestWrapper)internalPortletRequest).getRequest();
+        ServletRequest servletRequest = ((jakarta.servlet.http.HttpServletRequestWrapper)internalPortletRequest).getRequest();
         try {
             servletRequest.setAttribute(PortletServlet.PORTLET_DEFINITION, this.portletDefinition);
             super.invoke(portletRequest, portletResponse, methodID);

@@ -18,7 +18,7 @@ package org.apache.cocoon.blockdeployment;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 @SuppressWarnings("deprecation")
 public class DefaultBlockResourcesHolder implements BlockResourcesHolder,

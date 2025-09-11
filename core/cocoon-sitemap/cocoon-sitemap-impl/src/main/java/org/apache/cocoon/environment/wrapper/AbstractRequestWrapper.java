@@ -25,17 +25,17 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Request;
@@ -262,7 +262,7 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
         return this.req.isSecure();
     }
 
-    public javax.servlet.ServletContext getServletContext() {
+    public jakarta.servlet.ServletContext getServletContext() {
         return this.req.getServletContext();
     }
 
@@ -321,7 +321,7 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
     /* (non-Javadoc)
      * @see org.apache.cocoon.environment.Request#getCookies()
      */
-    public javax.servlet.http.Cookie[] getCookies() {
+    public jakarta.servlet.http.Cookie[] getCookies() {
         return this.req.getCookies();
     }
 

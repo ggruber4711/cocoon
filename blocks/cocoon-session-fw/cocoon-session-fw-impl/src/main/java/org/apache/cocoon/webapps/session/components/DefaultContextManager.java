@@ -19,7 +19,7 @@ package org.apache.cocoon.webapps.session.components;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.context.Context;

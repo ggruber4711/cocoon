@@ -16,7 +16,7 @@
 */
 package org.apache.cocoon.selection;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

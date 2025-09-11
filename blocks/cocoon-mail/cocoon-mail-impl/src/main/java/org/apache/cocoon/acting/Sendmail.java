@@ -34,8 +34,8 @@ import org.apache.commons.lang.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 
 /**
  * The <code>Sendmail</code> action class sends email.

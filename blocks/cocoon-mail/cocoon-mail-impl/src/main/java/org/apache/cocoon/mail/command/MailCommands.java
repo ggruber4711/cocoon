@@ -18,7 +18,7 @@ package org.apache.cocoon.mail.command;
 
 import java.util.Iterator;
 import java.util.List;
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 /**
  * Execute a list of commands.

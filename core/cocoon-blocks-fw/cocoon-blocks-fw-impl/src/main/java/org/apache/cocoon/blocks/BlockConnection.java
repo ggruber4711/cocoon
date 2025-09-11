@@ -25,9 +25,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLConnection;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.cocoon.CascadingIOException;

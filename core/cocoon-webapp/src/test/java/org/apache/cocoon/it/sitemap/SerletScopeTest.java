@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.it.sitemap;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;

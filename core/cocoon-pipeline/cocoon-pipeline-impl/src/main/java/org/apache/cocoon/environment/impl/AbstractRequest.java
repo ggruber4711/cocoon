@@ -20,7 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 
 import org.apache.cocoon.environment.Request;
 

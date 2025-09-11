@@ -18,8 +18,8 @@ package org.apache.cocoon.blocks.util;
 
 import java.util.Enumeration;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 /**
  * @version $Id: ServletConfigurationWrapper.java 368000 2006-01-11 10:45:20Z

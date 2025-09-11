@@ -19,8 +19,8 @@ package org.apache.cocoon.portal.pluto.om;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 
 import org.apache.pluto.om.common.Description;
 import org.apache.pluto.om.common.DescriptionSet;

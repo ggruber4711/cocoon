@@ -16,7 +16,7 @@
  */
 package org.apache.cocoon.webapps.session.transformation;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;

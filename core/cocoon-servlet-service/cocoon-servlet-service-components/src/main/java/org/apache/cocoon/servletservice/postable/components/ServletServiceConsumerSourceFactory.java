@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.cocoon.processing.ProcessInfoProvider;
 import org.apache.excalibur.source.Source;

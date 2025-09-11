@@ -22,7 +22,7 @@ import org.apache.cocoon.environment.Request;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * A component for providing CC/PP and UAProf support using the DELI

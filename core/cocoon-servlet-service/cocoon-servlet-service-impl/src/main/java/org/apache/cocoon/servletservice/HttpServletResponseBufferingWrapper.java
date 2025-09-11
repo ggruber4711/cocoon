@@ -22,10 +22,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -313,7 +313,7 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
         }
 
         @Override
-        public void setWriteListener(javax.servlet.WriteListener writeListener) {
+        public void setWriteListener(jakarta.servlet.WriteListener writeListener) {
             // no-op
         }
 

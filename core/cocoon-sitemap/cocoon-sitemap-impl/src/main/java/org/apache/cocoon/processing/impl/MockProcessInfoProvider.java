@@ -25,14 +25,14 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionContext;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Request;
@@ -145,7 +145,7 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             return request.getCookieMap();
         }
 
-        public javax.servlet.http.Cookie[] getCookies() {
+        public jakarta.servlet.http.Cookie[] getCookies() {
             //FIXME: Implement this method if needed
             throw new UnsupportedOperationException();
         }
@@ -294,19 +294,19 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
         public boolean isSecure() {
             return request.isSecure();
         }
-        public <T extends javax.servlet.http.HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws java.io.IOException, javax.servlet.ServletException { throw new UnsupportedOperationException(); }
-        public javax.servlet.AsyncContext startAsync() { throw new UnsupportedOperationException(); }
-        public javax.servlet.AsyncContext startAsync(javax.servlet.ServletRequest a, javax.servlet.ServletResponse b) { throw new UnsupportedOperationException(); }
+        public <T extends jakarta.servlet.http.HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws java.io.IOException, jakarta.servlet.ServletException { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.AsyncContext startAsync() { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.AsyncContext startAsync(jakarta.servlet.ServletRequest a, jakarta.servlet.ServletResponse b) { throw new UnsupportedOperationException(); }
         public boolean isAsyncStarted() { return false; }
         public boolean isAsyncSupported() { return false; }
-        public javax.servlet.AsyncContext getAsyncContext() { throw new UnsupportedOperationException(); }
-        public javax.servlet.DispatcherType getDispatcherType() { return javax.servlet.DispatcherType.REQUEST; }
-        public boolean authenticate(javax.servlet.http.HttpServletResponse response) { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.AsyncContext getAsyncContext() { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.DispatcherType getDispatcherType() { return jakarta.servlet.DispatcherType.REQUEST; }
+        public boolean authenticate(jakarta.servlet.http.HttpServletResponse response) { throw new UnsupportedOperationException(); }
         public void login(String username, String password) { throw new UnsupportedOperationException(); }
         public void logout() { throw new UnsupportedOperationException(); }
-        public java.util.Collection<javax.servlet.http.Part> getParts() { throw new UnsupportedOperationException(); }
-        public javax.servlet.http.Part getPart(String name) { throw new UnsupportedOperationException(); }
-        public javax.servlet.ServletContext getServletContext() { throw new UnsupportedOperationException(); }
+        public java.util.Collection<jakarta.servlet.http.Part> getParts() { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.http.Part getPart(String name) { throw new UnsupportedOperationException(); }
+        public jakarta.servlet.ServletContext getServletContext() { throw new UnsupportedOperationException(); }
         public String changeSessionId() { throw new UnsupportedOperationException(); }
 
         public boolean isUserInRole(String role) {
@@ -426,7 +426,7 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             return response.containsHeader(name);
         }
 
-        public javax.servlet.http.Cookie createCookie(String name, String value) {
+        public jakarta.servlet.http.Cookie createCookie(String name, String value) {
             return response.createCookie(name, value);
         }
 
@@ -463,7 +463,7 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
         public int getStatus() { return response.getStatus(); }
         public void setContentLengthLong(long len) { response.setContentLengthLong(len); }
 
-        public void addCookie(javax.servlet.http.Cookie cookie) {
+        public void addCookie(jakarta.servlet.http.Cookie cookie) {
             //FIXME: Implement this method if needed
             throw new UnsupportedOperationException();
         }

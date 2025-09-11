@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.cocoon.portal.PortalService;
 import org.apache.cocoon.portal.RequestContext;

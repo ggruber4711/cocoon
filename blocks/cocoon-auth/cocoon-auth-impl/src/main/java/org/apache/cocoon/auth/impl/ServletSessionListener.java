@@ -18,9 +18,9 @@
  */
 package org.apache.cocoon.auth.impl;
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionActivationListener;
-import javax.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionActivationListener;
+import jakarta.servlet.http.HttpSessionEvent;
 
 /**
  * This session listener keeps track of expired sessions. It can be used in
@@ -33,14 +33,14 @@ import javax.servlet.http.HttpSessionEvent;
 public class ServletSessionListener implements HttpSessionActivationListener {
 
     /**
-     * @see javax.servlet.http.HttpSessionActivationListener#sessionDidActivate(javax.servlet.http.HttpSessionEvent)
+     * @see jakarta.servlet.http.HttpSessionActivationListener#sessionDidActivate(jakarta.servlet.http.HttpSessionEvent)
      */
     public void sessionDidActivate(HttpSessionEvent event) {
         // we don't care about a new session
     }
 
     /**
-     * @see javax.servlet.http.HttpSessionActivationListener#sessionWillPassivate(javax.servlet.http.HttpSessionEvent)
+     * @see jakarta.servlet.http.HttpSessionActivationListener#sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent)
      */
     public void sessionWillPassivate(HttpSessionEvent event) {
         final HttpSession session = event.getSession();

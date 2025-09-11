@@ -23,17 +23,17 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.descriptor.JspConfigDescriptor;
-import javax.servlet.ServletException;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
+import jakarta.servlet.ServletException;
 import java.util.EventListener;
-import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
-import javax.servlet.Servlet;
-import javax.servlet.ServletRegistration;
-import javax.servlet.SessionCookieConfig;
-import javax.servlet.SessionTrackingMode;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
 
 import org.apache.cocoon.environment.impl.AbstractContext;
 
@@ -209,15 +209,15 @@ public final class HttpContext extends AbstractContext {
         return this.servletContext.getEffectiveMinorVersion();
     }
 
-    public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, String className) {
+    public jakarta.servlet.ServletRegistration.Dynamic addServlet(String servletName, String className) {
         return this.servletContext.addServlet(servletName, className);
     }
 
-    public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
+    public jakarta.servlet.ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
         return this.servletContext.addServlet(servletName, servlet);
     }
 
-    public javax.servlet.ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+    public jakarta.servlet.ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
         return this.servletContext.addServlet(servletName, servletClass);
     }
 
@@ -225,7 +225,7 @@ public final class HttpContext extends AbstractContext {
         return this.servletContext.createServlet(c);
     }
 
-    public javax.servlet.ServletRegistration getServletRegistration(String servletName) {
+    public jakarta.servlet.ServletRegistration getServletRegistration(String servletName) {
         return this.servletContext.getServletRegistration(servletName);
     }
 
@@ -233,15 +233,15 @@ public final class HttpContext extends AbstractContext {
         return this.servletContext.getServletRegistrations();
     }
 
-    public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, String className) {
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, String className) {
         return this.servletContext.addFilter(filterName, className);
     }
 
-    public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
         return this.servletContext.addFilter(filterName, filter);
     }
 
-    public javax.servlet.FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+    public jakarta.servlet.FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
         return this.servletContext.addFilter(filterName, filterClass);
     }
 

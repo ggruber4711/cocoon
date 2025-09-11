@@ -19,8 +19,8 @@ package org.apache.cocoon.portal.pluto.services;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.pluto.om.window.PortletWindow;
 import org.apache.pluto.services.property.PropertyManagerService;
@@ -37,7 +37,7 @@ import org.apache.pluto.services.property.PropertyManagerService;
 public class PropertyManagerServiceImpl implements PropertyManagerService {
 
 	/**
-	 * @see org.apache.pluto.services.property.PropertyManagerService#setResponseProperties(org.apache.pluto.om.window.PortletWindow, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.util.Map)
+	 * @see org.apache.pluto.services.property.PropertyManagerService#setResponseProperties(org.apache.pluto.om.window.PortletWindow, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse, java.util.Map)
 	 */
 	public void setResponseProperties(PortletWindow window, 
                                       HttpServletRequest request, 
@@ -47,7 +47,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	}
 
 	/**
-	 * @see org.apache.pluto.services.property.PropertyManagerService#getRequestProperties(org.apache.pluto.om.window.PortletWindow, javax.servlet.http.HttpServletRequest)
+	 * @see org.apache.pluto.services.property.PropertyManagerService#getRequestProperties(org.apache.pluto.om.window.PortletWindow, jakarta.servlet.http.HttpServletRequest)
 	 */
 	public Map getRequestProperties(PortletWindow window, HttpServletRequest request) {
 		return Collections.EMPTY_MAP;

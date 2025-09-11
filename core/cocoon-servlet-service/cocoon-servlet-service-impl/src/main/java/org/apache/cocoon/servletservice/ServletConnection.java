@@ -23,7 +23,7 @@ import java.net.URI;
 import java.net.URLConnection;
 import java.util.Map;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * <p>

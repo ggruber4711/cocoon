@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 public class BlockDeploymentServletContextListener implements ServletContextListener {
 

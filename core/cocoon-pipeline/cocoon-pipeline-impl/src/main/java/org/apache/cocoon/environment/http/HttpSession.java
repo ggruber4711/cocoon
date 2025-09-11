@@ -52,12 +52,12 @@ import org.apache.cocoon.environment.impl.AbstractSession;
 public final class HttpSession
 extends AbstractSession {
 
-    javax.servlet.http.HttpSession wrappedSession;
+    jakarta.servlet.http.HttpSession wrappedSession;
 
     /**
      * Construct a new session from an HttpSession
      */
-    public HttpSession(javax.servlet.http.HttpSession session) {
+    public HttpSession(jakarta.servlet.http.HttpSession session) {
         this.wrappedSession = session;
     }
 

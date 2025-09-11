@@ -25,11 +25,11 @@ import org.apache.cocoon.xml.XMLUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-import javax.mail.AuthenticationFailedException;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Store;
+import jakarta.mail.AuthenticationFailedException;
+import jakarta.mail.Folder;
+import jakarta.mail.Message;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;

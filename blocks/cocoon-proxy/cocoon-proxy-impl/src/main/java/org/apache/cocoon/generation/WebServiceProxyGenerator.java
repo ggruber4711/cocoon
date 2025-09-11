@@ -25,7 +25,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;

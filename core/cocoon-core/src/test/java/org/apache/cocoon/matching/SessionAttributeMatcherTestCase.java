@@ -18,7 +18,7 @@ package org.apache.cocoon.matching;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

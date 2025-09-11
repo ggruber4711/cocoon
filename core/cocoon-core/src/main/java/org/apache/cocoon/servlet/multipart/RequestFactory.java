@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This is the interface of Request Wrapper in Cocoon.

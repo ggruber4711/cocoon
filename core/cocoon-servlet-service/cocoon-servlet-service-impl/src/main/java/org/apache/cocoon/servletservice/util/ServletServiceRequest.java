@@ -40,21 +40,21 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionContext;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 import org.apache.cocoon.callstack.CallFrame;
 import org.apache.cocoon.callstack.CallStack;
@@ -324,7 +324,7 @@ public class ServletServiceRequest implements HttpServletRequest {
             public int read() throws IOException { return inputStream.read(); }
             public boolean isFinished() { try { return inputStream.available() == 0; } catch (IOException e) { return true; } }
             public boolean isReady() { return true; }
-            public void setReadListener(javax.servlet.ReadListener readListener) { /* no-op */ }
+            public void setReadListener(jakarta.servlet.ReadListener readListener) { /* no-op */ }
         };
     }
 
@@ -382,7 +382,7 @@ public class ServletServiceRequest implements HttpServletRequest {
 
     /**
      * @deprecated
-     * @see javax.servlet.ServletRequest#getRealPath(java.lang.String)
+     * @see jakarta.servlet.ServletRequest#getRealPath(java.lang.String)
      */
     public String getRealPath(String path) {
         return null;

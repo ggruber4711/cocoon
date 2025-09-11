@@ -41,7 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * This pipeline implementation caches the complete content for a defined

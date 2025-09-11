@@ -18,7 +18,7 @@ package org.apache.cocoon.jxpath;
 
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.commons.collections.EnumerationUtils;
 import org.apache.commons.jxpath.DynamicPropertyHandler;

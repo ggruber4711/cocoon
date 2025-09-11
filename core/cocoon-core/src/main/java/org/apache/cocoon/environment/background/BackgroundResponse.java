@@ -32,8 +32,8 @@ import org.apache.cocoon.environment.impl.AbstractResponse;
 public class BackgroundResponse extends AbstractResponse implements Response {
 
     public String getCharacterEncoding() { return null; }
-    public javax.servlet.http.Cookie createCookie(String name, String value) { return null; }
-    public void addCookie(javax.servlet.http.Cookie cookie) {}
+    public jakarta.servlet.http.Cookie createCookie(String name, String value) { return null; }
+    public void addCookie(jakarta.servlet.http.Cookie cookie) {}
     public Cookie createCocoonCookie(String name, String value) { return null; }
     public void addCookie(Cookie cookie) {}
     public boolean containsHeader(String name) { return false; }

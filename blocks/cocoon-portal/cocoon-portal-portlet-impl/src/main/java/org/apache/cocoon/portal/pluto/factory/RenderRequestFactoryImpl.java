@@ -17,8 +17,8 @@
 package org.apache.cocoon.portal.pluto.factory;
 
 import javax.portlet.RenderRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.service.ServiceException;
@@ -63,7 +63,7 @@ public class RenderRequestFactoryImpl
     }
 
     /**
-     * @see org.apache.pluto.factory.RenderRequestFactory#getRenderRequest(org.apache.pluto.om.window.PortletWindow, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.apache.pluto.factory.RenderRequestFactory#getRenderRequest(org.apache.pluto.om.window.PortletWindow, jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     public RenderRequest getRenderRequest(PortletWindow       portletWindow,
                                           HttpServletRequest  servletRequest,

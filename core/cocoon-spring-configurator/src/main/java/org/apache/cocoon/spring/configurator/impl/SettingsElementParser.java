@@ -19,7 +19,7 @@ package org.apache.cocoon.spring.configurator.impl;
 import java.util.List;
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.apache.cocoon.configuration.Settings;
 import org.apache.cocoon.spring.configurator.ResourceFilter;

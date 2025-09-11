@@ -22,9 +22,9 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Defines an interface to provide client request information .
@@ -482,25 +482,25 @@ public interface Request extends ValueHolder, HttpServletRequest {
 
     /**
      *
-     * Returns an array containing all of the {@link javax.servlet.http.Cookie}
+     * Returns an array containing all of the {@link jakarta.servlet.http.Cookie}
      * objects the client sent with this request.
      * This method returns <code>null</code> if no cookies were sent.
      *
-     * @return                an array of all the {@link javax.servlet.http.Cookie}
+     * @return                an array of all the {@link jakarta.servlet.http.Cookie}
      *                        included with this request, or <code>null</code>
      *                        if the request has no cookies
      *
      *
      */
 
-    javax.servlet.http.Cookie[] getCookies();
+    jakarta.servlet.http.Cookie[] getCookies();
 
     /**
-     * Returns a map of the {@link javax.servlet.http.Cookie} objects the client sent
+     * Returns a map of the {@link jakarta.servlet.http.Cookie} objects the client sent
      * with this request, indexed by name. This method returns an empty
      * map if no cookies were sent.
      *
-     * @return a Map of {@link javax.servlet.http.Cookie} objects
+     * @return a Map of {@link jakarta.servlet.http.Cookie} objects
      */
     Map getCookieMap();
 
