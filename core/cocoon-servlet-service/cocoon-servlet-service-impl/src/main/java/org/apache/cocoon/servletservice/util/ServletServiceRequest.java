@@ -40,13 +40,21 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
 import org.apache.cocoon.callstack.CallFrame;
 import org.apache.cocoon.callstack.CallStack;
@@ -286,6 +294,10 @@ public class ServletServiceRequest implements HttpServletRequest {
         return this.contentLength;
     }
 
+    public long getContentLengthLong() {
+        return this.contentLength;
+    }
+
     public void setContentLength(int contentLength) {
         this.contentLength = contentLength;
     }
@@ -309,9 +321,10 @@ public class ServletServiceRequest implements HttpServletRequest {
         }
 
         this.content = new ServletInputStream() {
-            public int read() throws IOException {
-                return inputStream.read();
-            }
+            public int read() throws IOException { return inputStream.read(); }
+            public boolean isFinished() { try { return inputStream.available() == 0; } catch (IOException e) { return true; } }
+            public boolean isReady() { return true; }
+            public void setReadListener(javax.servlet.ReadListener readListener) { /* no-op */ }
         };
     }
 
@@ -465,6 +478,22 @@ public class ServletServiceRequest implements HttpServletRequest {
     public boolean isUserInRole(String role) {
         return this.parentRequest.isUserInRole(role);
     }
+
+    // Servlet 3.0+/3.1 additions
+    public ServletContext getServletContext() { return this.context; }
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException { return this.parentRequest.authenticate(response); }
+    public void login(String username, String password) throws ServletException { this.parentRequest.login(username, password); }
+    public void logout() throws ServletException { this.parentRequest.logout(); }
+    public java.util.Collection<Part> getParts() throws IOException, ServletException { return this.parentRequest.getParts(); }
+    public Part getPart(String name) throws IOException, ServletException { return this.parentRequest.getPart(name); }
+    public AsyncContext startAsync() throws IllegalStateException { return this.parentRequest.startAsync(); }
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException { return this.parentRequest.startAsync(servletRequest, servletResponse); }
+    public boolean isAsyncStarted() { return this.parentRequest.isAsyncStarted(); }
+    public boolean isAsyncSupported() { return this.parentRequest.isAsyncSupported(); }
+    public AsyncContext getAsyncContext() { return this.parentRequest.getAsyncContext(); }
+    public DispatcherType getDispatcherType() { return this.parentRequest.getDispatcherType(); }
+    public String changeSessionId() { return this.parentRequest.changeSessionId(); }
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException { return this.parentRequest.upgrade(handlerClass); }
 
     public String getLocalAddr() {
         return this.parentRequest.getLocalAddr();

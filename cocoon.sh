@@ -16,7 +16,7 @@
 # limitations under the License.
 
 CWD=`pwd`
-MAVEN_OPTS="$MAVEN_OPTS -Djava.awt.headless=true -Dorg.apache.cocoon.mode=dev"
+MAVEN_OPTS="$MAVEN_OPTS -Djava.awt.headless=true -Dorg.apache.cocoon.mode=dev -Djetty.http.port=8888"
 
 ARGS=""
 while [ "$#" -gt "0" ]

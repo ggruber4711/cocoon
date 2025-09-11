@@ -26,13 +26,21 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
 /**
  * Create a HttpServletRequest from an URL, that is used while calling e.g. a block.
@@ -86,6 +94,7 @@ public class BlockCallHttpServletRequest implements HttpServletRequest{
         // TODO Doesn't handle input streams yet
         return -1;
     }
+    public long getContentLengthLong() { return -1L; }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletRequest#getContentType()
@@ -534,5 +543,21 @@ public class BlockCallHttpServletRequest implements HttpServletRequest{
         // TODO Auto-generated method stub
         return 0;
     }
+
+    // Servlet 3.0+/3.1 additions (minimal/no-op implementations)
+    public String changeSessionId() { return null; }
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException { return false; }
+    public void login(String username, String password) throws ServletException {}
+    public void logout() throws ServletException {}
+    public java.util.Collection<Part> getParts() throws IOException, ServletException { return java.util.Collections.emptyList(); }
+    public Part getPart(String name) throws IOException, ServletException { return null; }
+    public AsyncContext startAsync() throws IllegalStateException { throw new IllegalStateException(); }
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException { throw new IllegalStateException(); }
+    public boolean isAsyncStarted() { return false; }
+    public boolean isAsyncSupported() { return false; }
+    public AsyncContext getAsyncContext() { throw new IllegalStateException(); }
+    public DispatcherType getDispatcherType() { return DispatcherType.REQUEST; }
+    public javax.servlet.ServletContext getServletContext() { return null; }
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException { throw new ServletException("Not supported"); }
 
 }

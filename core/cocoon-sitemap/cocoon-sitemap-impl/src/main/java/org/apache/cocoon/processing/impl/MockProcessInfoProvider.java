@@ -135,6 +135,7 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
         public String getContentType() {
             return request.getContentType();
         }
+        public long getContentLengthLong() { return request.getContentLengthLong(); }
 
         public String getContextPath() {
             return request.getContextPath();
@@ -293,6 +294,20 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
         public boolean isSecure() {
             return request.isSecure();
         }
+        public <T extends javax.servlet.http.HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws java.io.IOException, javax.servlet.ServletException { throw new UnsupportedOperationException(); }
+        public javax.servlet.AsyncContext startAsync() { throw new UnsupportedOperationException(); }
+        public javax.servlet.AsyncContext startAsync(javax.servlet.ServletRequest a, javax.servlet.ServletResponse b) { throw new UnsupportedOperationException(); }
+        public boolean isAsyncStarted() { return false; }
+        public boolean isAsyncSupported() { return false; }
+        public javax.servlet.AsyncContext getAsyncContext() { throw new UnsupportedOperationException(); }
+        public javax.servlet.DispatcherType getDispatcherType() { return javax.servlet.DispatcherType.REQUEST; }
+        public boolean authenticate(javax.servlet.http.HttpServletResponse response) { throw new UnsupportedOperationException(); }
+        public void login(String username, String password) { throw new UnsupportedOperationException(); }
+        public void logout() { throw new UnsupportedOperationException(); }
+        public java.util.Collection<javax.servlet.http.Part> getParts() { throw new UnsupportedOperationException(); }
+        public javax.servlet.http.Part getPart(String name) { throw new UnsupportedOperationException(); }
+        public javax.servlet.ServletContext getServletContext() { throw new UnsupportedOperationException(); }
+        public String changeSessionId() { throw new UnsupportedOperationException(); }
 
         public boolean isUserInRole(String role) {
             return request.isUserInRole(role);
@@ -442,6 +457,11 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
         public void setLocale(Locale loc) {
             response.setLocale(loc);
         }
+        public String getHeader(String name) { return response.getHeader(name); }
+        public java.util.Collection<String> getHeaders(String name) { return response.getHeaders(name); }
+        public java.util.Collection<String> getHeaderNames() { return response.getHeaderNames(); }
+        public int getStatus() { return response.getStatus(); }
+        public void setContentLengthLong(long len) { response.setContentLengthLong(len); }
 
         public void addCookie(javax.servlet.http.Cookie cookie) {
             //FIXME: Implement this method if needed

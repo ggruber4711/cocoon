@@ -23,6 +23,8 @@ import java.util.Locale;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /**
@@ -132,5 +134,11 @@ public class JSPEngineServletResponse implements HttpServletResponse {
     public boolean isCommitted() { return false; }
     public String getContentType() { return servletResponse.getContentType(); }
     public void setCharacterEncoding(String arg0) { servletResponse.setCharacterEncoding(arg0); }
+    // Servlet 3.0+/3.1 additions
+    public Collection<String> getHeaderNames() { return servletResponse.getHeaderNames(); }
+    public Collection<String> getHeaders(String name) { return servletResponse.getHeaders(name); }
+    public String getHeader(String name) { return servletResponse.getHeader(name); }
+    public int getStatus() { return servletResponse.getStatus(); }
+    public void setContentLengthLong(long len) { servletResponse.setContentLengthLong(len); }
 
 }

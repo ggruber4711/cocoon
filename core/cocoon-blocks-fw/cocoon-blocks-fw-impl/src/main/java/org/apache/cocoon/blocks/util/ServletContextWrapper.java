@@ -21,11 +21,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.Map;
+import java.util.EventListener;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.descriptor.JspConfigDescriptor;
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletRegistration;
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.SessionTrackingMode;
 
 /**
  * @version $Id$
@@ -261,4 +269,33 @@ public class ServletContextWrapper implements ServletContext {
         return this.servletContext.getServletContextName();
     }
 
+    // Servlet 3.0+/3.1 delegations
+    public String getContextPath() { return this.servletContext.getContextPath(); }
+    public String getVirtualServerName() { return this.servletContext.getVirtualServerName(); }
+    public boolean setInitParameter(String name, String value) { return this.servletContext.setInitParameter(name, value); }
+    public int getEffectiveMajorVersion() { return this.servletContext.getEffectiveMajorVersion(); }
+    public int getEffectiveMinorVersion() { return this.servletContext.getEffectiveMinorVersion(); }
+    public ClassLoader getClassLoader() { return this.servletContext.getClassLoader(); }
+    public JspConfigDescriptor getJspConfigDescriptor() { return this.servletContext.getJspConfigDescriptor(); }
+    public <T extends EventListener> T createListener(Class<T> c) throws ServletException { return this.servletContext.createListener(c); }
+    public void addListener(String className) { this.servletContext.addListener(className); }
+    public void addListener(EventListener t) { this.servletContext.addListener(t); }
+    public void addListener(Class<? extends EventListener> listenerClass) { this.servletContext.addListener(listenerClass); }
+    public ServletRegistration.Dynamic addServlet(String servletName, String className) { return this.servletContext.addServlet(servletName, className); }
+    public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) { return this.servletContext.addServlet(servletName, servlet); }
+    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) { return this.servletContext.addServlet(servletName, servletClass); }
+    public <T extends Servlet> T createServlet(Class<T> c) throws ServletException { return this.servletContext.createServlet(c); }
+    public ServletRegistration getServletRegistration(String servletName) { return this.servletContext.getServletRegistration(servletName); }
+    public Map<String, ? extends ServletRegistration> getServletRegistrations() { return this.servletContext.getServletRegistrations(); }
+    public FilterRegistration.Dynamic addFilter(String filterName, String className) { return this.servletContext.addFilter(filterName, className); }
+    public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) { return this.servletContext.addFilter(filterName, filter); }
+    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) { return this.servletContext.addFilter(filterName, filterClass); }
+    public <T extends Filter> T createFilter(Class<T> c) throws ServletException { return this.servletContext.createFilter(c); }
+    public FilterRegistration getFilterRegistration(String filterName) { return this.servletContext.getFilterRegistration(filterName); }
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations() { return this.servletContext.getFilterRegistrations(); }
+    public SessionCookieConfig getSessionCookieConfig() { return this.servletContext.getSessionCookieConfig(); }
+    public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) { this.servletContext.setSessionTrackingModes(sessionTrackingModes); }
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() { return this.servletContext.getDefaultSessionTrackingModes(); }
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() { return this.servletContext.getEffectiveSessionTrackingModes(); }
+    public void declareRoles(String... roleNames) { this.servletContext.declareRoles(roleNames); }
 }

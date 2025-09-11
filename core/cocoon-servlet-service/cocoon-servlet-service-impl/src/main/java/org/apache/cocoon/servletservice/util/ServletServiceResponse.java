@@ -23,11 +23,15 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -145,6 +149,16 @@ public class ServletServiceResponse implements HttpServletResponse {
                 @Override
                 public void close() throws IOException {
                     ServletServiceResponse.this.outputStream.close();
+                }
+
+                @Override
+                public boolean isReady() {
+                    return true;
+                }
+
+                @Override
+                public void setWriteListener(WriteListener writeListener) {
+                    // no-op for this mock/utility implementation
                 }
 
             };
@@ -275,5 +289,19 @@ public class ServletServiceResponse implements HttpServletResponse {
 
     public void setCharacterEncoding(String arg0) {
         // TODO Auto-generated method stub
+    }
+
+    // Servlet 3.0+/3.1 additions
+    public void setContentLengthLong(long len) {
+        // Ignore; no internal buffering here
+    }
+
+    public Collection<String> getHeaderNames() {
+        return this.headers.keySet();
+    }
+
+    public Collection<String> getHeaders(String name) {
+        final String v = this.headers.get(name);
+        return v == null ? Collections.emptyList() : Collections.singletonList(v);
     }
 }

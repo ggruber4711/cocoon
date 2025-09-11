@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.environment.wrapper;
 
+import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.cocoon.environment.Cookie;
@@ -87,6 +88,26 @@ public class ResponseWrapper extends AbstractResponse implements Response {
     }
 
     public void addIntHeader(String name, int value) {
+    }
+
+    public String getHeader(String name) {
+        return res.getHeader(name);
+    }
+
+    public Collection<String> getHeaders(String name) {
+        return res.getHeaders(name);
+    }
+
+    public Collection<String> getHeaderNames() {
+        return res.getHeaderNames();
+    }
+
+    public int getStatus() {
+        return res.getStatus();
+    }
+
+    public void setContentLengthLong(long len) {
+        res.setContentLengthLong(len);
     }
 
 }

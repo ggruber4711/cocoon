@@ -20,10 +20,19 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.EventListener;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.descriptor.JspConfigDescriptor;
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletRegistration;
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.SessionTrackingMode;
 
 /**
  * **********************************************************************
@@ -146,7 +155,8 @@ public class ServletContextImpl implements ServletContext{
         return null;
     }
 
-    public void setInitParameter(String paramName, String paramValue){
+    public boolean setInitParameter(String paramName, String paramValue){
+        return true;
     }
 
     public Object getAttribute(String string){
@@ -168,4 +178,33 @@ public class ServletContextImpl implements ServletContext{
     public Enumeration getInitParameterNames(){
         return null;
     }
+
+    // Servlet 3.0+/3.1 additions
+    public String getVirtualServerName() { return "mock"; }
+    public String getContextPath() { return "/"; }
+    public int getEffectiveMajorVersion() { return getMajorVersion(); }
+    public int getEffectiveMinorVersion() { return getMinorVersion(); }
+    public ClassLoader getClassLoader() { return this.getClass().getClassLoader(); }
+    public JspConfigDescriptor getJspConfigDescriptor() { return null; }
+    public <T extends EventListener> T createListener(Class<T> c) throws ServletException { try { return c.newInstance(); } catch (Exception e) { throw new ServletException(e); } }
+    public void addListener(String className) {}
+    public void addListener(EventListener t) {}
+    public void addListener(Class<? extends EventListener> listenerClass) {}
+    public ServletRegistration.Dynamic addServlet(String servletName, String className) { return null; }
+    public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) { return null; }
+    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) { return null; }
+    public <T extends Servlet> T createServlet(Class<T> c) throws ServletException { try { return c.newInstance(); } catch (Exception e) { throw new ServletException(e); } }
+    public ServletRegistration getServletRegistration(String servletName) { return null; }
+    public Map<String, ? extends ServletRegistration> getServletRegistrations() { return java.util.Collections.emptyMap(); }
+    public FilterRegistration.Dynamic addFilter(String filterName, String className) { return null; }
+    public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) { return null; }
+    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) { return null; }
+    public <T extends Filter> T createFilter(Class<T> c) throws ServletException { try { return c.newInstance(); } catch (Exception e) { throw new ServletException(e); } }
+    public FilterRegistration getFilterRegistration(String filterName) { return null; }
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations() { return java.util.Collections.emptyMap(); }
+    public SessionCookieConfig getSessionCookieConfig() { return null; }
+    public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {}
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() { return java.util.Collections.emptySet(); }
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() { return java.util.Collections.emptySet(); }
+    public void declareRoles(String... roleNames) {}
 }

@@ -22,11 +22,19 @@ import java.security.Principal;
 import java.util.Enumeration;
 import java.util.Locale;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
 /**
  * Stub implementation of HttpServletRequest.
@@ -107,4 +115,20 @@ public class JSPEngineServletRequest implements HttpServletRequest {
     public String getLocalName() { return request.getLocalName(); }
     public int getLocalPort() { return request.getLocalPort(); }
     public int getRemotePort() { return request.getRemotePort(); }
+    // Servlet 3.0+/3.1 additions
+    public long getContentLengthLong() { return request.getContentLengthLong(); }
+    public String changeSessionId() { return request.changeSessionId(); }
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException { return request.authenticate(response); }
+    public void login(String username, String password) throws ServletException { request.login(username, password); }
+    public void logout() throws ServletException { request.logout(); }
+    public java.util.Collection<Part> getParts() throws IOException, ServletException { return request.getParts(); }
+    public Part getPart(String name) throws IOException, ServletException { return request.getPart(name); }
+    public AsyncContext startAsync() throws IllegalStateException { return request.startAsync(); }
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException { return request.startAsync(servletRequest, servletResponse); }
+    public boolean isAsyncStarted() { return request.isAsyncStarted(); }
+    public boolean isAsyncSupported() { return request.isAsyncSupported(); }
+    public AsyncContext getAsyncContext() { return request.getAsyncContext(); }
+    public DispatcherType getDispatcherType() { return request.getDispatcherType(); }
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException { return request.upgrade(handlerClass); }
+    public javax.servlet.ServletContext getServletContext() { return request.getServletContext(); }
 }

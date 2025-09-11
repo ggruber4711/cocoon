@@ -234,5 +234,15 @@ public class ServletResponseImpl extends HttpServletResponseWrapper {
             super.flush();
             this.stream.flush();
         }
+
+        @Override
+        public boolean isReady() {
+            return true;
+        }
+
+        @Override
+        public void setWriteListener(javax.servlet.WriteListener writeListener) {
+            // no-op
+        }
     }
 }

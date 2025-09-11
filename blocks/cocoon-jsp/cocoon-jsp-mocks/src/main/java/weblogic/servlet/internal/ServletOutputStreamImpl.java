@@ -19,6 +19,7 @@ package weblogic.servlet.internal;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 
 /**
  * **********************************************************************
@@ -75,5 +76,15 @@ public class ServletOutputStreamImpl extends ServletOutputStream {
     }
 
     public void verify() {
+    }
+
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+        // no-op for mock
     }
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.cocoon.environment.mock;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -131,4 +133,11 @@ public class MockResponse extends AbstractResponse implements Response {
     public void setSession(HttpSession session) {
         this.session = session;
     }
+
+    // Servlet 3.0+/3.1 additions
+    public String getHeader(String name) { Object v = header.get(name); return v == null ? null : String.valueOf(v); }
+    public Collection<String> getHeaders(String name) { String v = getHeader(name); return v == null ? Collections.emptyList() : Collections.singletonList(v); }
+    public Collection<String> getHeaderNames() { return header.keySet(); }
+    public int getStatus() { return 200; }
+    public void setContentLengthLong(long len) { /* no-op */ }
 }

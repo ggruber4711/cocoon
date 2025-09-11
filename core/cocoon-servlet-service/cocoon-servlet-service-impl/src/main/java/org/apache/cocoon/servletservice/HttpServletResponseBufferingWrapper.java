@@ -306,6 +306,17 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
             return !HttpServletResponseBufferingWrapper.this.bufferResponse;
         }
 
+        @Override
+        public boolean isReady() {
+            // Always ready in this simple wrapper
+            return true;
+        }
+
+        @Override
+        public void setWriteListener(javax.servlet.WriteListener writeListener) {
+            // no-op
+        }
+
     }
 
 }

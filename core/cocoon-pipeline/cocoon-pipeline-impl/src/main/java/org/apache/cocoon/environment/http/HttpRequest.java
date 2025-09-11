@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -27,9 +28,17 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.WeakHashMap;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Session;
@@ -291,6 +300,10 @@ public final class HttpRequest extends AbstractRequest {
         return this.getSession(true);
     }
 
+    public String changeSessionId() {
+        return this.req.changeSessionId();
+    }
+
     public Session getCocoonSession(boolean create) {
         return (Session) this.getSession(true);
     }
@@ -405,6 +418,10 @@ public final class HttpRequest extends AbstractRequest {
         return this.req.getContentType();
     }
 
+    public long getContentLengthLong() {
+        return this.req.getContentLengthLong();
+    }
+
     public ServletInputStream getInputStream() throws IOException {
         return this.req.getInputStream();
     }
@@ -490,8 +507,16 @@ public final class HttpRequest extends AbstractRequest {
         return this.req.isSecure();
     }
 
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+        return this.req.upgrade(handlerClass);
+    }
+
     public RequestDispatcher getRequestDispatcher(String path) {
         return this.req.getRequestDispatcher(path);
+    }
+
+    public javax.servlet.ServletContext getServletContext() {
+        return this.req.getServletContext();
     }
 
     /**
@@ -511,5 +536,50 @@ public final class HttpRequest extends AbstractRequest {
             result = this.getAttribute(name);
         }
         return result;
+    }
+
+    // Servlet 3.0+/3.1 additions
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+        return this.req.authenticate(response);
+    }
+
+    public void login(String username, String password) throws ServletException {
+        this.req.login(username, password);
+    }
+
+    public void logout() throws ServletException {
+        this.req.logout();
+    }
+
+    public Collection<Part> getParts() throws IOException, ServletException {
+        return this.req.getParts();
+    }
+
+    public Part getPart(String name) throws IOException, ServletException {
+        return this.req.getPart(name);
+    }
+
+    public AsyncContext startAsync() throws IllegalStateException {
+        return this.req.startAsync();
+    }
+
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+        return this.req.startAsync(servletRequest, servletResponse);
+    }
+
+    public boolean isAsyncStarted() {
+        return this.req.isAsyncStarted();
+    }
+
+    public boolean isAsyncSupported() {
+        return this.req.isAsyncSupported();
+    }
+
+    public AsyncContext getAsyncContext() {
+        return this.req.getAsyncContext();
+    }
+
+    public DispatcherType getDispatcherType() {
+        return this.req.getDispatcherType();
     }
 }

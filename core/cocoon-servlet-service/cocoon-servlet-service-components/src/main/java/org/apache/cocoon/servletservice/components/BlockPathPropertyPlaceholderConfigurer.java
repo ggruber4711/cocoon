@@ -33,6 +33,7 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 public class BlockPathPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements
                 BeanFactoryPostProcessor, ServletContextAware {
@@ -78,7 +79,13 @@ public class BlockPathPropertyPlaceholderConfigurer extends PropertyPlaceholderC
         }
 
         protected String resolveStringValue(String strVal) {
-            return parseStringValue(strVal, this.props, visitedPlaceholders);
+            PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper(
+                    BlockPathPropertyPlaceholderConfigurer.this.placeholderPrefix,
+                    BlockPathPropertyPlaceholderConfigurer.this.placeholderSuffix,
+                    BlockPathPropertyPlaceholderConfigurer.this.valueSeparator,
+                    BlockPathPropertyPlaceholderConfigurer.this.ignoreUnresolvablePlaceholders);
+            return helper.replacePlaceholders(strVal, placeholderName ->
+                    this.props.getProperty(placeholderName));
         }
     }
 

@@ -17,6 +17,9 @@
 package weblogic.servlet.internal;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -97,7 +100,7 @@ public class ServletResponseImpl implements HttpServletResponse {
     }
 
     public java.util.Locale getLocale() {
-        return null;
+        return Locale.getDefault();
     }
 
     public javax.servlet.ServletOutputStream getOutputStream()
@@ -192,5 +195,12 @@ public class ServletResponseImpl implements HttpServletResponse {
 
     public void setCharacterEncoding(String arg0) {
     }
+
+    // Servlet 3.0+/3.1 additions
+    public Collection<String> getHeaderNames() { return Collections.emptyList(); }
+    public Collection<String> getHeaders(String name) { return Collections.emptyList(); }
+    public String getHeader(String name) { return null; }
+    public int getStatus() { return 200; }
+    public void setContentLengthLong(long len) { }
 
 }

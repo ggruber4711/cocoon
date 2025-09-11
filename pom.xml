@@ -1276,8 +1276,8 @@
     <asm.version>2.2.1</asm.version>
     <batik.version>1.16</batik.version>
     <slf4j.version>2.0.6</slf4j.version>
-    <!-- TODO: This is the latest Spring version that we support -->
-    <spring.version>4.3.30.RELEASE</spring.version>
+    <!-- Spring 5 LTS line -->
+    <spring.version>5.3.39</spring.version>
     <logback.version>1.4.5</logback.version>
     <exlipse.jdt.version>3.33.0</exlipse.jdt.version>
   </properties>
@@ -2243,9 +2243,8 @@
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <!-- version 2.5 requires minor changes -->
-        <version>2.4</version>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>slide</groupId>
@@ -2328,11 +2327,7 @@
         <artifactId>spring-core</artifactId>
         <version>${spring.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-dao</artifactId>
-        <version>2.0.8</version>
-      </dependency>
+      <!-- spring-dao was removed; functionality lives in spring-jdbc/tx since Spring 3 -->
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-jdbc</artifactId>
@@ -2673,12 +2668,16 @@
 
                 <!-- Images and resources -->
                 <exclude>**/*.txt</exclude>
+                <exclude>**/*.md</exclude>
                 <exclude>**/*.gif</exclude>
                 <exclude>**/*.jpg</exclude>
 
                 <!-- Git related files -->
                 <exclude>**/.git/**</exclude>
                 <exclude>**/.gitignore</exclude>
+
+                <!-- GitHub metadata -->
+                <exclude>**/.github/**</exclude>
 
                 <!-- Maven related files -->
                 <exclude>**/target/**</exclude>

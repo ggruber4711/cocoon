@@ -17,6 +17,7 @@
 package org.apache.cocoon.servletservice.util;
 
 import javax.servlet.ServletInputStream;
+import javax.servlet.ReadListener;
 
 import java.io.IOException;
 
@@ -32,6 +33,24 @@ public class NullServletInputStream extends ServletInputStream {
 
     public int read() throws IOException {
         return -1;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
+
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    @Override
+    public void setReadListener(ReadListener readListener) {
+        // immediately signal data finished
+        if (readListener != null) {
+            try { readListener.onAllDataRead(); } catch (IOException ignored) {}
+        }
     }
 
 }

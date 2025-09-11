@@ -86,12 +86,7 @@ public class MockRequestAttributes implements RequestAttributes {
         if (scope == RequestAttributes.SCOPE_SESSION) {
             this.request.removeAttribute(key);
         }
-        if (scope == RequestAttributes.SCOPE_GLOBAL_SESSION) {
-            final HttpSession session = this.request.getSession(false);
-            if (session != null) {
-                session.removeAttribute(key);
-            }
-        }
+        // Treat GLOBAL_SESSION like SESSION in Servlet 3.x environment
     }
 
     /**
@@ -106,10 +101,7 @@ public class MockRequestAttributes implements RequestAttributes {
         if (scope == RequestAttributes.SCOPE_SESSION) {
             this.request.setAttribute(key, value);
         }
-        if (scope == RequestAttributes.SCOPE_GLOBAL_SESSION) {
-            final HttpSession session = this.request.getSession(true);
-            session.setAttribute(key, value);
-        }
+        // Treat GLOBAL_SESSION like SESSION in Servlet 3.x environment
     }
 
     /**

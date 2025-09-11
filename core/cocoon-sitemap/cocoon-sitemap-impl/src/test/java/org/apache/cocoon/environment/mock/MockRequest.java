@@ -30,7 +30,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 import javax.servlet.http.HttpSession;
 
 import junit.framework.AssertionFailedError;
@@ -130,6 +140,7 @@ public class MockRequest extends AbstractRequest {
     public int getContentLength() {
         return -1;
     }
+    public long getContentLengthLong() { return -1L; }
 
     /**
      * @see org.apache.cocoon.environment.Request#getContentType()
@@ -598,9 +609,10 @@ public class MockRequest extends AbstractRequest {
      */
     public ServletInputStream getInputStream() throws IOException, UnsupportedOperationException {
         return new ServletInputStream() {
-            public int read() throws IOException {
-                return MockRequest.this.inputStream.read();
-            }
+            public int read() throws IOException { return MockRequest.this.inputStream.read(); }
+            public boolean isFinished() { try { return MockRequest.this.inputStream == null || MockRequest.this.inputStream.available() == 0; } catch (IOException e) { return true; } }
+            public boolean isReady() { return true; }
+            public void setReadListener(ReadListener readListener) { /* no-op */ }
         };
     }
 
@@ -632,5 +644,21 @@ public class MockRequest extends AbstractRequest {
         // TODO Auto-generated method stub
         return null;
     }
+
+    // Servlet 3.0+/3.1 additions
+    public ServletContext getServletContext() { return null; }
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException { return false; }
+    public void login(String username, String password) throws ServletException {}
+    public void logout() throws ServletException {}
+    public java.util.Collection<Part> getParts() throws IOException, ServletException { return java.util.Collections.emptyList(); }
+    public Part getPart(String name) throws IOException, ServletException { return null; }
+    public AsyncContext startAsync() throws IllegalStateException { throw new IllegalStateException(); }
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException { throw new IllegalStateException(); }
+    public boolean isAsyncStarted() { return false; }
+    public boolean isAsyncSupported() { return false; }
+    public AsyncContext getAsyncContext() { throw new IllegalStateException(); }
+    public DispatcherType getDispatcherType() { return DispatcherType.REQUEST; }
+    public String changeSessionId() { return null; }
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException { throw new ServletException("Not supported in mock"); }
 
 }

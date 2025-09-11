@@ -23,9 +23,18 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collection;
 
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 import javax.servlet.http.HttpSession;
 
 import org.apache.cocoon.environment.Cookie;
@@ -151,6 +160,10 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
         return this.req.getContentType();
     }
 
+    public long getContentLengthLong() {
+        return this.req.getContentLengthLong();
+    }
+
     /* (non-Javadoc)
      * @see org.apache.cocoon.environment.Request#getParameter(java.lang.String)
      */
@@ -247,6 +260,62 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
      */
     public boolean isSecure() {
         return this.req.isSecure();
+    }
+
+    public javax.servlet.ServletContext getServletContext() {
+        return this.req.getServletContext();
+    }
+
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+        return this.req.authenticate(response);
+    }
+
+    public void login(String username, String password) throws ServletException {
+        this.req.login(username, password);
+    }
+
+    public void logout() throws ServletException {
+        this.req.logout();
+    }
+
+    public Collection<Part> getParts() throws IOException, ServletException {
+        return this.req.getParts();
+    }
+
+    public Part getPart(String name) throws IOException, ServletException {
+        return this.req.getPart(name);
+    }
+
+    public AsyncContext startAsync() throws IllegalStateException {
+        return this.req.startAsync();
+    }
+
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+        return this.req.startAsync(servletRequest, servletResponse);
+    }
+
+    public boolean isAsyncStarted() {
+        return this.req.isAsyncStarted();
+    }
+
+    public boolean isAsyncSupported() {
+        return this.req.isAsyncSupported();
+    }
+
+    public AsyncContext getAsyncContext() {
+        return this.req.getAsyncContext();
+    }
+
+    public DispatcherType getDispatcherType() {
+        return this.req.getDispatcherType();
+    }
+
+    public String changeSessionId() {
+        return this.req.changeSessionId();
+    }
+
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
+        return this.req.upgrade(handlerClass);
     }
 
     /* (non-Javadoc)

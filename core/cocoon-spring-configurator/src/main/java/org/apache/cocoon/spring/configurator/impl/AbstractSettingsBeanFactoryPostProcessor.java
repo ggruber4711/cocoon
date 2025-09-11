@@ -46,6 +46,7 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.ServletContextResourceLoader;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 /**
  * This is a bean factory post processor which handles all the settings stuff
@@ -312,7 +313,13 @@ public abstract class AbstractSettingsBeanFactoryPostProcessor
         }
 
         protected String resolveStringValue(String strVal) {
-            return parseStringValue(strVal, this.props, visitedPlaceholders);
+            PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper(
+                    AbstractSettingsBeanFactoryPostProcessor.this.placeholderPrefix,
+                    AbstractSettingsBeanFactoryPostProcessor.this.placeholderSuffix,
+                    AbstractSettingsBeanFactoryPostProcessor.this.valueSeparator,
+                    AbstractSettingsBeanFactoryPostProcessor.this.ignoreUnresolvablePlaceholders);
+            return helper.replacePlaceholders(strVal, placeholderName ->
+                    PropertyHelper.getProperty(placeholderName, this.props, null));
         }
     }
 

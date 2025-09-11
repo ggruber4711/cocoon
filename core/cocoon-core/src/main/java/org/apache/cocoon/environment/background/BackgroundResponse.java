@@ -16,6 +16,8 @@
  */
 package org.apache.cocoon.environment.background;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Locale;
 
 import org.apache.cocoon.environment.Cookie;
@@ -44,5 +46,11 @@ public class BackgroundResponse extends AbstractResponse implements Response {
     public void addDateHeader(String name, long date) { }
     public void addHeader(String name, String value) { }
     public void addIntHeader(String name, int value) { }
+
+    public String getHeader(String name) { return null; }
+    public Collection<String> getHeaders(String name) { return Collections.emptyList(); }
+    public Collection<String> getHeaderNames() { return Collections.emptyList(); }
+    public int getStatus() { return 200; }
+    public void setContentLengthLong(long len) { }
 
 }

@@ -149,7 +149,8 @@
         <!-- The resize operation seems to fail -->
         <!--module>cocoon-imageop</module-->
         <module>cocoon-itext</module>
-        <module>cocoon-javaflow</module>
+        <!-- Excluded: Javaflow block is not maintained and pulls unavailable artifacts -->
+        <!--module>cocoon-javaflow</module-->
         <module>cocoon-jcr</module>
         <module>cocoon-jfor</module>
         <module>cocoon-jms</module>

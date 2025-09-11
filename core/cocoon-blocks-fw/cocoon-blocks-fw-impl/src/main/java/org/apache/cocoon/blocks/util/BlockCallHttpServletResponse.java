@@ -21,8 +21,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -169,6 +172,15 @@ public class BlockCallHttpServletResponse implements HttpServletResponse {
                     BlockCallHttpServletResponse.this.outputStream.close();
                 }
                 
+                @Override
+                public boolean isReady() {
+                    return true;
+                }
+
+                @Override
+                public void setWriteListener(WriteListener writeListener) {
+                    // no-op
+                }
                 
             };
         }
@@ -316,4 +328,11 @@ public class BlockCallHttpServletResponse implements HttpServletResponse {
         // TODO Auto-generated method stub
         
     }
+
+    // Servlet 3.0+/3.1 additions
+    public void setContentLengthLong(long len) { }
+    public Collection<String> getHeaderNames() { return Collections.emptyList(); }
+    public Collection<String> getHeaders(String name) { return Collections.emptyList(); }
+    public String getHeader(String name) { return null; }
+    public int getStatus() { return 200; }
 }

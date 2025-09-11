@@ -18,6 +18,7 @@ package org.apache.cocoon.environment.http;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
@@ -188,6 +189,10 @@ public final class HttpResponse extends AbstractResponse implements Response {
         this.res.setContentType(type);
     }
 
+    public void setContentLengthLong(long len) {
+        this.res.setContentLengthLong(len);
+    }
+
     public void setBufferSize(int size) {
         this.res.setBufferSize(size);
     }
@@ -216,5 +221,20 @@ public final class HttpResponse extends AbstractResponse implements Response {
         return this.res.getLocale();
     }
 
-}
+    public String getHeader(String name) {
+        return this.res.getHeader(name);
+    }
 
+    public Collection<String> getHeaders(String name) {
+        return this.res.getHeaders(name);
+    }
+
+    public Collection<String> getHeaderNames() {
+        return this.res.getHeaderNames();
+    }
+
+    public int getStatus() {
+        return this.res.getStatus();
+    }
+
+}
