@@ -102,3 +102,67 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) mvn -P samples -pl core/cocoon-webapp 
   org.eclipse.jetty.ee10:jetty-ee10-maven-plugin:12.0.16:run-war \
   -Djetty.http.port=8888 -Djava.io.tmpdir=$(mktemp -d)
 ```
+
+
+## Two defects found by running the samples
+
+Both predate the Jakarta migration. Neither is caused by anything on this branch, but
+both are in code webdesk consumes.
+
+### LinkRewriterReader was a Spring singleton (fixed)
+
+`cocoon-servlet-linkRewritingReader.xml` declared
+`org.apache.cocoon.reading.Reader/servletLinkRewriter` with no `scope`, so Spring made it
+a singleton. Every other Reader, Generator, Transformer and Serializer in the codebase
+declares `scope="prototype"`, and for good reason: a Cocoon Reader holds per-request state
+(this one keeps `request`, `response`, `inputSource`, `encoding`, `expires`).
+
+Concurrent requests therefore overwrote each other's source and content type. Measured on
+the samples webapp, 40 concurrent requests alternating between a `.css` and a `.js` URL:
+**18 of 20 requests for the JavaScript URL returned the CSS**, with HTTP 200 and
+`Content-Type: text/css`. The instance then kept the last request's state, so afterwards
+*every* resource URL returned the same wrong content until restart -- and browsers cached
+it.
+
+Only `.css`, `.js` and the catch-all `**` are affected, because only those use
+`<map:read type="servletLinkRewriter">`. Plain `map:read` matches for `.gif`, `.jpg` and
+`.ico` were correct throughout, which is what localised the fault.
+
+Fixed by adding `scope="prototype"`. After the fix, three rounds of 40 concurrent mixed
+requests returned 120/120 correct responses, and the state no longer persists.
+
+This is the one to carry into webdesk: it is silent, it serves one user's resource for
+another's URL, and it survives in client caches.
+
+### Concurrent first requests fail during sitemap compilation (not fixed)
+
+Distinct from the above and much less severe, because it fails loudly. On a cold start,
+the first burst of concurrent requests produces:
+
+```
+ProcessingException: Failed to process reader
+Caused by: IllegalArgumentException: setContentLength(3653) when already written 7462
+```
+
+15 of 20 requests failed in a cold burst; an identical burst immediately afterwards
+returned 40/40 correct, and it does not recur once the pipelines are warm. The content
+length of one response is being applied to a response that has already had another
+response's bytes written to it, which points at the environment/response plumbing during
+concurrent sitemap compilation rather than at the reader.
+
+Practical impact: requests arriving concurrently in the seconds after a deploy can fail.
+Worth a warm-up request before putting an instance into a load balancer.
+
+### CAPTCHA sample (fixed)
+
+The CAPTCHA image 500'd with
+`ClassCastException: org.apache.batik.dom.GenericElement cannot be cast to
+org.w3c.dom.svg.SVGSVGElement`. Two causes, both fixed:
+
+- `captcha-image.xml` declared no SVG namespace on its root `<svg>` element.
+- More importantly, `SVGBuilder.startDocument` seeded Batik's namespace map with the
+  `svg` prefix but not the default (empty) prefix. Batik's `SAXDocumentFactory` resolves
+  an element's namespace from that map by prefix, not from the URI in the SAX event, and
+  a Cocoon pipeline reports namespaces through `startPrefixMapping` rather than repeating
+  them as `xmlns` attributes. Any unprefixed SVG document therefore built
+  `GenericElement`s. This affects `cocoon-batik-impl` generally, not just the sample.

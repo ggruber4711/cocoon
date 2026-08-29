@@ -80,6 +80,13 @@ public class SVGBuilder extends SAXSVGDocumentFactory
             // Add svg, and SVG_NAMESPACE to SAXDocumentFactory namespace handling.
             // This ties 'svg' prefix used above to the svg namespace uri.
             namespaces.put("svg", SVGDOMImplementation.SVG_NAMESPACE_URI);
+            // Batik's SAXDocumentFactory resolves an element's namespace from this map,
+            // keyed by prefix, rather than from the namespace URI in the SAX event. A
+            // Cocoon pipeline reports namespaces through startPrefixMapping and does not
+            // repeat them as xmlns attributes, so without seeding the default (empty)
+            // prefix an unprefixed <svg> document builds GenericElements and the
+            // transcoder fails with "GenericElement cannot be cast to SVGSVGElement".
+            namespaces.put("", SVGDOMImplementation.SVG_NAMESPACE_URI);
         } catch (SAXException se) {
             throw se;
         } catch (Exception ex){

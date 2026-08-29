@@ -16,7 +16,13 @@
   limitations under the License.
 -->
 
-<svg width="210" height="75">
+<!--
+  The SVG namespace is required: without it Batik builds a GenericElement instead of
+  an SVGSVGElement, and the svg2jpeg serializer fails with
+  "ClassCastException: org.apache.batik.dom.GenericElement cannot be cast to
+  org.w3c.dom.svg.SVGSVGElement", so the CAPTCHA image renders as a broken image.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="75">
     <defs>
         <filter id="blur2">
             <feGaussianBlur stdDeviation="2"/>
