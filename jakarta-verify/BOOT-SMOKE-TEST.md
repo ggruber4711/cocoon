@@ -75,11 +75,26 @@ Worth carrying into the webdesk migration: any generated link containing `//` is
 Jetty 12, anywhere in an application. It is a Jetty 9 -> 12 behaviour change, unrelated to
 the Jakarta namespace.
 
-## Operational note: clear the temp directory between runs
+## Operational note: clear the temp directory between runs, and hard-refresh the browser
 
 Cocoon's pipeline cache lives under the servlet temp directory. Reusing it across restarts
-that changed block content produced a cross-block mix-up -- a request for the style block's
-`styles/main.css` returned the forms block's `htmlarea.js`, served as `text/javascript`.
+that changed block content produced a cross-block mix-up: a request for the style block's
+`styles/main.css` returned the forms block's `htmlarea.js`, with HTTP 200 and
+`Content-Type: text/javascript`.
+
+Two things make this worse than an ordinary stale cache:
+
+- It is served as a **success**, so nothing upstream treats it as an error.
+- **Browsers then cache it.** This cost real debugging time here: after the server was
+  fixed, the Cocoon Forms tab bar still did nothing, because the browser held a poisoned
+  `forms-lib.js` and `forms_showTab` was never defined. `curl` showed the correct file the
+  whole time; only a cache-bypassing reload made the page work. If you see JavaScript
+  behaving as though a library did not load, check `performance.getEntriesByType('resource')`
+  for a `transferSize` of 0 before suspecting the code.
+
+Worth carrying into the webdesk migration: if a deployment reuses its work directory across
+an upgrade, clients can cache cross-wired resources, and no server-side check will catch it.
+
 Start with a fresh temp directory when the deployed blocks have changed:
 
 ```bash
