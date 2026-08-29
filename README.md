@@ -140,6 +140,7 @@ deliberately left alone because nothing builds against them.
 | `jakarta.mail`, `jakarta.activation` | `javax.mail`, `javax.activation` | **2.1.3** | Jakarta renames. |
 | `org.aspectj:aspectjweaver` | 1.8.x | **1.9.19** | Required for JDK 17. |
 | `org.acegisecurity:acegi-security` | 1.0.7 | **Spring Security 6.3.3** | Not a version bump; see below. |
+| `rhino:js` | 1.6R7 | **`org.mozilla:rhino` 1.7R5** | Coordinate move plus an API break; see below. |
 
 **POI 3.2 → 3.10.1** removed `org.apache.poi.hssf.util.RangeAddress`, which `EPMerge` used to
 turn a merge range such as `B3:D7` into coordinates. `CellRangeAddress.valueOf` replaces it, but
@@ -190,11 +191,38 @@ deciding which class wins. An application that overrides any of these must exclu
 | Package | Cocoon's coordinate | The newer coordinate |
 |---|---|---|
 | `org.apache.commons.jexl` | `cocoon-commons-jexl` *(2.2 only)* | `commons-jexl:commons-jexl` |
-| `org.mozilla.javascript` | `rhino:js` (311 classes) | `org.mozilla:rhino` (479 classes) |
 | `org.apache.fop` | `fop:fop` (1032 classes) | `org.apache.xmlgraphics:fop-core` (2736 classes) |
 
 This is a class of problem rather than three incidents; it is worth grepping for before an
 upgrade. `jakarta-verify` catches the `javax.*` version of it, but not this one.
+
+### Rhino 1.7
+
+This fork was on `rhino:js:1.6R7`; an application embedding it typically runs
+`org.mozilla:rhino:1.7R5`. That is not just a version difference — the two are different Maven
+coordinates carrying the same `org.mozilla.javascript` packages, so both jars ship and load order
+decides. Worse, **flowscript could not run on 1.7 at all**: Rhino removed
+`org.mozilla.javascript.continuations.Continuation` in favour of `NativeContinuation`, and
+continuations are what `sendPageAndWait` is built on.
+
+Now on `org.mozilla:rhino:1.7R5`. Four API changes, in six files:
+
+- `Continuation` → `NativeContinuation` — `FOM_Cocoon`, `FOM_WebContinuation`,
+  `FOM_JavaScriptInterpreter`, and in Forms `Form` and `SuggestionListGenerator`.
+- `Context.setCompileFunctionsWithDynamicScope` was removed. Its replacement is a
+  `ContextFactory` feature flag that is global to the JVM, which is a poor thing for a library
+  to install. It is not reinstated, because the interpreter parents its scopes explicitly
+  through `ThreadScope` — which is what dynamic scoping would otherwise have provided.
+- `DebugFrame` gained `onDebuggerStatement`, implemented as a no-op in
+  `LocationTrackingDebugger`; that class only tracks locations for stack traces.
+- Rhino 1.7 assigns `Undefined` to a not-yet-declared name while unwinding a continuation.
+  `ThreadScope.put` treated that as an implicit global declaration and refused it, which broke
+  resuming; `Undefined` is now excluded from that check.
+
+Compiling against the new class proves nothing here, because the cast and the scope restore only
+happen on the *second* request. `FlowscriptContinuationTest` therefore drives both halves against
+a running container: it fetches a page that suspends a flowscript, asserts a continuation id was
+really created, then posts back to it and asserts the script resumed.
 
 ### On `commons-lang3` and `commons-collections4`
 

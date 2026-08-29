@@ -2129,11 +2129,15 @@
         <artifactId>jmock</artifactId>
         <version>1.2.0</version>
       </dependency>
+      <!-- Rhino moved coordinates at 1.7: rhino:js became org.mozilla:rhino. The package
+           names did not change, so the two jars collide silently if both are on the classpath
+           (311 classes against 479); Maven cannot see the conflict, because the groupIds
+           differ. 1.7 also removed org.mozilla.javascript.continuations.Continuation in favour
+           of NativeContinuation, which is a hard break for flowscript. -->
       <dependency>
-        <groupId>rhino</groupId>
-        <artifactId>js</artifactId>
-        <!-- TODO: 1.7R2 latest, but has issues -->
-        <version>1.6R7</version>
+        <groupId>org.mozilla</groupId>
+        <artifactId>rhino</artifactId>
+        <version>1.7R5</version>
       </dependency>
       <dependency>
         <groupId>jtidy</groupId>

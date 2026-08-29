@@ -60,7 +60,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.Wrapper;
-import org.mozilla.javascript.continuations.Continuation;
+import org.mozilla.javascript.NativeContinuation;
 
 import org.springframework.web.context.WebApplicationContext;
 
@@ -784,7 +784,7 @@ public class FOM_Cocoon extends ScriptableObject {
         throws Exception {
         double d = org.mozilla.javascript.Context.toNumber(ttl);
         FOM_WebContinuation result =
-            makeWebContinuation((Continuation)unwrap(k),
+            makeWebContinuation((NativeContinuation)unwrap(k),
                                 findValidParent(jsGet_continuation()),
                                 (int)d);
         result.setPageLocal(pageLocal.getDelegate());
@@ -798,7 +798,7 @@ public class FOM_Cocoon extends ScriptableObject {
      * @param parent The parent of this continuation (may be null)
      * @param timeToLive Lifetime for this continuation (zero means no limit)
      */
-    public FOM_WebContinuation makeWebContinuation(Continuation k,
+    public FOM_WebContinuation makeWebContinuation(NativeContinuation k,
                                                    FOM_WebContinuation parent,
                                                    int timeToLive)
         throws Exception {

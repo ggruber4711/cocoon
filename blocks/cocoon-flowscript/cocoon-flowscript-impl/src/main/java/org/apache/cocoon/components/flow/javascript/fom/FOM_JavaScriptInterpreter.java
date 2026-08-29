@@ -67,9 +67,10 @@ import org.mozilla.javascript.NativeJavaPackage;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
-import org.mozilla.javascript.continuations.Continuation;
+import org.mozilla.javascript.NativeContinuation;
 import org.mozilla.javascript.tools.debugger.Main;
 import org.mozilla.javascript.tools.shell.Global;
 
@@ -169,9 +170,14 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
             }
             getDebugger().doBreak();
         }
+        // Rhino 1.7 removed Context.setCompileFunctionsWithDynamicScope, which used to be
+        // called here and at the two other Context.enter() sites below. Its replacement is the
+        // FEATURE_DYNAMIC_SCOPE flag on a ContextFactory, which is global to the JVM and so a
+        // poor thing for a library to install. It is not reinstated because this interpreter
+        // does not rely on it: ThreadScope parents its scopes explicitly (see getSessionScope
+        // and createThreadScope), which is what dynamic scoping would otherwise have provided.
         Context context = Context.enter();
-        context.setOptimizationLevel(OPTIMIZATION_LEVEL); 
-        context.setCompileFunctionsWithDynamicScope(true);
+        context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
         // add support for Rhino objects to JXPath
         JXPathIntrospector.registerDynamicClass(Scriptable.class,
@@ -300,7 +306,11 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
         public void put(String name, Scriptable start, Object value) {
             //Allow setting values to existing variables, or if this is a
             //java class (used by importClass & importPackage)
-            if (this.locked && !has(name, start) && !(value instanceof NativeJavaClass) && !(value instanceof Function)) {
+            // Undefined is excluded because Rhino 1.7 assigns it to a not-yet-declared name
+            // while unwinding a continuation, which is not the implicit global declaration this
+            // guard is meant to catch; without it, restoring a continuation fails.
+            if (this.locked && !has(name, start) && !(value instanceof NativeJavaClass)
+                    && !(value instanceof Function) && !(value instanceof Undefined)) {
                 // Need to wrap into a runtime exception as Scriptable.put has no throws clause...
                 throw new WrappedException (new RuntimeException("Implicit declaration of global variable '" + name +
                   "' forbidden. Please ensure all variables are explicitely declared with the 'var' keyword"));
@@ -559,7 +569,6 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
         Context context = Context.enter();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL); 
         context.setGeneratingDebug(true);
-        context.setCompileFunctionsWithDynamicScope(true);
         context.setErrorReporter(new JSErrorReporter());
 
         LocationTrackingDebugger locationTracker = new LocationTrackingDebugger();
@@ -656,7 +665,6 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
         Context context = Context.enter();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
-        context.setCompileFunctionsWithDynamicScope(true);
         LocationTrackingDebugger locationTracker = new LocationTrackingDebugger();
         if (!enableDebugger) {
             //FIXME: add a "tee" debugger that allows both to be used simultaneously
@@ -666,7 +674,7 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
         // Obtain the continuation object from it, and setup the
         // FOM_Cocoon object associated in the dynamic scope of the saved
         // continuation with the environment and context objects.
-        Continuation k = (Continuation) wk.getContinuation();
+        NativeContinuation k = (NativeContinuation) wk.getContinuation();
         ThreadScope kScope = (ThreadScope) k.getParentScope();
 
         synchronized (kScope) {

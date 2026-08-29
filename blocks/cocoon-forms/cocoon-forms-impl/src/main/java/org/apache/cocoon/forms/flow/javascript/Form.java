@@ -19,7 +19,7 @@ package org.apache.cocoon.forms.flow.javascript;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.Wrapper;
-import org.mozilla.javascript.continuations.Continuation;
+import org.mozilla.javascript.NativeContinuation;
 import org.apache.cocoon.components.flow.javascript.fom.FOM_Cocoon;
 import org.apache.cocoon.components.flow.javascript.fom.FOM_WebContinuation;
 import org.apache.cocoon.environment.Request;
@@ -46,7 +46,7 @@ public class Form extends ScriptableObject {
                                                               Object lastContinuation,
                                                               int ttl)
         throws Exception {
-        Continuation kont = (Continuation)unwrap(k);
+        NativeContinuation kont = (NativeContinuation) unwrap(k);
         FOM_WebContinuation fom_wk =
             (FOM_WebContinuation)unwrap(lastContinuation);
         FOM_Cocoon cocoon = getCocoon();

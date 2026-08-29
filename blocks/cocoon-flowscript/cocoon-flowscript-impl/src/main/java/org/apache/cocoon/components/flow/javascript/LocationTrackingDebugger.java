@@ -132,6 +132,15 @@ public class LocationTrackingDebugger implements Debugger {
             throwable = ex;
         }
 
+        /**
+         * Added by the Rhino 1.7 DebugFrame interface. This debugger only tracks locations for
+         * stack traces, and a <code>debugger</code> statement in flowscript is not a location
+         * event, so there is nothing to record.
+         */
+        public void onDebuggerStatement(Context cx) {
+            // nothing to track
+        }
+
         public void onExit(Context cx, boolean byThrow, Object resultOrException) {
             if (byThrow) {
                 String name = null;

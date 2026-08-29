@@ -43,7 +43,7 @@ import org.apache.cocoon.forms.formmodel.Form;
 import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.cocoon.sitemap.SitemapParameters;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.continuations.Continuation;
+import org.mozilla.javascript.NativeContinuation;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -114,10 +114,10 @@ public class SuggestionListGenerator extends ServiceableGenerator implements Con
         // Restore the JavaScript execution context, if any
         Scriptable oldScope = null;
         FOM_Cocoon cocoon = null;
-        if (wk.getContinuation() instanceof Continuation) {
+        if (wk.getContinuation() instanceof NativeContinuation) {
             oldScope = FOM_JavaScriptFlowHelper.getFOM_FlowScope(objectModel);
             
-            Continuation k = (Continuation)wk.getContinuation();
+            NativeContinuation k = (NativeContinuation) wk.getContinuation();
             Scriptable kScope = k.getParentScope();
             // Register the current scope for scripts indirectly called from this function
             FOM_JavaScriptFlowHelper.setFOM_FlowScope(objectModel, kScope);
