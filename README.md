@@ -115,6 +115,96 @@ that only reviewed jars even reference one, and that no shipped Spring XML still
 [BOOT-SMOKE-TEST.md](jakarta-verify/BOOT-SMOKE-TEST.md), which documents how to boot the
 demo webapp and what is known to be broken.
 
+## Third-party dependency versions
+
+Cocoon 2.3's dependency set was largely frozen around 2008. Where an application on the Spring 6
+/ Hibernate 6 stack has already moved a library forward, this fork has been moved to match, so
+that the two sides do not fight over a version at assembly time.
+
+Only the **default reactor** matters here — the 38 shipped artifacts. `legacy-blocks/` drags in
+another few dozen libraries (asm 2.2.1, hsqldb 1.8, jdom 1.1, jtidy, commons-dbcp, …) that are
+deliberately left alone because nothing builds against them.
+
+### Raised in this fork
+
+| Dependency | Cocoon 2.3 | Here | Why |
+|---|---|---|---|
+| `org.apache.xmlgraphics:batik-*` | 1.16 | **1.18** | Matches the consuming stack. |
+| `commons-io:commons-io` | 2.11.0 | **2.21.0** | Matches the consuming stack. |
+| `commons-beanutils:commons-beanutils` | 1.9.4 | **1.11.0** | Matches the consuming stack. |
+| `org.apache.poi:poi` | 3.2-FINAL | **3.10.1** | Matches the consuming stack. Needed one code change; see below. |
+| `org.apache.xmlgraphics:fop` | 0.95-1 | **1.0** | Matches what the consuming stack ships. Used only by `cocoon-fop-ng-impl`. |
+| `org.slf4j:slf4j-simple` | 1.7.12 | **2.0.6** | Not an alignment — a mismatch. The tree already used `slf4j-api` 2.0.6, so the binding was a major version behind its API. |
+| `org.springframework:*` | 5.x | **6.1.10** | Required by Jakarta EE 10. |
+| `jakarta.servlet:jakarta.servlet-api` | `javax.servlet-api` 3.1.0 | **6.0.0** | The point of the fork. Deliberately not 6.1, which removes `Cookie.getComment/getVersion`. |
+| `jakarta.mail`, `jakarta.activation` | `javax.mail`, `javax.activation` | **2.1.3** | Jakarta renames. |
+| `org.aspectj:aspectjweaver` | 1.8.x | **1.9.19** | Required for JDK 17. |
+
+**POI 3.2 → 3.10.1** removed `org.apache.poi.hssf.util.RangeAddress`, which `EPMerge` used to
+turn a merge range such as `B3:D7` into coordinates. `CellRangeAddress.valueOf` replaces it, but
+is zero-based where `RangeAddress` counted from 1,1 — so the old code's "subtract one" had to go.
+Getting that backwards would shift every merged region by a row and a column: a plausible-looking
+corruption rather than a failure. `EPMergeTestCase` pins the coordinates that POI 3.2 produced,
+so it is a real before/after comparison rather than a restatement of the new code.
+
+### Deliberately ahead of the consuming stack
+
+Not regressions — these are either required by Jakarta EE 10 or simply newer here, and Maven's
+nearest-definition rule means the application's own `dependencyManagement` wins in its build:
+`icu4j` 72.1, `commons-codec` 1.15, `xalan` 2.7.2, `slf4j-api` 2.0.6, Spring 6.1.10.
+
+### Not raised, and why
+
+- **FOP 2.x.** `cocoon-fop-ng-impl` does not compile against it: FOP 2 dropped the no-arg
+  `FopFactory.newInstance()` along with `setUserConfig` and `setURIResolver`. That is three call
+  sites in one class, so it is a contained piece of work rather than a blocker — but it is a code
+  change, not a version bump. (The POM's older `TODO: 2.8 … doesn't work` note gave no reason;
+  this is the reason.)
+- **`fop:fop:0.20.5`**, used by `cocoon-fop-impl`, is a different artifact from
+  `org.apache.xmlgraphics:fop` and is stuck at the FOP 0.20 API — `Driver`, `Options`,
+  `ConfigurationParser`, `MessageHandler`, all removed in FOP 1.0. Migrating that block means
+  rewriting it against `FopFactory`, which is what `cocoon-fop-ng-impl` already is. Prefer the
+  `-ng` block; see the warning below.
+- **commons-lang3 / commons-collections4.** See below.
+
+### Watch for duplicate packages under different coordinates
+
+Several libraries in this dependency set were re-released under new Maven coordinates while
+keeping their Java package names. Maven cannot detect the conflict — the groupIds differ, so it
+sees two unrelated artifacts — and **both jars end up on the classpath**, with load order
+deciding which class wins. An application that overrides any of these must exclude Cocoon's:
+
+| Package | Cocoon's coordinate | The newer coordinate |
+|---|---|---|
+| `org.apache.commons.jexl` | `cocoon-commons-jexl` *(2.2 only)* | `commons-jexl:commons-jexl` |
+| `org.mozilla.javascript` | `rhino:js` (311 classes) | `org.mozilla:rhino` (479 classes) |
+| `org.apache.fop` | `fop:fop` (1032 classes) | `org.apache.xmlgraphics:fop-core` (2736 classes) |
+
+This is a class of problem rather than three incidents; it is worth grepping for before an
+upgrade. `jakarta-verify` catches the `javax.*` version of it, but not this one.
+
+### On `commons-lang3` and `commons-collections4`
+
+Worth stating plainly, because it looks like it should be a version bump and is not.
+`commons-lang3` is a **different artifact with a different package**
+(`org.apache.commons.lang3`), designed to coexist with `commons-lang` 2.x rather than replace it.
+So there is no classpath collision and nothing forces the move — an application can and commonly
+does run both generations side by side.
+
+Migrating would touch 96 files (109 imports) for `commons-lang` and 28 files (48 imports) for
+`commons-collections`. Most of that is mechanical, but the residue lands in the **public API**:
+
+- `WidgetState`, `Whitespace`, `RepeaterEventAction` and `ProcessingPhase` in `cocoon-forms-impl`,
+  and `Deprecation.LogLevel` in `cocoon-util`, are public classes that `extend` commons-lang 2's
+  `Enum` / `ValuedEnum`. The whole `org.apache.commons.lang.enums` package was **removed** in
+  lang3; there is no equivalent, so these become real Java enums and their supertype changes.
+- `LocatedRuntimeException` in `cocoon-pipeline-api` extends `NestableRuntimeException`, also
+  **removed** in lang3. Downstream `catch` and `instanceof` on that type would stop matching.
+- `ArrayStack` and `FastHashMap` are gone from `commons-collections4`.
+
+So it is an API break for consumers of this fork, in exchange for no compatibility gain. That is
+the wrong trade for a fork whose purpose is to be adoptable. Left as is, deliberately.
+
 ## Running the demo webapp
 
 ```bash

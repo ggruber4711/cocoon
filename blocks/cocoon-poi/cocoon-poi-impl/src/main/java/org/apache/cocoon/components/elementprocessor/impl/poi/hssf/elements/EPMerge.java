@@ -18,7 +18,6 @@
 package org.apache.cocoon.components.elementprocessor.impl.poi.hssf.elements;
 
 import org.apache.poi.hssf.util.CellRangeAddress;
-import org.apache.poi.hssf.util.RangeAddress;
 
 import java.io.IOException;
 
@@ -53,22 +52,26 @@ public class EPMerge extends BaseElementProcessor {
      * @exception IOException
      */
     public void endProcessing() throws IOException {
-        RangeAddress rangeAddress = new RangeAddress(getCellRange());
+        // POI 3.10 removed org.apache.poi.hssf.util.RangeAddress. CellRangeAddress.valueOf
+        // replaces it for parsing and is already zero-based, so the "subtract one" the old
+        // code needed (RangeAddress counted from 1,1) is gone. Verified to produce identical
+        // coordinates to the old parse, multi-letter columns included; see EPMergeTestCase.
+        //
+        // The parse returns the ss.util type while Sheet still speaks the hssf.util subtype,
+        // so the result is copied across rather than widening Sheet's signature.
+        org.apache.poi.ss.util.CellRangeAddress parsed =
+                org.apache.poi.ss.util.CellRangeAddress.valueOf(getCellRange());
+        CellRangeAddress cellRangeAddress = new CellRangeAddress(
+                parsed.getFirstRow(), parsed.getLastRow(),
+                parsed.getFirstColumn(), parsed.getLastColumn());
         Sheet sheet = this.getSheet();
 
-        //subtracting one since rangeaddress starts at 1,1 where rows/cols
-        // start at 0,0
-        int fromCol = rangeAddress.getXPosition(rangeAddress.getFromCell()) - 1;
-        int fromRow = rangeAddress.getYPosition(rangeAddress.getFromCell()) - 1;
-        int toCol = rangeAddress.getXPosition(rangeAddress.getToCell()) - 1;
-        int toRow = rangeAddress.getYPosition(rangeAddress.getToCell()) - 1;
-
         if (getLogger().isDebugEnabled()) {
-            getLogger().debug("Merging Range: Row (" + fromRow + ") Col ("
-                    + fromCol + ")" + " to Row (" + toRow + ") Col (" + toCol
-                    + ")");
+            getLogger().debug("Merging Range: Row (" + cellRangeAddress.getFirstRow()
+                    + ") Col (" + cellRangeAddress.getFirstColumn() + ")"
+                    + " to Row (" + cellRangeAddress.getLastRow()
+                    + ") Col (" + cellRangeAddress.getLastColumn() + ")");
         }
-        CellRangeAddress cellRangeAddress = new CellRangeAddress(fromRow, toRow, fromCol, toCol);
         sheet.addMergedRegion(cellRangeAddress);
     }
 
