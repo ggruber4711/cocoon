@@ -1276,6 +1276,7 @@
     <asm.version>2.2.1</asm.version>
     <batik.version>1.18</batik.version>
     <slf4j.version>2.0.6</slf4j.version>
+    <spring-security.version>6.3.3</spring-security.version>
     <!-- Spring 6 baseline for Jakarta Servlet 5 and JDK 17 -->
     <spring.version>6.1.10</spring.version>
     <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
@@ -1380,16 +1381,24 @@
         <artifactId>jaxen</artifactId>
         <version>2.0.0</version>
       </dependency>
+      <!-- Spring Security, the successor to Acegi Security. Acegi 1.0.7 was a javax.servlet
+           library and its last release predates Spring 3, so there was no version of it that
+           could run here; the sample was migrated instead. Keep in step with the Spring
+           Framework version above: Spring Security 6.3 requires Spring 6.1. -->
       <dependency>
-        <groupId>org.acegisecurity</groupId>
-        <artifactId>acegi-security</artifactId>
-        <version>1.0.7</version>
-        <exclusions>
-          <exclusion>
-            <groupId>avalon-framework</groupId>
-            <artifactId>avalon-framework</artifactId>
-          </exclusion>
-        </exclusions>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring-security.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.avalon.framework</groupId>

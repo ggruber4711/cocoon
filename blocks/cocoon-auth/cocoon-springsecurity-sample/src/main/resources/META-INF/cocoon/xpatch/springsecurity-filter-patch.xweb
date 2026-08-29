@@ -18,24 +18,25 @@
 <!-- Version: $Id$ -->
 <xweb xpath="/*" insert-before="*[last() and local-name() = 'filter']">
   <!--+
-      | Declare a filter for acegisecurity handling
+      | Spring Security's filter chain.
+      |
+      | This replaces Acegi's FilterToBeanProxy, which took the target bean's class as an
+      | init-param. DelegatingFilterProxy instead looks the bean up by the filter's own name,
+      | so the name below is not decorative: it must be springSecurityFilterChain, which is
+      | what the security namespace registers.
       +-->
   <filter>
-    <description>Security Filter Chain Proxy</description>
-    <display-name>Security Filter Chain Proxy</display-name>
-    <filter-name>SecurityFilterChainProxy</filter-name>
-    <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
-    <init-param>
-      <param-name>targetClass</param-name>
-      <param-value>org.acegisecurity.util.FilterChainProxy</param-value>
-    </init-param>
+    <description>Spring Security Filter Chain Proxy</description>
+    <display-name>Spring Security Filter Chain Proxy</display-name>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
 
   <!--+
-      | Map filter for acegisecurity handling
+      | Map filter for Spring Security handling
       +-->
   <filter-mapping>
-    <filter-name>SecurityFilterChainProxy</filter-name>
+    <filter-name>springSecurityFilterChain</filter-name>
     <servlet-name>DispatcherServlet</servlet-name>
   </filter-mapping>
 </xweb>

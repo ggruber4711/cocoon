@@ -139,6 +139,7 @@ deliberately left alone because nothing builds against them.
 | `jakarta.servlet:jakarta.servlet-api` | `javax.servlet-api` 3.1.0 | **6.0.0** | The point of the fork. Deliberately not 6.1, which removes `Cookie.getComment/getVersion`. |
 | `jakarta.mail`, `jakarta.activation` | `javax.mail`, `javax.activation` | **2.1.3** | Jakarta renames. |
 | `org.aspectj:aspectjweaver` | 1.8.x | **1.9.19** | Required for JDK 17. |
+| `org.acegisecurity:acegi-security` | 1.0.7 | **Spring Security 6.3.3** | Not a version bump; see below. |
 
 **POI 3.2 → 3.10.1** removed `org.apache.poi.hssf.util.RangeAddress`, which `EPMerge` used to
 turn a merge range such as `B3:D7` into coordinates. `CellRangeAddress.valueOf` replaces it, but
@@ -146,6 +147,18 @@ is zero-based where `RangeAddress` counted from 1,1 — so the old code's "subtr
 Getting that backwards would shift every merged region by a row and a column: a plausible-looking
 corruption rather than a failure. `EPMergeTestCase` pins the coordinates that POI 3.2 produced,
 so it is a real before/after comparison rather than a restatement of the new code.
+
+**Acegi Security → Spring Security.** `cocoon-acegisecurity-sample` is now
+`cocoon-springsecurity-sample`. Acegi could not be upgraded: it was renamed to Spring Security
+at 2.0, and its final release (1.0.7) is a `javax.servlet` library with 600 references to that
+package, so no version of it runs on Jakarta EE 10. The configuration was rewritten against the
+Spring Security 6 namespace, which is also how it shrank from 160 lines to 100 — Acegi required
+every filter to be declared as a bean and then listed by name in a whitespace-sensitive string.
+
+The sample was quietly dead before this: it is XML only, has no Java, and is not deployed in the
+demo webapp, so nothing ever loaded it — and it used `<ref local="..."/>`, which Spring removed
+in 4.0, meaning the context could not have been parsed at all. It now has a test that builds the
+application context and authenticates each declared user, so the same rot cannot recur.
 
 ### Deliberately ahead of the consuming stack
 

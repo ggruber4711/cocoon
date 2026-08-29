@@ -43,7 +43,7 @@
     <profile>
       <id>samples</id>
       <modules>
-        <module>cocoon-acegisecurity-sample</module>
+        <module>cocoon-springsecurity-sample</module>
         <module>cocoon-auth-sample</module>
       </modules>
     </profile>
