@@ -65,6 +65,9 @@
     <map:resource name="show-page">
       <map:generate type="serverpages" src="{target}" />
       <map:transform src="servlet:style-default:/common/style/xsl/html/simple-page2html.xsl">
+        <map:parameter name="contextPath" value="servlet:style-default:"/>
+        <map:parameter name="version" value="{cocoon-properties:version}"/>
+        <map:parameter name="year" value="{cocoon-properties:year}"/>
         <map:parameter name="servletPath" value="{request:servletPath}" />
         <map:parameter name="sitemapURI" value="{request:sitemapURI}" />
         <map:parameter name="remove" value="{remove}" />

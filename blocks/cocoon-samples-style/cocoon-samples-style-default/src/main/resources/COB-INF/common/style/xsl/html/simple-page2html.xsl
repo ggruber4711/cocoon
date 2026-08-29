@@ -25,7 +25,15 @@
   <xsl:param name="version">2</xsl:param>
   <xsl:param name="year">????</xsl:param>
 
-  <xsl:param name="contextPath">servlet:/</xsl:param>
+  <!--
+    Must NOT end in a slash: every use below is "{$contextPath}/some/path", and the
+    servlet-service link rewriter appends the URI's scheme-specific part verbatim to
+    the block mount path (ServletServiceContext.absolutizeURI). "servlet:/" therefore
+    produced links like /cocoon-samples-style-default//styles/main.css. Jetty 9 served
+    those; Jetty 12 rejects them with "400 Ambiguous URI empty segment".
+    The sibling simple-samples2html.xsl always had this right.
+  -->
+  <xsl:param name="contextPath">servlet:</xsl:param>
 
   <xsl:template match="page">
    <html>

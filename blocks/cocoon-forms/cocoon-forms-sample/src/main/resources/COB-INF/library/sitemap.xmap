@@ -105,7 +105,11 @@
         <map:transform type="i18n" label="form">
           <map:parameter name="locale" value="en-US" />
         </map:transform>
-        <map:transform src="servlet:style-default:/common/style/xsl/html/simple-page2html.xsl" />
+        <map:transform src="servlet:style-default:/common/style/xsl/html/simple-page2html.xsl">
+          <map:parameter name="contextPath" value="servlet:style-default:"/>
+          <map:parameter name="version" value="{cocoon-properties:version}"/>
+          <map:parameter name="year" value="{cocoon-properties:year}"/>
+        </map:transform>
         <map:transform src="../resources/forms-samples-styling.xsl">
           <map:parameter name="dojo-resources" value="{servlet:ajax:/resource/external/dojo}" />
           <map:parameter name="forms-resources" value="{servlet:forms:/resource/external/forms}" />
@@ -121,7 +125,11 @@
 
       <map:match pattern="*-success-pipeline.jx">
         <map:generate type="jx" src="resources/result_jx.xml" />
-        <map:transform src="servlet:style-default:/common/style/xsl/html/simple-page2html.xsl" />
+        <map:transform src="servlet:style-default:/common/style/xsl/html/simple-page2html.xsl">
+          <map:parameter name="contextPath" value="servlet:style-default:"/>
+          <map:parameter name="version" value="{cocoon-properties:version}"/>
+          <map:parameter name="year" value="{cocoon-properties:year}"/>
+        </map:transform>
         <map:serialize type="xml" />
       </map:match>
 
