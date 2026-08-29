@@ -10,7 +10,10 @@ against one container. Every part of such an application has to flip together, s
 Jakarta-capable Cocoon has to exist before the rest can move.
 
 The full plan, the current state and the open issues are in
-**[plans/jakarta-ee10-fork.md](plans/jakarta-ee10-fork.md)**.
+**[plans/jakarta-ee10-fork.md](plans/jakarta-ee10-fork.md)**. Applications coming from Cocoon 2.2
+should also read **[plans/artifact-delta-2.2-to-2.3.md](plans/artifact-delta-2.2-to-2.3.md)**,
+which maps the artifact changes between 2.2 and 2.3 — renames, removals, and two changes that
+fail silently.
 
 ## Status
 

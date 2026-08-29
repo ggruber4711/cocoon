@@ -179,7 +179,14 @@ javax builds with no source in this reactor.
 *"package(s) import from the default package"* — an OSGi manifest problem, unrelated to Jakarta, but
 in scope because `cocoon-serializers-impl` depends on it.
 
-### 3.8 Gap G — 2.2 → 2.3 artifact delta
+### 3.8 Gap G — 2.2 → 2.3 artifact delta — **RESOLVED, see [artifact-delta-2.2-to-2.3.md](artifact-delta-2.2-to-2.3.md)**
+
+> Mapped in full. The delta is smaller than this section assumed: `cocoon-expression-api` and
+> `cocoon-expression-impl` are `dependencyManagement`-only and never used, `cocoon-commons-jexl`
+> is a byte-identical republish of `commons-jexl:1.0`, and the `cocoon-spring-configurator`
+> "fork" needs nothing folded in. Two risks this section missed: a silent duplicate JEXL on the
+> classpath, and the collapse of 38 per-module versions into one.
+
 
 the consuming application references three artifacts that **do not exist in this 2.3 tree**: `cocoon-commons-jexl`,
 `cocoon-expression-api`, `cocoon-expression-impl`. `cocoon-spring-configurator` is consumed as
@@ -293,9 +300,9 @@ Target **`jakarta.servlet-api:6.0.0`**, not 6.1.0. Servlet 6.1 additionally remo
 24. Release `2.3.1-workflow-jakarta-1` to the internal repository.
 25. Re-release `cocoon-maven-plugin` from its own repository against the fork; audit it for servlet/Jetty coupling (`cocoon:prepare-jetty-webapp` and the RCL packaging are
     both container-facing).
-26. **Resolve the 2.2 → 2.3 delta (Gap G)** before the consuming application switches: map `cocoon-commons-jexl`,
-    `cocoon-expression-api`, `cocoon-expression-impl` to their 2.3 equivalents, and fold the
-    `cocoon-spring-configurator:2.2.2-workflow` fork's changes into the 2.3 module.
+26. ~~**Resolve the 2.2 → 2.3 delta (Gap G)**~~ — **done**, see
+    [artifact-delta-2.2-to-2.3.md](artifact-delta-2.2-to-2.3.md). That document also prescribes
+    the consuming-side POM edits, which are step 27's work.
 27. In the consuming application's parent POM, point the Cocoon coordinates at the new
     version; in its Cocoon aggregator module, swap the transformed Axis artifacts in.
 
@@ -346,7 +353,8 @@ the existing the consuming application Jetty dev target.
 - **Vaadin 8 → 24 is a rewrite, not an upgrade.** Vaadin 8 has no Jakarta build. This is the consuming application-side
   work, but it gates the flip date; the Cocoon fork should be ready and shelved rather than blocking on it.
 - **Two jumps at once.** the consuming application moves Cocoon 2.2.1-workflow-1 → 2.3.x *and* javax → jakarta in one
-  release. Gap G (§3.8) is the mitigation and must not be deferred to the end.
+  release. Gap G (§3.8) is the mitigation, and it is now mapped in
+  [artifact-delta-2.2-to-2.3.md](artifact-delta-2.2-to-2.3.md).
 - **Axis 1.4 under Transformer is unproven here.** Axis 1.x does its own reflection over servlet types;
   a transformed jar may need runtime testing beyond "it links". Phase 4 should prove the SOAP endpoints
   before Phase 5 commits to them. Worth timeboxing, with "drop SOAP from the consuming application" as the fallback.
