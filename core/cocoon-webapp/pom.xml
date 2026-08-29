@@ -125,6 +125,16 @@
       <artifactId>cocoon-ajax-sample</artifactId>
       <version>2.3.1-SNAPSHOT</version>
     </dependency>
+    <!-- FOP 2.x sample. Historically this could not be deployed alongside cocoon-fop-sample:
+         the legacy block pulls fop:fop:0.20.5 and this one org.apache.xmlgraphics:fop, which
+         carry the same org.apache.fop packages under different coordinates, so both jars land
+         on the classpath and load order decides. The legacy block is not in this reactor, so
+         there is nothing left to collide with. -->
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-fop-ng-sample</artifactId>
+      <version>2.3.1-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-forms-sample</artifactId>

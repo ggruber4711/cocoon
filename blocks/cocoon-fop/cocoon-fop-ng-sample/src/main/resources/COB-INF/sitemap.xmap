@@ -97,6 +97,15 @@
         <map:serialize type="fo2png" />
       </map:match>
 
+      <!-- Renders an FO document whose image is addressed through a Cocoon protocol, so
+           that FOPNGSerializer's ResourceResolver is exercised. Deliberately does not go
+           through the **/*.fo.xml route below: fix-imagelinks.xsl rewrites external-graphic
+           hrefs, which would destroy the very URI this is testing. -->
+      <map:match pattern="resolver-test.pdf">
+        <map:generate src="misc/resolver-test.fo.xml" />
+        <map:serialize type="fo2pdf" />
+      </map:match>
+
       <!-- xsl-fo document access -->
       <map:match pattern="**/*.fo.xml">
         <map:generate src="{1}/{2}.fo.xml" />

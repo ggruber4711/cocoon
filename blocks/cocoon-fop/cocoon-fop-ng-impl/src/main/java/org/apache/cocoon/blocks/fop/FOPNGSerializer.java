@@ -17,6 +17,8 @@
 package org.apache.cocoon.blocks.fop;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +30,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.SAXConfigurationHandler;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -44,10 +45,36 @@ import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.FopFactoryBuilder;
+import org.apache.fop.configuration.DefaultConfigurationBuilder;
+import org.apache.xmlgraphics.io.Resource;
+import org.apache.xmlgraphics.io.ResourceResolver;
 
 /**
- * FOP 0.93 (and newer) based serializer.
- *  
+ * FOP based serializer, for FOP 2.x.
+ *
+ * <p>Ported from the FOP 0.93-1.0 API, which was removed in FOP 2.0. Three things changed and
+ * none of them has a drop-in replacement:
+ *
+ * <ul>
+ * <li><code>FopFactory</code> is immutable and no longer has a no-argument
+ *     <code>newInstance()</code>. It is built once, in {@link #configure}, through
+ *     {@link FopFactoryBuilder} -- which is why the factory is no longer a field initialiser.</li>
+ * <li><code>FopFactory.setUserConfig(Configuration)</code> is gone, and FOP no longer takes
+ *     Avalon's <code>Configuration</code> at all: FOP 2.7 forked it into
+ *     <code>org.apache.fop.configuration</code>. The user config is therefore parsed with FOP's
+ *     own {@link DefaultConfigurationBuilder} straight from the source's stream, rather than
+ *     through Avalon's <code>SAXConfigurationHandler</code>.</li>
+ * <li><code>FopFactory.setURIResolver(URIResolver)</code> is gone, replaced by
+ *     {@link ResourceResolver}, supplied at construction. {@link CocoonResourceResolver} adapts
+ *     Cocoon's {@link SourceResolver} to it, so FOP still resolves <code>cocoon:</code>,
+ *     <code>context:</code> and the other Cocoon protocols when it fetches images, fonts and
+ *     included documents.</li>
+ * </ul>
+ *
+ * <p>This class still implements {@link URIResolver}. FOP no longer calls it, but it is public
+ * API of this serializer and costs nothing to keep.
+ *
  * @version $Id$
  */
 public class FOPNGSerializer extends AbstractSerializer
@@ -57,9 +84,10 @@ public class FOPNGSerializer extends AbstractSerializer
     protected SourceResolver resolver;
 
     /**
-     * Factory to create fop objects
+     * Factory used to create fop objects. Immutable in FOP 2 and built once in
+     * {@link #configure}, so it cannot be initialised here as it was under FOP 1.
      */
-    protected FopFactory fopfactory = FopFactory.newInstance();
+    protected FopFactory fopfactory;
 
     /**
      * The FOP instance.
@@ -98,8 +126,20 @@ public class FOPNGSerializer extends AbstractSerializer
         //should the content length be set
         this.setContentLength = conf.getChild("set-content-length").getValueAsBoolean(true);
 
-        String configUrl = conf.getChild("user-config").getValue(null);
+        // FOP 2 resolves relative references against a base URI before handing them to the
+        // resource resolver, so one has to exist. Anything Cocoon-specific arrives absolute
+        // through CocoonResourceResolver, so this only affects plain relative hrefs.
+        String baseUri = conf.getChild("base-uri").getValue(null);
+        URI base;
+        try {
+            base = baseUri != null ? new URI(baseUri) : new File(".").getAbsoluteFile().toURI();
+        } catch (URISyntaxException e) {
+            throw new ConfigurationException("Not a valid base-uri: " + baseUri, e);
+        }
 
+        FopFactoryBuilder builder = new FopFactoryBuilder(base, new CocoonResourceResolver());
+
+        String configUrl = conf.getChild("user-config").getValue(null);
         if (configUrl != null) {
             Source configSource = null;
             SourceResolver resolver = null;
@@ -109,9 +149,15 @@ public class FOPNGSerializer extends AbstractSerializer
                 if (getLogger().isDebugEnabled()) {
                     getLogger().debug("Loading configuration from " + configSource.getURI());
                 }
-                SAXConfigurationHandler configHandler = new SAXConfigurationHandler();
-                SourceUtil.toSAX(configSource, configHandler);
-                fopfactory.setUserConfig(configHandler.getConfiguration());
+                // FOP 2.7 forked Avalon's Configuration into org.apache.fop.configuration, so
+                // the old SAXConfigurationHandler route no longer produces a type FOP accepts.
+                // FOP's own builder parses the same fop.xconf format from the stream.
+                InputStream configStream = configSource.getInputStream();
+                try {
+                    builder.setConfiguration(new DefaultConfigurationBuilder().build(configStream));
+                } finally {
+                    configStream.close();
+                }
             } catch (Exception e) {
                 getLogger().warn("Cannot load configuration from " + configUrl);
                 throw new ConfigurationException("Cannot load configuration from " + configUrl, e);
@@ -123,7 +169,7 @@ public class FOPNGSerializer extends AbstractSerializer
             }
         }
 
-        fopfactory.setURIResolver(this);
+        this.fopfactory = builder.build();
 
         // Get the mime type.
         this.mimetype = conf.getAttribute("mime-type");
@@ -289,6 +335,55 @@ public class FOPNGSerializer extends AbstractSerializer
                 resolver.release(source);
         }
         return streamSource;
+    }
+
+    /**
+     * Lets FOP fetch resources through Cocoon.
+     *
+     * <p>FOP 2 replaced <code>FopFactory.setURIResolver</code> with this interface. Without it,
+     * FOP resolves images, fonts and included documents with its own plain URL handling and
+     * every Cocoon protocol -- <code>cocoon:</code>, <code>context:</code>, <code>servlet:</code>
+     * and the rest -- stops working inside an FO document.
+     *
+     * <p>The returned stream releases its {@link Source} on close, so FOP closing the resource
+     * is what frees it. That is the same contract the {@link URIResolver} path already relied on
+     * through {@link ReleaseSourceInputStream}.
+     */
+    private class CocoonResourceResolver implements ResourceResolver {
+
+        public Resource getResource(URI uri) throws IOException {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("FOP requested resource " + uri);
+            }
+            Source source = null;
+            try {
+                source = resolver.resolveURI(uri.toASCIIString());
+                return new Resource(
+                        new ReleaseSourceInputStream(source.getInputStream(), source, resolver));
+            } catch (IOException e) {
+                if (source != null) {
+                    resolver.release(source);
+                }
+                throw e;
+            } catch (RuntimeException e) {
+                if (source != null) {
+                    resolver.release(source);
+                }
+                throw e;
+            }
+        }
+
+        /**
+         * FOP only calls this for output-producing configurations such as multi-file renderers,
+         * which this serializer does not use -- it writes to the single stream given to
+         * {@link FOPNGSerializer#setOutputStream}. Failing loudly beats returning somewhere
+         * unexpected on disk.
+         */
+        public OutputStream getOutputStream(URI uri) throws IOException {
+            throw new UnsupportedOperationException(
+                    "FOPNGSerializer serializes to the pipeline's output stream; FOP asked to "
+                    + "write to " + uri + ", which is not supported");
+        }
     }
 
     /**
