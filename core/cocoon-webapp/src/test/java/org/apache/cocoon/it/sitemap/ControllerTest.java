@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ControllerTest extends HtmlUnitTestCase {
     /**
      * Passing on to a controller.
      */
+    @Test
     public void testControllerInvocation() throws Exception {
         this.loadResponse("/cocoon-it/controller/invoke");
         Assert.assertEquals(201, this.response.getStatusCode());
@@ -36,6 +38,7 @@ public class ControllerTest extends HtmlUnitTestCase {
     /**
      * Continue controller execution.
      */
+    @Test
     public void testContinuingController() throws Exception {
         this.loadResponse("/cocoon-it/controller/continue");
         Assert.assertEquals(202, this.response.getStatusCode());

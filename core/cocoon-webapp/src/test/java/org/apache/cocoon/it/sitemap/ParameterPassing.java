@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ParameterPassing extends HtmlUnitTestCase {
     /**
      * Passing parameters from a matcher to the sitemap.
      */
+    @Test
     public void testPassingParamatersFromMatcherToSitemap() throws Exception {
         this.loadXmlPage("/cocoon-it/parameter-passing/working");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -38,6 +40,7 @@ public class ParameterPassing extends HtmlUnitTestCase {
     /**
      * Passing null from a matcher to the sitemap (-> doesn't match)
      */
+    @Test
     public void testPassingNullMatcherToSitemap() throws Exception {
         this.webClient.setThrowExceptionOnFailingStatusCode(false);
         this.loadResponse("/cocoon-it/parameter-passing/failing");

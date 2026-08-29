@@ -38,6 +38,7 @@
 
   <properties>
     <jetty.port>8888</jetty.port>
+    <jetty.stop.port>8889</jetty.stop.port>
     <jetty.context>/</jetty.context>
   </properties>
 
@@ -194,12 +195,21 @@
                 <supportedPackaging>war</supportedPackaging>
                 <supportedPackaging>jar</supportedPackaging>
               </supportedPackagings>
+              <!-- the stop goal needs a port and key to talk to the started instance -->
+              <stopPort>${jetty.stop.port}</stopPort>
+              <stopKey>cocoon-it</stopKey>
             </configuration>
             <executions>
+              <!--
+                start-war, not start: `start` adds the project's dependency classpath on
+                top of the already assembled WEB-INF/lib, Jetty rejects the duplicated
+                spring-web web-fragment, the context never starts and every integration
+                test sees 503.
+              -->
               <execution>
                 <id>jetty-start</id>
                 <goals>
-                  <goal>start</goal>
+                  <goal>start-war</goal>
                 </goals>
                 <phase>pre-integration-test</phase>
               </execution>
@@ -222,9 +232,20 @@
                 </goals>
                 <phase>integration-test</phase>
                 <configuration>
+                  <!--
+                    The default execution excludes **/cocoon/it/**; this one runs exactly
+                    those. An include is needed as well as clearing the exclude: most of
+                    these classes are named after what they exercise (SubSitemaps,
+                    ServletProtocol, ParameterPassing) rather than *Test, so surefire's
+                    default include patterns miss them and the phase silently runs zero
+                    tests.
+                  -->
                   <excludes>
                     <exclude>none</exclude>
                   </excludes>
+                  <includes>
+                    <include>**/cocoon/it/**/*.java</include>
+                  </includes>
                 </configuration>
               </execution>
             </executions>

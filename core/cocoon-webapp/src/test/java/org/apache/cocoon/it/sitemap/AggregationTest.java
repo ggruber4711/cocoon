@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class AggregationTest extends HtmlUnitTestCase {
     /**
      * A pipeline that uses the IncludeTransformer.
      */
+    @Test
     public void testIncludeTransformer() throws Exception {
         this.loadXmlPage("/cocoon-it/aggregation/include-transformer");
         Assert.assertEquals(200, this.response.getStatusCode());

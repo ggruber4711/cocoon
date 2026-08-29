@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Assert;
@@ -29,6 +30,7 @@ public class ObjectModelTest extends HtmlUnitTestCase {
     /**
      * Accessing all request parameters from within a generator.
      */
+    @Test
     public void testTemporaryRedirect() throws Exception {
         this.loadResponse("/cocoon-it/object-model/request-parameters?a=1&b=2&c=3");
         Assert.assertEquals(200, this.response.getStatusCode());

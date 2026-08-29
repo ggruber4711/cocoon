@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class CachingOfPipelinesTest extends HtmlUnitTestCase {
     /**
      * A non-caching pipeline mustn't produce the same result twice.
      */
+    @Test
     public void testNonCachingPipeline() throws Exception {
         this.loadResponse("/cocoon-it/caching-pipeline/off");
         String content1 = this.response.getContentAsString();
@@ -41,6 +43,7 @@ public class CachingOfPipelinesTest extends HtmlUnitTestCase {
     /**
      * This caching pipeline always returns the same.
      */
+    @Test
     public void testCachingPipeline() throws Exception {
         this.loadResponse("/cocoon-it/caching-pipeline/on");
         String content1 = this.response.getContentAsString();

@@ -16,17 +16,20 @@
  */
 package org.apache.cocoon.it.servletservice;
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
 public class SubSitemaps extends HtmlUnitTestCase {
 
+    @Test
     public void testSimplePipelineFromSubSitemap() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/sub/test");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/sub/text()", "");
     }
 
+    @Test
     public void testServletProtocolFromSubSitemap() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/sub/test3");
         Assert.assertEquals(200, this.response.getStatusCode());

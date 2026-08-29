@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ExpressionLanguageTest extends HtmlUnitTestCase {
     /**
      * JEXL test
      */
+    @Test
     public void testJexl() throws Exception {
         this.loadXmlPage("/cocoon-it/expression-language/jexl?fileName=simple");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -38,6 +40,7 @@ public class ExpressionLanguageTest extends HtmlUnitTestCase {
     /**
      * JXPath test
      */
+    @Test
     public void testJXPath() throws Exception {
         this.loadXmlPage("/cocoon-it/expression-language/jxpath?fileName=simple");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -48,6 +51,7 @@ public class ExpressionLanguageTest extends HtmlUnitTestCase {
     /**
      * Map language test
      */
+    @Test
     public void testMap() throws Exception {
         this.loadXmlPage("/cocoon-it/expression-language/map/simple");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -58,6 +62,7 @@ public class ExpressionLanguageTest extends HtmlUnitTestCase {
     /**
      * Nested matchers/maps
      */
+    @Test
     public void testNextedMap() throws Exception {
         this.loadXmlPage("/cocoon-it/expression-language/nested/simple");
         Assert.assertEquals(200, this.response.getStatusCode());

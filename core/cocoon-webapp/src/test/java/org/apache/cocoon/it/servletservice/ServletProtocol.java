@@ -16,47 +16,55 @@
  */
 package org.apache.cocoon.it.servletservice;
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
 public class ServletProtocol extends HtmlUnitTestCase {
 
+    @Test
     public void testSimplePipeline() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test", "some-text");
     }
 
+    @Test
     public void testSimpleServletProtocol() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test2");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test2", "some-text");
     }
 
+    @Test
     public void testServletProtocolSelfReferencing() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test3");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test", "some-text");
     }
 
+    @Test
     public void testResourceReading() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test4");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test-resource", "some-text");
     }
 
+    @Test
     public void testServletServiceGenerator() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test5");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test-result/original-content/test", "some-text");
     }
 
+    @Test
     public void testServletServiceTransformer() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test6");
         Assert.assertEquals(200, this.response.getStatusCode());
         assertXPath("/test-result/original-content/test", "some-text");
     }
 
+    @Test
     public void testServletServiceSerializer() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/test7");
         Assert.assertEquals(200, this.response.getStatusCode());

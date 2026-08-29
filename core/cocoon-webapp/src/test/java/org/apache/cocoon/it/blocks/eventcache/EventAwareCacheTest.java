@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.it.blocks.eventcache;
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 
 /**
@@ -28,6 +29,7 @@ public class EventAwareCacheTest extends HtmlUnitTestCase {
      * 
      * @throws Exception In case of environmental errors.
      */
+    @Test
     public void testGetCachedSite() throws Exception {
 //        this.loadXmlPage("cocoon-eventcache-sample/it/demo?pageKey=one");
 //        assertEquals(200, this.response.getStatusCode());
@@ -43,6 +45,7 @@ public class EventAwareCacheTest extends HtmlUnitTestCase {
      * 
      * @throws Exception In case of environmental errors.
      */
+    @Test
     public void testUncacheWithAction() throws Exception {
 //        this.loadXmlPage("cocoon-eventcache-sample/it/demo?pageKey=two");
 //        assertEquals(200, this.response.getStatusCode());
@@ -62,6 +65,7 @@ public class EventAwareCacheTest extends HtmlUnitTestCase {
      * 
      * @throws Exception In case of environmental errors.
      */
+    @Test
     public void testUncacheWithFlow() throws Exception {
 //        this.loadXmlPage("cocoon-eventcache-sample/it/demo?pageKey=two");
 //        assertEquals(200, this.response.getStatusCode());

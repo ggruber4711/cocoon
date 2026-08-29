@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.it.sitemap;
 
+import org.junit.Test;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
@@ -23,6 +24,7 @@ import org.junit.Assert;
 
 public class SerletScopeTest extends HtmlUnitTestCase {
 
+    @Test
     public void testServletScope() throws Exception {
         this.loadResponse("/cocoon-it/demo1/setCode?code=300");
         Assert.assertEquals(HttpServletResponse.SC_OK, this.response.getStatusCode());

@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ErrorHandlingTest extends HtmlUnitTestCase {
     /**
      * If no pipeline matches, the error handling section gets activated.
      */
+    @Test
     public void testPerSitemap404() throws Exception {
         // load this resource twice because the first time when a pipeline that
         // doesn't set the status code 200, is being invoked, 200 is returned
@@ -38,6 +40,7 @@ public class ErrorHandlingTest extends HtmlUnitTestCase {
         Assert.assertTrue(this.response.getContentAsString().indexOf("404 Resource Not Available (Cocoon Integration Tests)") > 0);
     }
 
+    @Test
     public void testPerSitemapCustomError() throws Exception {
         // load this resource twice because the first time when a pipeline that
         // doesn't set the status code 200, is being invoked, 200 is returned
@@ -48,6 +51,7 @@ public class ErrorHandlingTest extends HtmlUnitTestCase {
         Assert.assertTrue(this.response.getContentAsString().indexOf("Error 500 (Cocoon Integration Tests)") > 0);
     }
 
+    @Test
     public void testPerPipelineCustomError() throws Exception {
         // load this resource twice because the first time when a pipeline that
         // doesn't set the status code 200, is being invoked, 200 is returned
@@ -61,6 +65,7 @@ public class ErrorHandlingTest extends HtmlUnitTestCase {
     /*
      * Doesn't work. See https://issues.apache.org/jira/browse/COCOON-2179
      */
+    @Test
     public void testExceptionGenerator() throws Exception {
         for(int i = 0; i < 5; i++) {
             this.loadResponse("/cocoon-it/error-handling/another-custom-error");

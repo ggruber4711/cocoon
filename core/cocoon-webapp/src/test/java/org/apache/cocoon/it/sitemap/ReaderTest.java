@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ReaderTest extends HtmlUnitTestCase {
 	/**
 	 * Call a pipeline that explicitly sets the mime-type of the resource.
 	 */
+    @Test
     public void testReadingResourceWithExplicitMimeType() throws Exception {
         this.loadResponse("/cocoon-it/read/javascript-resource-explicit");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -38,15 +40,21 @@ public class ReaderTest extends HtmlUnitTestCase {
     /**
      * Call a pipeline that automatically sets the mime-type of the resource.
      */
+    /**
+     * The expected type was application/x-javascript until RFC 9239 registered
+     * text/javascript as the standard; Jetty 12's mime mappings return the latter.
+     */
+    @Test
     public void testReadingResourceWithImplicitMimeType() throws Exception {
     	this.loadResponse("/cocoon-it/read/javascript-resource-implicit");
         Assert.assertEquals(200, this.response.getStatusCode());
-        Assert.assertEquals("application/x-javascript", this.response.getContentType());
+        Assert.assertEquals("text/javascript", this.response.getContentType());
     }
 
     /**
      * A resource reader supports conditional gets.
      */
+    @Test
     public void testConditionalGet() throws Exception {
     	this.loadResponse("/cocoon-it/read/javascript-resource-implicit");
     	String lastModified = this.response.getResponseHeaderValue("Last-Modified");

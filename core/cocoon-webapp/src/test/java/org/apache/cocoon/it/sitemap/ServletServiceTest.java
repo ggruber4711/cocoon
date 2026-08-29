@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class ServletServiceTest extends HtmlUnitTestCase {
     /**
      * A parameter is passed to an XSLT transformer.
      */
+    @Test
     public void testSimplePipelineParameterPassingToTransformer() throws Exception {
         this.loadXmlPage("/cocoon-it/ssf/local");
         Assert.assertEquals(200, this.response.getStatusCode());

@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -29,6 +30,7 @@ public class XSLTTest extends HtmlUnitTestCase {
      * Use an XSLT that includes sub stylesheets using the file and the servlet
      * protocol.
      */
+    @Test
     public void testXSLTTransformation() throws Exception {
         this.loadXmlPage("/cocoon-it/xslt/main");
         Assert.assertEquals(200, this.response.getStatusCode());

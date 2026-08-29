@@ -17,11 +17,13 @@
 package org.apache.cocoon.it.servletservice;
 
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
 public class BlockPathModule extends HtmlUnitTestCase {
 
+    @Test
     public void testSimplePipelineFromSubSitemap() throws Exception {
         this.loadXmlPage("cocoon-servlet-service-components-sample/1/sub/abs");
         Assert.assertEquals(200, this.response.getStatusCode());

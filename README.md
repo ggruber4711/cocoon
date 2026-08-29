@@ -46,11 +46,41 @@ creation, and several modules — and downstream consumers — depend on `cocoon
 The default reactor is **only the artifact set this fork ships**, chosen from what a real
 consuming application actually loads. Everything else is in a profile.
 
-- **default** — the shipped artifacts: `cocoon-core`, the pipeline/sitemap/servlet-service
-  modules, `cocoon-spring-configurator`, and the blocks in use (forms, ajax, apples,
-  flowscript, template, serializers, auth, mail, fop, batik, poi, axis, linkrewriter).
+- **default** — the migrated artifacts, listed below.
 - **`-P samples`** — the sample blocks, the demo webapp and the distribution assemblies.
   Only needed to run or verify the demo.
+
+### Migrated blocks
+
+All of these build clean on Jakarta EE 10 and are published by this fork.
+
+| Block | Modules | Notes |
+|---|---|---|
+| `cocoon-ajax` | `-impl` | |
+| `cocoon-apples` | `-impl` | |
+| `cocoon-auth` | `-api`, `-impl` | |
+| `cocoon-axis` | `-impl` | SOAP. Builds against the transformed Axis 1.4 in `jakarta-shims/`; see the note below. |
+| `cocoon-batik` | `-impl` | SVG. `SVGBuilder` was fixed to seed Batik's default namespace, without which unprefixed SVG failed to transcode. |
+| `cocoon-flowscript` | `-impl` | |
+| `cocoon-fop` | `-impl` | `cocoon-fop-ng` is *not* migrated. |
+| `cocoon-forms` | `-impl` | |
+| `cocoon-linkrewriter` | `-impl` | Needed by `cocoon-servlet-service-components`, not only by samples. |
+| `cocoon-mail` | `-impl` | Moved to `jakarta.mail-api` + `jakarta.activation-api`. API only: supply an implementation at runtime. |
+| `cocoon-poi` | `-impl` | |
+| `cocoon-serializers` | `-charsets`, `-impl` | |
+| `cocoon-template` | `-impl` | |
+
+Core, all migrated: `cocoon-core`, `cocoon-configuration-api`, `cocoon-util`,
+`cocoon-jnet`, `cocoon-container`, `cocoon-block-deployment`, `cocoon-spring-configurator`,
+`cocoon-store`, `cocoon-thread`, `cocoon-xml` (`-api`, `-impl`, `-resolver`, `-util`),
+`cocoon-pipeline` (`-api`, `-impl`, `-components`), `cocoon-sitemap` (`-api`, `-impl`,
+`-components`), `cocoon-expression-language` (`-api`, `-impl`), `cocoon-servlet-service`
+(`-impl`, `-components`).
+
+The Axis block is the one entry that is not self-contained: Apache Axis 1.4 has no Jakarta
+release, so `jakarta-shims/axis-jakarta` republishes it with the namespace rewritten. The
+JAX-RPC API it needs keeps its `javax.xml.rpc` packages on purpose — that specification was
+dropped from Jakarta EE and never renamed.
 
 `legacy-blocks/` holds the 43 blocks that are **not migrated and do not compile**. They are
 outside the reactor entirely — a separate directory rather than a Maven profile, so the

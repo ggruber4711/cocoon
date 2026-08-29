@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.it.blocks.jms;
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 
 /**
@@ -23,6 +24,7 @@ import org.apache.cocoon.tools.it.HtmlUnitTestCase;
  */
 public class JMSTest extends HtmlUnitTestCase {
 
+    @Test
     public void testGetCachedContent() throws Exception {
 //        this.loadXmlPage("cocoon-jms-sample/it/demo?pageKey=one");
 //        assertEquals(200, this.response.getStatusCode());
@@ -38,6 +40,7 @@ public class JMSTest extends HtmlUnitTestCase {
      * 
      * @throws Exception In case of environmental errors.
      */
+    @Test
     public void testUncacheWithJMSAction() throws Exception {
 //        this.loadXmlPage("cocoon-jms-sample/it/demo?pageKey=two");
 //        assertEquals(200, this.response.getStatusCode());

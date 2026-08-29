@@ -17,6 +17,7 @@ package org.apache.cocoon.it.sitemap;
  * limitations under the License.
  */
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ public class SaxPipelineTest extends HtmlUnitTestCase {
     /**
      * A simple pipeline that produces an HTML document.
      */
+    @Test
     public void testSimplePipeline() throws Exception {
         this.loadResponse("/cocoon-it/sax-pipeline/simple");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -39,6 +41,7 @@ public class SaxPipelineTest extends HtmlUnitTestCase {
      * A simple pipeline that produces an XHTML 1.0 document. This implicitly
      * tests if the configuration of serializers works properly.
      */
+    @Test
     public void testSimplePipelineXhtml() throws Exception {
         this.loadResponse("/cocoon-it/sax-pipeline/simple-xhtml");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -49,6 +52,7 @@ public class SaxPipelineTest extends HtmlUnitTestCase {
     /**
      * A parameter is passed to an XSLT transformer.
      */
+    @Test
     public void testSimplePipelineParameterPassingToTransformer() throws Exception {
         this.loadXmlPage("/cocoon-it/sax-pipeline/simple-xml");
         Assert.assertEquals(200, this.response.getStatusCode());
@@ -59,6 +63,7 @@ public class SaxPipelineTest extends HtmlUnitTestCase {
     /**
      * A status code is set explicitly at a serializer.
      */
+    @Test
     public void testSettingStatusCode() throws Exception {
         // load this resource twice because the first time when a pipeline that
         // doesn't set the status code 200, is being invoked, 200 is returned

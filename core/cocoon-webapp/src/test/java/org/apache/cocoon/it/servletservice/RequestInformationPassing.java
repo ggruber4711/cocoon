@@ -16,11 +16,13 @@
 */
 package org.apache.cocoon.it.servletservice;
 
+import org.junit.Test;
 import org.apache.cocoon.tools.it.HtmlUnitTestCase;
 import org.junit.Assert;
 
 public class RequestInformationPassing extends HtmlUnitTestCase {
 
+    @Test
     public void testAttributes() throws Exception {
         this.webClient.addRequestHeader("my-header-param", "6");
         this.loadXmlPage("cocoon-servlet-service-impl-sample/test1/test4?foo=5");
