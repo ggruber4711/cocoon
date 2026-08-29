@@ -17,7 +17,7 @@
 
 package org.apache.cocoon.components.elementprocessor.impl.poi.hssf.elements;
 
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.io.IOException;
 
@@ -57,13 +57,7 @@ public class EPMerge extends BaseElementProcessor {
         // code needed (RangeAddress counted from 1,1) is gone. Verified to produce identical
         // coordinates to the old parse, multi-letter columns included; see EPMergeTestCase.
         //
-        // The parse returns the ss.util type while Sheet still speaks the hssf.util subtype,
-        // so the result is copied across rather than widening Sheet's signature.
-        org.apache.poi.ss.util.CellRangeAddress parsed =
-                org.apache.poi.ss.util.CellRangeAddress.valueOf(getCellRange());
-        CellRangeAddress cellRangeAddress = new CellRangeAddress(
-                parsed.getFirstRow(), parsed.getLastRow(),
-                parsed.getFirstColumn(), parsed.getLastColumn());
+        CellRangeAddress cellRangeAddress = CellRangeAddress.valueOf(getCellRange());
         Sheet sheet = this.getSheet();
 
         if (getLogger().isDebugEnabled()) {

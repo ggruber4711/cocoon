@@ -26,7 +26,7 @@ import org.apache.cocoon.components.elementprocessor.types.Attribute;
 import org.apache.cocoon.components.elementprocessor.types.NumericConverter;
 import org.apache.cocoon.components.elementprocessor.types.NumericResult;
 import org.apache.cocoon.components.elementprocessor.types.Validator;
-import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddress;
 /**
  * Implementation of ElementProcessor to handle the "Cell" tag.
  * This element has several attributes and may contain other elements.

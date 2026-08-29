@@ -142,7 +142,9 @@ deliberately left alone because nothing builds against them.
 | `jakarta.mail`, `jakarta.activation` | `javax.mail`, `javax.activation` | **2.1.3** | Jakarta renames. |
 | `org.aspectj:aspectjweaver` | 1.8.x | **1.9.19** | Required for JDK 17. |
 | `org.acegisecurity:acegi-security` | 1.0.7 | **Spring Security 6.3.3** | Not a version bump; see below. |
-| `rhino:js` | 1.6R7 | **`org.mozilla:rhino` 1.7R5** | Coordinate move plus an API break; see below. |
+| `rhino:js` | 1.6R7 | **`org.mozilla:rhino` 1.7.15** | Coordinate move plus an API break; see below. |
+| `xalan` / `serializer` | 2.7.2 | **2.7.3** | CVE-2022-34169. `serializer` is no longer transitive; see below. |
+| `nekohtml:nekohtml` | 1.9.6 | **`net.sourceforge.nekohtml` 1.9.22** | Old coordinate abandoned at 1.9.6. |
 
 **POI 3.2 → 3.10.1** removed `org.apache.poi.hssf.util.RangeAddress`, which `EPMerge` used to
 turn a merge range such as `B3:D7` into coordinates. `CellRangeAddress.valueOf` replaces it, but
@@ -182,6 +184,46 @@ nearest-definition rule means the application's own `dependencyManagement` wins 
   rewriting it against `FopFactory`, which is what `cocoon-fop-ng-impl` already is. Prefer the
   `-ng` block; see the warning below.
 - **commons-lang3 / commons-collections4.** See below.
+
+### Known-vulnerable dependencies
+
+Several of the libraries Cocoon 2.3 bundles are old enough to carry published CVEs. Where a
+patched version could be adopted without a code migration, it has been:
+
+| Dependency | Was | Now | Note |
+|---|---|---|---|
+| `batik-*` | 1.16 (1.7 downstream) | **1.18** | |
+| `xalan`, `xalan:serializer` | 2.7.1/2.7.2 | **2.7.3** | CVE-2022-34169 |
+| `org.mozilla:rhino` | 1.7R5 | **1.7.15** | |
+| `nekohtml` | 1.9.6 / 0.9.5 | **1.9.22** | Under the maintained `net.sourceforge.nekohtml` coordinate |
+
+Two traps were hit doing this, both worth knowing:
+
+- **`xalan` 2.7.3 declares no dependencies at all**, where 2.7.2 pulled in `xalan:serializer`.
+  Bumping the version alone compiles fine and then fails at runtime with
+  `NoClassDefFoundError: org/apache/xml/serializer/OutputPropertiesFactory` the first time
+  anything builds a `Transformer`. `serializer` is now requested explicitly.
+- **`nekohtml:nekohtml` is abandoned at 1.9.6**; the maintained line is
+  `net.sourceforge.nekohtml:nekohtml`, and both carry `org.cyberneko` classes. The old
+  coordinate is excluded from `daisy-htmlcleaner` (which is what dragged it in) and the
+  maintained one requested in its place, so exactly one implementation is on the classpath.
+  `daisy-htmlcleaner` reaches NekoHTML through a plain SAX interface and behaves identically on
+  both versions — though note nothing in the test suite exercises `HtmlCleaningConvertor`, so
+  that rests on manual comparison rather than a test.
+
+Still outstanding, because each needs a code migration rather than a version change:
+
+- **POI 3.10.1** is itself flagged. POI 5.x is a block-wide migration of `cocoon-poi-impl`, not
+  a bump: `CELL_TYPE_*` int constants became the `CellType` enum, and border and colour shorts
+  became `BorderStyle` and `IndexedColors`. The deprecated `hssf.util.CellRangeAddress` that POI
+  5 removes has already been swapped for `ss.util.CellRangeAddress` here, which shortens that
+  migration by four files.
+- **`daisy-htmlcleaner` 1.4.1** is the last release of a dead project. Replacing it means
+  replacing `HtmlCleaningConvertor`, which nothing in this fork tests or samples.
+- **`nekodtd` 0.1.11** has no newer release under any coordinate.
+- `htmlunit` 1.14 in `cocoon-it-fw` drags in `rhino:js:1.6R7` and `nekohtml:0.9.5`. It is
+  **test scope**, so neither reaches the shipped war — verified by inspecting its contents — but
+  it is why a dependency scan of the build still reports them.
 
 ### Watch for duplicate packages under different coordinates
 

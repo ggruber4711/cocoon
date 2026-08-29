@@ -114,6 +114,14 @@
       <artifactId>daisy-htmlcleaner</artifactId>
     </dependency>
     <dependency>
+      <!-- daisy-htmlcleaner needs a NekoHTML parser, and the copy it declares
+           (nekohtml:nekohtml) is excluded in the root POM because that coordinate is
+           abandoned at an old version. Requesting the maintained coordinate here keeps
+           exactly one org.cyberneko implementation on the classpath. -->
+      <groupId>net.sourceforge.nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.ibm.icu</groupId>
       <artifactId>icu4j</artifactId>
     </dependency>

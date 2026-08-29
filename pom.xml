@@ -1361,10 +1361,19 @@
         <artifactId>commons-logging-api</artifactId>
         <version>1.1</version>
       </dependency>
+      <!-- The last release; the Daisy project is long dead. It is what drags in the
+           abandoned nekohtml coordinate, which is excluded here so the maintained
+           net.sourceforge.nekohtml above is the only org.cyberneko on the classpath. -->
       <dependency>
         <groupId>org.outerj.daisy</groupId>
         <artifactId>daisy-htmlcleaner</artifactId>
         <version>1.4.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>dom4j</groupId>
@@ -2137,7 +2146,7 @@
       <dependency>
         <groupId>org.mozilla</groupId>
         <artifactId>rhino</artifactId>
-        <version>1.7R5</version>
+        <version>1.7.15</version>
       </dependency>
       <dependency>
         <groupId>jtidy</groupId>
@@ -2226,10 +2235,14 @@
         <artifactId>nekodtd</artifactId>
         <version>0.1.11</version>
       </dependency>
+      <!-- nekohtml moved coordinates: nekohtml:nekohtml is abandoned at 1.9.6, while
+           net.sourceforge.nekohtml:nekohtml is the maintained line. Both ship org.cyberneko
+           classes (58 against 69), so the old one has to be excluded where it is dragged in,
+           not merely out-versioned; see daisy-htmlcleaner below. -->
       <dependency>
-        <groupId>nekohtml</groupId>
+        <groupId>net.sourceforge.nekohtml</groupId>
         <artifactId>nekohtml</artifactId>
-        <version>1.9.6</version>
+        <version>1.9.22</version>
       </dependency>
       <dependency>
         <groupId>oro</groupId>
@@ -2413,7 +2426,16 @@
       <dependency>
         <groupId>xalan</groupId>
         <artifactId>xalan</artifactId>
-        <version>2.7.2</version>
+        <!-- 2.7.3 fixes CVE-2022-34169, integer truncation in the XSLTC compiler. -->
+        <version>2.7.3</version>
+      </dependency>
+      <!-- xalan 2.7.2 pulled serializer in transitively; the 2.7.3 POM declares no
+           dependencies at all, so it has to be requested explicitly or Xalan fails at runtime
+           with NoClassDefFoundError on OutputPropertiesFactory. -->
+      <dependency>
+        <groupId>xalan</groupId>
+        <artifactId>serializer</artifactId>
+        <version>2.7.3</version>
       </dependency>
       <dependency>
         <groupId>xmlbeans</groupId>

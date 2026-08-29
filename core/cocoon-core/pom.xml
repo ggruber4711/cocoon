@@ -203,6 +203,11 @@
       <artifactId>xalan</artifactId>
     </dependency>
     <dependency>
+      <!-- No longer transitive via xalan as of 2.7.3. -->
+      <groupId>xalan</groupId>
+      <artifactId>serializer</artifactId>
+    </dependency>
+    <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
     </dependency>
