@@ -23,7 +23,7 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <!-- The context object of the current base call frame -->
-    <bean name="javax.servlet.ServletContext/baseframe"
+    <bean name="jakarta.servlet.ServletContext/baseframe"
       class="org.apache.cocoon.servletservice.spring.BaseServletContextFactoryBean" scope="call">
       <aop:scoped-proxy proxy-target-class="false" />
     </bean>

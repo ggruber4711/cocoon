@@ -45,7 +45,7 @@
     <bean name="org.apache.cocoon.portal.PortalService/abstract"
           class="org.apache.cocoon.portal.impl.PortalServiceImpl"
           abstract="true" destroy-method="dispose">
-      <property name="servletContext" ref="javax.servlet.ServletContext"/>
+      <property name="servletContext" ref="jakarta.servlet.ServletContext"/>
     </bean>
 
   <!--+

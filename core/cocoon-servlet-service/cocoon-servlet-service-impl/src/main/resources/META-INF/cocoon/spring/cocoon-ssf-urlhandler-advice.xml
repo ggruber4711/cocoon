@@ -28,7 +28,7 @@
   <aop:config>
     <aop:aspect id="installURL" ref="org.apache.cocoon.jnet.URLHandlerFactoryCollector">
       <aop:pointcut id="servletServiceInvocation"
-        expression="execution(* javax.servlet.Servlet.service(..)) and bean(*/embedded)" />
+        expression="execution(* jakarta.servlet.Servlet.service(..)) and bean(*/embedded)" />
 
       <aop:around pointcut-ref="servletServiceInvocation" method="installURLHandlers" />
     </aop:aspect>

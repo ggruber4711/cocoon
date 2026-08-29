@@ -22,6 +22,6 @@
 <beans>
   <bean name="org.apache.cocoon.processing.ProcessInfoProvider"
         class="org.apache.cocoon.processing.impl.ProcessInfoProviderImpl">
-    <property name="servletContext" ref="javax.servlet.ServletContext"/>
+    <property name="servletContext" ref="jakarta.servlet.ServletContext"/>
   </bean>
 </beans>

@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.spring.configurator.impl;
 
+import jakarta.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -194,7 +195,7 @@ public class SettingsBeanFactoryPostProcessor extends AbstractSettingsBeanFactor
             File workDir;
             // fill from the servlet context
             if (this.servletContext != null) {
-                workDir = (File) this.servletContext.getAttribute("javax.servlet.context.tempdir");
+                workDir = (File) this.servletContext.getAttribute(ServletContext.TEMPDIR);
             } else {
                 workDir = new File("cocoon-files");
             }

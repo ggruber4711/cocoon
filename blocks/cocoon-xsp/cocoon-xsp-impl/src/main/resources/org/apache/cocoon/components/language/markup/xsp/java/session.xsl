@@ -33,7 +33,7 @@
       <xsl:apply-templates select="@*"/>
 
       <xsp:structure>
-        <xsp:include>javax.servlet.http.HttpSession</xsp:include>
+        <xsp:include>jakarta.servlet.http.HttpSession</xsp:include>
       </xsp:structure>
 
       <xsl:variable name="create">

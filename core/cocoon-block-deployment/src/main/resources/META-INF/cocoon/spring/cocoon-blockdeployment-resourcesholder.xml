@@ -24,13 +24,13 @@
 
   <bean name="org.apache.cocoon.blockdeployment.BlockResourcesHolder"
     class="org.apache.cocoon.blockdeployment.DefaultBlockResourcesHolder">
-    <property name="servletContext" ref="javax.servlet.ServletContext"/>
+    <property name="servletContext" ref="jakarta.servlet.ServletContext"/>
   </bean>
   
   <!-- This bean is deprecated and is kept for back-compatiblity with Cocoon Core 2.2 -->
   <bean name="org.apache.cocoon.spring.configurator.BlockResourcesHolder"
     class="org.apache.cocoon.blockdeployment.DefaultBlockResourcesHolder">
-    <property name="servletContext" ref="javax.servlet.ServletContext"/>
+    <property name="servletContext" ref="jakarta.servlet.ServletContext"/>
   </bean>
 
 </beans>

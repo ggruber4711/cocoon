@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://cocoon.apache.org/schema/configurator http://cocoon.apache.org/schema/configurator/cocoon-configurator-1.0.1.xsd">
 
-    <configurator:bean-map id="org.apache.cocoon.servletservice.spring.BlockServletMap" type="javax.servlet.Servlet"
+    <configurator:bean-map id="org.apache.cocoon.servletservice.spring.BlockServletMap" type="jakarta.servlet.Servlet"
       has-properties="mountPath" key-property="mountPath" />
 
 </beans>

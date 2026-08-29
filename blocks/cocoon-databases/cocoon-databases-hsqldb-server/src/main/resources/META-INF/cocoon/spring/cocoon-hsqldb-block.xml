@@ -35,7 +35,7 @@
   <bean name="org.apache.cocoon.components.hsqldb.Server"
         class="org.apache.cocoon.components.hsqldb.ServerImpl"
         scope="singleton" init-method="init" destroy-method="destroy">
-    <property name="servletContext" ref="javax.servlet.ServletContext"/>
+    <property name="servletContext" ref="jakarta.servlet.ServletContext"/>
     <property name="runnableManager" ref="org.apache.cocoon.thread.RunnableManager"/>
     <property name="port" value="${org.apache.cocoon.hsqldb.server.port}"/>
     <property name="silent" value="true"/>

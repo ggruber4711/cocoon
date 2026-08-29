@@ -48,7 +48,7 @@ public class BlockDeploymentServletContextListener implements ServletContextList
     }
 
     private File getWorkdir(ServletContext servletContext) {
-        File workdir = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        File workdir = (File) servletContext.getAttribute(ServletContext.TEMPDIR);
         if (workdir == null) {
             workdir = new File("cocoon-files");
         }

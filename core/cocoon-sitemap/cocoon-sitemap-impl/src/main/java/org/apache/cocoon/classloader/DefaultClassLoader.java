@@ -57,8 +57,15 @@ public class DefaultClassLoader extends URLClassLoader {
     }
 
     protected boolean tryClassHere(String name) {
-        // don't include classes in the java or javax.servlet package
-        if ( name != null && (name.startsWith("java.") || name.startsWith("javax.servlet") ) ) {
+        // Never load the JDK or the servlet API here: these must come from the parent
+        // loader, or a reloaded block would see a second copy of, say,
+        // jakarta.servlet.http.HttpServletRequest and fail with a ClassCastException
+        // against the instance the container handed us.
+        // javax.servlet is still listed so that a container or a consumer that has not
+        // finished its own Jakarta migration keeps the same protection.
+        if ( name != null && (name.startsWith("java.")
+                              || name.startsWith("jakarta.servlet")
+                              || name.startsWith("javax.servlet") ) ) {
             return false;
         }
         // Scan includes, then excludes
