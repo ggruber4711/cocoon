@@ -155,6 +155,17 @@
       <artifactId>xmlunit</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!--
+      The integration tests reference the servlet API directly. It used to arrive
+      transitively via cocoon-it-fw's Jetty 6 servlet-api-2.5; that is gone, and
+      relying on it was how a Servlet 2.5 API ended up on this classpath.
+    -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <profiles>

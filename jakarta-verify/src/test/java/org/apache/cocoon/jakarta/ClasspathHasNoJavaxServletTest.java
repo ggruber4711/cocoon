@@ -155,6 +155,11 @@ public class ClasspathHasNoJavaxServletTest extends TestCase {
                 if (!name.endsWith(".class")) {
                     continue;
                 }
+                // lookingAt() anchors at position 0, which is the point: only a class at
+                // the root of the jar is actually on the classpath. ehcache, for one,
+                // ships a whole servlet stack under "rest-management-private-classpath/"
+                // precisely so that it is not visible to the normal class loader. Matching
+                // anywhere in the entry name would flag that as a collision when it is not.
                 Matcher m = RENAMED_EE_PACKAGE.matcher(name);
                 if (m.lookingAt()) {
                     found.add(m.group());

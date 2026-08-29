@@ -1,8 +1,12 @@
 # Cocoon → Jakarta EE 10: fork plan for webdesk
 
-> **Status:** approved, not yet started.
-> **Written:** 2026-08-29 · **Basis:** `chore/spring6-jakarta-pass1` @ `390a2f2ba4` (+ uncommitted working tree)
+> **Status:** Phases 0-4 implemented on `feature/jakarta-ee10-fork`. Phase 5 not started.
+> **Written:** 2026-08-29 · **Basis:** `chore/spring6-jakarta-pass1` @ `390a2f2ba4`
 > **Consumer:** `webdesk` @ `master-hotfix`
+>
+> Current state: 79 modules, `BUILD SUCCESS`, 316 tests, 0 failures on JDK 17 against
+> `jakarta.servlet-api` 6.0.0. With `-P samples`, 102 modules. See **Implementation notes**
+> at the end for where reality diverged from this plan.
 
 ---
 
@@ -350,3 +354,91 @@ the existing webdesk Jetty dev target.
 - **`cocoon-maven-plugin` is a separate repo** on its own release cadence — coordinate the two releases.
 - **Quarantined blocks rot.** Once out of the reactor they stop compiling entirely. That is accepted,
   but record it in the fork's README so nobody expects `-P legacy-blocks` to work.
+
+
+---
+
+## 8. Implementation notes (written after Phases 0-4)
+
+What the plan got wrong or missed, recorded so the remaining phases are planned against
+reality rather than against section 3.
+
+### The baseline measurement was contaminated
+
+The "186 success / 34 failure" figure in section 2 came from a build without `clean`.
+`target/classes` held Eclipse-compiled classes from a `mvn eclipse:eclipse` run months
+earlier, and Maven packaged them because they were newer than the sources. Those jars
+carried ECJ's `Unresolved compilation problems` markers and broke downstream modules with
+errors that looked exactly like Jakarta breakage (`cannot access ContentHandler`) but were
+not. Two of the 34 "failures" — including the `cocoon-serializers-charsets` OSGi failure
+written up as Gap F — evaporated on a clean build.
+
+`.classpath`, `.project`, `.settings/` and `.DS_Store` are now git-ignored, and **every
+gate must run `clean`**.
+
+Related: `-Dmaven.test.skip=true` cannot be used at all. It skips test-jar creation, and
+several modules — plus webdesk — depend on `cocoon-*:test-jar`. Use `-DskipTests`.
+
+### Scope corrections
+
+- `cocoon-linkrewriter-impl` is a compile dependency of `cocoon-servlet-service-components`
+  and had to come back into the default reactor. Section 2 had it out.
+- `core/cocoon-blocks-fw` turned out to be referenced only by `dists`, so it was
+  quarantined. That removes `BlockCallHttpServletRequest`, `BlockCallHttpServletResponse`
+  and one of the two `ServletContextWrapper`s from the work in section 4 — a real
+  reduction against what that table lists.
+- The `legacy-blocks` profile does not build, and did not before this work either:
+  `cocoon-portal-portlet-newimpl` and `-wsrp-impl` still declare a `2.3.0-SNAPSHOT`
+  parent that no longer exists. Quarantine, as agreed, is not preservation.
+
+### Phase 4 findings
+
+- **The transformer silently does nothing without `jakartaDefaults`.**
+  `transformer-maven-plugin` runs, logs success, and copies the jar through unchanged
+  unless `<rules><jakartaDefaults>true</jakartaDefaults></rules>` is set. The first
+  build "passed" with completely untransformed jars. Always verify the output.
+- **Only `axis-1.4` should be transformed.** `axis-jaxrpc` and `axis-saaj` are spec APIs;
+  transforming them would put a second copy of a spec package next to the genuine one.
+  They are replaced by `jakarta.xml.rpc-api` and `jakarta.xml.soap-api`.
+- **JAX-RPC keeps its javax packages.** `jakarta.xml.rpc:jakarta.xml.rpc-api` renamed only
+  the Maven coordinates; the spec was dropped from Jakarta EE and never got a package
+  rename. `javax.xml.rpc` on the classpath is correct. This validates the coordinate
+  webdesk already pins (1.1.4).
+- **But that artifact still needed a shim.** Three of its classes reach into APIs that
+  *were* renamed (`ServletEndpointContext`, `SOAPMessageContext`, `SOAPFaultException`)
+  and would be `NoClassDefFoundError` on an EE 10 classpath. `jaxrpc-api-jakarta` fixes
+  exactly that while preserving `javax.xml.rpc`.
+- **`javax.annotation` cannot be matched by package.** The name is shared between Jakarta
+  Annotations (renamed) and JSR-305 / `javax.annotation.processing` (not renamed). Spring
+  and Micrometer reference the latter legitimately. Match by type name.
+- **ehcache is a false positive.** It ships a servlet stack under
+  `rest-management-private-classpath/`, deliberately off the classpath.
+
+### Bugs found that predate the migration
+
+- `ServletServiceRequest.Session.removeAttribute()` delegated to `removeValue()`, which
+  delegated back. Any session-attribute removal inside a servlet-service call was an
+  unbounded recursion that removed nothing. Fixed, with a regression test.
+- `tools/cocoon-it-fw` put Jetty 6 and `servlet-api-2.5` on `cocoon-webapp`'s classpath.
+  Retired; integration tests use `jetty-ee10-maven-plugin`.
+
+### Deviations from the phase plan
+
+- Phase 2 step 14 (the IT harness) was done as part of Phase 4, since removing Jetty 6 is
+  what the classpath scan demanded.
+- Phase 2 step 15 (`tools/cocoon-rcl`) is **not done**. It is still absent from
+  `tools/pom.xml`, so `cocoon-rcl-webapp-wrapper` and `cocoon-rcl-spring-reloader` are
+  still only available as 2.2-era javax builds. This belongs with Phase 5, next to the
+  `cocoon-maven-plugin` re-release, because the two are used together.
+- `core/cocoon-webapp` was kept buildable under `-P samples` rather than quarantined as
+  section 2 said, because the plan's own runtime checkpoint needs it.
+
+### State of the runtime checkpoint
+
+The webapp deploys on Jetty 12 EE 10 and Spring's root context initialises with no
+`NoSuchBeanDefinitionException`, no `javax.servlet` reference and no linkage error — so
+the namespace work is complete as far as startup goes. It cannot yet serve a request:
+`core/cocoon-webapp` has no root `sitemap.xmap`, because that is assembled by
+`cocoon-maven-plugin`, which is a separate repository and unconfigured here. See
+`jakarta-verify/BOOT-SMOKE-TEST.md`. Serving a request is a Phase 5 checkpoint, not a
+Phase 3 one.
