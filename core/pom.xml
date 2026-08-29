@@ -34,7 +34,6 @@
 
   <modules>
     <module>cocoon-block-deployment</module>
-    <module>cocoon-blocks-fw</module>
     <module>cocoon-configuration-api</module>
     <module>cocoon-container</module>
     <module>cocoon-core</module>
@@ -47,9 +46,29 @@
     <module>cocoon-store</module>
     <module>cocoon-thread</module>
     <module>cocoon-util</module>
-    <module>cocoon-webapp</module>
     <module>cocoon-xml</module>
   </modules>
+
+  <profiles>
+    <!-- The demo webapp, used to verify the migrated stack actually boots in a container. -->
+    <profile>
+      <id>samples</id>
+      <modules>
+        <module>cocoon-webapp</module>
+      </modules>
+    </profile>
+
+    <!--
+      Quarantined: the blocks framework is superseded by cocoon-servlet-service and is not
+      part of the webdesk-facing artifact set. NOT MIGRATED and NOT BUILDABLE.
+    -->
+    <profile>
+      <id>legacy-blocks</id>
+      <modules>
+        <module>cocoon-blocks-fw</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <reporting>
     <plugins>

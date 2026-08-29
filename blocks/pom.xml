@@ -101,67 +101,81 @@
     </plugins>
   </build>
 
+  <!--
+    Default reactor = the Jakarta-migrated artifact set consumed by webdesk.
+    Everything else lives in a profile; see plans/jakarta-ee10-fork.md section 2.
+  -->
   <modules>
     <module>cocoon-ajax</module>
     <module>cocoon-apples</module>
-    <module>cocoon-core-sample</module>
-    <module>cocoon-flowscript</module>
-    <module>cocoon-forms</module>
-    <module>cocoon-it</module>
-    <module>cocoon-linkrewriter</module>
-    <module>cocoon-template</module>
-    <module>cocoon-samples-style</module>
+    <module>cocoon-auth</module>
     <module>cocoon-batik</module>
-    <module>cocoon-welcome</module>
+    <module>cocoon-flowscript</module>
+    <module>cocoon-fop</module>
+    <module>cocoon-forms</module>
+    <module>cocoon-linkrewriter</module>
+    <module>cocoon-mail</module>
+    <module>cocoon-poi</module>
+    <module>cocoon-serializers</module>
+    <module>cocoon-template</module>
   </modules>
 
   <profiles>
+    <!--
+      The Axis/SOAP block. webdesk depends on cocoon-axis-impl, but Axis 1.4 and its
+      JAX-RPC/SAAJ companions are compiled against javax.*, so the block cannot build
+      against jakarta.servlet until those jars are run through Eclipse Transformer.
+      Enabled by default again in Phase 4 of plans/jakarta-ee10-fork.md.
+    -->
     <profile>
-      <id>eventcache-jms</id>
+      <id>axis</id>
       <modules>
-        <module>cocoon-eventcache</module>
-        <module>cocoon-jms</module>
+        <module>cocoon-axis</module>
       </modules>
     </profile>
 
+    <!-- Sample/demo blocks required to assemble core/cocoon-webapp for runtime verification. -->
     <profile>
-      <id>allblocks</id>
-      <activation>
-        <property>
-          <name>allblocks</name>
-        </property>
-      </activation>
+      <id>samples</id>
+      <modules>
+        <module>cocoon-core-sample</module>
+        <module>cocoon-it</module>
+        <module>cocoon-samples-style</module>
+        <module>cocoon-welcome</module>
+      </modules>
+    </profile>
+
+    <!--
+      Quarantined blocks. NOT MIGRATED and NOT BUILDABLE: they are retained for reference
+      only. Several are permanently stuck on javax (javax.portlet has no Jakarta equivalent,
+      JAX-RPC and JDO were never part of Jakarta EE). Do not expect -P legacy-blocks to work.
+    -->
+    <profile>
+      <id>legacy-blocks</id>
       <modules>
         <module>cocoon-asciiart</module>
-        <module>cocoon-auth</module>
         <module>cocoon-authentication-fw</module>
-        <!-- Legacy (javax-only) moved to legacy-blocks profile: cocoon-axis -->
         <module>cocoon-bsf</module>
         <module>cocoon-captcha</module>
-        <!--module>cocoon-chaperon</module-->
+        <module>cocoon-chaperon</module>
         <module>cocoon-cron</module>
         <module>cocoon-databases</module>
-        <!--module>cocoon-deli</module-->
+        <module>cocoon-deli</module>
         <module>cocoon-eventcache</module>
         <module>cocoon-faces</module>
-        <module>cocoon-fop</module>
         <module>cocoon-html</module>
-        <!-- The resize operation seems to fail -->
-        <!--module>cocoon-imageop</module-->
+        <module>cocoon-imageop</module>
         <module>cocoon-itext</module>
-        <!-- Excluded: Javaflow block is not maintained and pulls unavailable artifacts -->
-        <!--module>cocoon-javaflow</module-->
+        <module>cocoon-javaflow</module>
         <module>cocoon-jcr</module>
         <module>cocoon-jfor</module>
         <module>cocoon-jms</module>
         <module>cocoon-jsp</module>
         <module>cocoon-lucene</module>
-        <module>cocoon-mail</module>
         <module>cocoon-midi</module>
         <module>cocoon-naming</module>
-        <!-- Legacy (javax-only) moved to legacy-blocks profile: cocoon-ojb -->
+        <module>cocoon-ojb</module>
         <module>cocoon-petstore</module>
-        <module>cocoon-poi</module>
         <module>cocoon-portal</module>
         <module>cocoon-profiler</module>
         <module>cocoon-proxy</module>
@@ -170,7 +184,6 @@
         <module>cocoon-querybean</module>
         <module>cocoon-repository</module>
         <module>cocoon-scratchpad</module>
-        <module>cocoon-serializers</module>
         <module>cocoon-session-fw</module>
         <module>cocoon-slide</module>
         <module>cocoon-slop</module>
@@ -181,20 +194,8 @@
         <module>cocoon-velocity</module>
         <module>cocoon-web3</module>
         <module>cocoon-webdav</module>
-        <!--module>cocoon-xmldb</module-->
+        <module>cocoon-xmldb</module>
         <module>cocoon-xsp</module>
-      </modules>
-    </profile>
-
-    <profile>
-      <id>legacy-blocks</id>
-      <modules>
-        <module>cocoon-axis</module>
-        <module>cocoon-ojb</module>
-        <!-- javax.portlet-based modules kept separate to ease Jakarta migration -->
-        <module>cocoon-portal/cocoon-portal-portlet-impl</module>
-        <module>cocoon-portal/cocoon-portal-portlet-newimpl</module>
-        <module>cocoon-portal/cocoon-portal-wsrp-impl</module>
       </modules>
     </profile>
   </profiles>

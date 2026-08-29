@@ -26,10 +26,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import java.util.EventListener;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionCookieConfig;
+import jakarta.servlet.SessionTrackingMode;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 import org.apache.cocoon.environment.Context;
 
@@ -212,5 +220,169 @@ public abstract class AbstractContext
      */
     public Map getAttributes() {
 	    return new ContextMap(this);
+    }
+
+    // Servlet 4.0 additions. Cocoon's Context abstractions are read-only views over a
+    // container context, so the mutating ones are not supported; the getters report
+    // "unset" rather than throwing, which is what callers expect.
+
+    public String getVirtualServerName() {
+        return null;
+    }
+
+    public jakarta.servlet.ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int getSessionTimeout() {
+        return 0;
+    }
+
+    public void setSessionTimeout(int sessionTimeout) {
+        throw new UnsupportedOperationException();
+    }
+
+    public String getRequestCharacterEncoding() {
+        return null;
+    }
+
+    public void setRequestCharacterEncoding(String encoding) {
+        throw new UnsupportedOperationException();
+    }
+
+    public String getResponseCharacterEncoding() {
+        return null;
+    }
+
+    public void setResponseCharacterEncoding(String encoding) {
+        throw new UnsupportedOperationException();
+    }
+
+    // ------------------------------------------------------------------------
+    // Servlet 3.0 / 3.1 surface.
+    //
+    // Cocoon's Context implementations are read-only adapters over a container
+    // context (or a synthetic one, as in the CLI and background environments).
+    // They cannot register servlets, filters or listeners, so the programmatic
+    // registration API is unsupported; the accessors report "nothing configured"
+    // instead of throwing, so that generic callers can probe safely.
+    //
+    // These live here rather than in each concrete subclass so that adding a
+    // method to the servlet spec is a one-file change. See section 3.3 of
+    // plans/jakarta-ee10-fork.md.
+    // ------------------------------------------------------------------------
+
+    public String getContextPath() {
+        return null;
+    }
+
+    public int getEffectiveMajorVersion() {
+        return getMajorVersion();
+    }
+
+    public int getEffectiveMinorVersion() {
+        return getMinorVersion();
+    }
+
+    public boolean setInitParameter(String name, String value) {
+        return false;
+    }
+
+    public ClassLoader getClassLoader() {
+        return getClass().getClassLoader();
+    }
+
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return null;
+    }
+
+    public void log(String message) {
+    }
+
+    public void log(String message, Throwable throwable) {
+    }
+
+    public ServletRegistration.Dynamic addServlet(String servletName, String className) {
+        throw new UnsupportedOperationException();
+    }
+
+    public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
+        throw new UnsupportedOperationException();
+    }
+
+    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException();
+    }
+
+    public ServletRegistration getServletRegistration(String servletName) {
+        return null;
+    }
+
+    public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+        return Collections.emptyMap();
+    }
+
+    public FilterRegistration.Dynamic addFilter(String filterName, String className) {
+        throw new UnsupportedOperationException();
+    }
+
+    public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+        throw new UnsupportedOperationException();
+    }
+
+    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    public <T extends Filter> T createFilter(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException();
+    }
+
+    public FilterRegistration getFilterRegistration(String filterName) {
+        return null;
+    }
+
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+        return Collections.emptyMap();
+    }
+
+    public void addListener(String className) {
+        throw new UnsupportedOperationException();
+    }
+
+    public <T extends EventListener> void addListener(T listener) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void addListener(Class<? extends EventListener> listenerClass) {
+        throw new UnsupportedOperationException();
+    }
+
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+        throw new UnsupportedOperationException();
+    }
+
+    public SessionCookieConfig getSessionCookieConfig() {
+        return null;
+    }
+
+    public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+        return Collections.emptySet();
+    }
+
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+        return Collections.emptySet();
+    }
+
+    public void declareRoles(String... roleNames) {
+        throw new UnsupportedOperationException();
     }
 }

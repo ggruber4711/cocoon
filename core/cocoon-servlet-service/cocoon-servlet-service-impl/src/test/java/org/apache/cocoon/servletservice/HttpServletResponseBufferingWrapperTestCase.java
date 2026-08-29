@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
@@ -201,7 +202,17 @@ public class HttpServletResponseBufferingWrapperTestCase extends TestCase {
         public void write(int arg0) throws IOException {
             counter++;
         }
-        
+
+        /** Servlet 3.1: this stream is always writable, it only counts. */
+        public boolean isReady() {
+            return true;
+        }
+
+        /** Servlet 3.1: non-blocking IO is not used by this test. */
+        public void setWriteListener(WriteListener writeListener) {
+            throw new UnsupportedOperationException();
+        }
+
         public int getCounter() {
             return counter;
         }

@@ -167,6 +167,34 @@ public final class HttpContext extends AbstractContext {
         return this.servletContext.getJspConfigDescriptor();
     }
 
+    public void setResponseCharacterEncoding(String encoding) {
+        this.servletContext.setResponseCharacterEncoding(encoding);
+    }
+
+    public int getSessionTimeout() {
+        return this.servletContext.getSessionTimeout();
+    }
+
+    public void setSessionTimeout(int sessionTimeout) {
+        this.servletContext.setSessionTimeout(sessionTimeout);
+    }
+
+    public jakarta.servlet.ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
+        return this.servletContext.addJspFile(servletName, jspFile);
+    }
+
+    public String getResponseCharacterEncoding() {
+        return this.servletContext.getResponseCharacterEncoding();
+    }
+
+    public void setRequestCharacterEncoding(String encoding) {
+        this.servletContext.setRequestCharacterEncoding(encoding);
+    }
+
+    public String getRequestCharacterEncoding() {
+        return this.servletContext.getRequestCharacterEncoding();
+    }
+
     public <T extends EventListener> T createListener(Class<T> c) throws ServletException {
         return this.servletContext.createListener(c);
     }

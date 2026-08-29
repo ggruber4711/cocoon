@@ -47,8 +47,8 @@
       <!-- http://svn.apache.org/repos/asf/cocoon/branches/BRANCH_2_1_X/lib/optional/deli-x050330.jar -->
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>

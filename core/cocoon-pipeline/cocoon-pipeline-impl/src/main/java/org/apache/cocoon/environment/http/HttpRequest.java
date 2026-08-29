@@ -520,11 +520,10 @@ public final class HttpRequest extends AbstractRequest {
     }
 
     /**
-     * @deprecated As of Version 2.1 of the Java Servlet API, use
-     * {@link jakarta.servlet.ServletContext#getRealPath(java.lang.String)}instead.
+     * @deprecated As of Servlet 2.1, use ServletContext#getRealPath instead.
      */
     public String getRealPath(String path) {
-        return this.req.getRealPath(path);
+        return null;
     }
 
     /**

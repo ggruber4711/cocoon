@@ -19,6 +19,7 @@ package org.apache.cocoon.environment.http;
 import java.util.Enumeration;
 
 import org.apache.cocoon.environment.Session;
+import jakarta.servlet.http.HttpSessionContext;
 import org.apache.cocoon.environment.impl.AbstractSession;
 
 /**
@@ -227,6 +228,24 @@ extends AbstractSession {
         this.wrappedSession.removeAttribute(name);
     }
 
+    // Deprecated HttpSession value APIs retained for compatibility
+    public Object getValue(String name) {
+        return this.wrappedSession.getAttribute(name);
+    }
+
+    public String[] getValueNames() {
+        java.util.List<String> names = java.util.Collections.list(this.wrappedSession.getAttributeNames());
+        return names.toArray(new String[0]);
+    }
+
+    public void putValue(String name, Object value) {
+        this.wrappedSession.setAttribute(name, value);
+    }
+
+    public void removeValue(String name) {
+        this.wrappedSession.removeAttribute(name);
+    }
+
     /**
      *
      * Invalidates this session
@@ -260,5 +279,9 @@ extends AbstractSession {
         return this.wrappedSession.isNew();
     }
 
-}
+    public HttpSessionContext getSessionContext() {
+        // Deprecated API; return null per spec guidance
+        return null;
+    }
 
+}

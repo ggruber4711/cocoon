@@ -35,9 +35,18 @@
 
   <modules>
     <module>cocoon-fop-impl</module>
-    <module>cocoon-fop-ng-impl</module>
-    <module>cocoon-fop-ng-sample</module>
-    <module>cocoon-fop-sample</module>
   </modules>
+
+  <profiles>
+    <!-- Samples and demo modules: not part of the webdesk-facing artifact set. -->
+    <profile>
+      <id>samples</id>
+      <modules>
+        <module>cocoon-fop-ng-impl</module>
+        <module>cocoon-fop-ng-sample</module>
+        <module>cocoon-fop-sample</module>
+      </modules>
+    </profile>
+  </profiles>
 
 </project>

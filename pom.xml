@@ -1278,6 +1278,9 @@
     <slf4j.version>2.0.6</slf4j.version>
     <!-- Spring 6 baseline for Jakarta Servlet 5 and JDK 17 -->
     <spring.version>6.1.10</spring.version>
+    <jakarta.servlet.version>5.0.0</jakarta.servlet.version>
+    <jakarta.mail.version>2.0.1</jakarta.mail.version>
+    <jakarta.activation.version>2.0.1</jakarta.activation.version>
     <logback.version>1.4.5</logback.version>
     <exlipse.jdt.version>3.33.0</exlipse.jdt.version>
   </properties>
@@ -1287,7 +1290,6 @@
     <module>blocks</module>
     <module>commons</module>
     <module>core</module>
-    <module>dists</module>
   </modules>
 
   <dependencyManagement>
@@ -1365,11 +1367,6 @@
         <groupId>org.apache.maven.reporting</groupId>
         <artifactId>maven-reporting-impl</artifactId>
         <version>2.0.2</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jstl</artifactId>
-        <version>1.2</version>
       </dependency>
       <dependency>
         <groupId>jaxen</groupId>
@@ -2112,11 +2109,6 @@
         <version>1.6R7</version>
       </dependency>
       <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>jsp-api</artifactId>
-        <version>2.0</version>
-      </dependency>
-      <dependency>
         <groupId>jtidy</groupId>
         <artifactId>jtidy</artifactId>
         <version>4aug2000r7-dev</version>
@@ -2142,10 +2134,19 @@
         <!-- TODO: 9.x.x is current (API Change with 3.0.0) -->
         <version>2.9.4</version>
       </dependency>
+      <!--
+        Jakarta Mail. API only: consumers (webdesk) supply the implementation
+        (com.sun.mail:jakarta.mail for EE 9, org.eclipse.angus:angus-mail for EE 10).
+      -->
       <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.7</version>
+        <groupId>jakarta.mail</groupId>
+        <artifactId>jakarta.mail-api</artifactId>
+        <version>${jakarta.mail.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.activation</groupId>
+        <artifactId>jakarta.activation-api</artifactId>
+        <version>${jakarta.activation.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -2244,13 +2245,7 @@
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
-        <version>6.1.0</version>
-      </dependency>
-      <!-- Temporary: keep javax.servlet-api management until rewrite migration updates module POMs -->
-      <dependency>
-        <groupId>jakarta.servlet</groupId>
-        <artifactId>jakarta.servlet-api</artifactId>
-        <version>6.1.0</version>
+        <version>${jakarta.servlet.version}</version>
       </dependency>
       <dependency>
         <groupId>slide</groupId>
@@ -2756,6 +2751,14 @@
   
 
   <profiles>
+    <!-- Distribution assemblies; only meaningful together with the sample blocks. -->
+    <profile>
+      <id>samples</id>
+      <modules>
+        <module>dists</module>
+      </modules>
+    </profile>
+
     <profile>
       <id>jakarta-migration</id>
       <build>

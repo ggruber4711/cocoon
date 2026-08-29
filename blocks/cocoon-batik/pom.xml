@@ -35,7 +35,16 @@
 
   <modules>
     <module>cocoon-batik-impl</module>
-    <module>cocoon-batik-sample</module>
   </modules>
+
+  <profiles>
+    <!-- Samples and demo modules: not part of the webdesk-facing artifact set. -->
+    <profile>
+      <id>samples</id>
+      <modules>
+        <module>cocoon-batik-sample</module>
+      </modules>
+    </profile>
+  </profiles>
 
 </project>

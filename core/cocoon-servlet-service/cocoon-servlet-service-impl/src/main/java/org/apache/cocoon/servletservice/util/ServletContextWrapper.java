@@ -176,4 +176,13 @@ public class ServletContextWrapper implements ServletContext {
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() { return this.servletContext.getEffectiveSessionTrackingModes(); }
     public void declareRoles(String... roleNames) { this.servletContext.declareRoles(roleNames); }
 
+    // Servlet 4.0 additions.
+    public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) { return this.servletContext.addJspFile(servletName, jspFile); }
+    public int getSessionTimeout() { return this.servletContext.getSessionTimeout(); }
+    public void setSessionTimeout(int sessionTimeout) { this.servletContext.setSessionTimeout(sessionTimeout); }
+    public String getRequestCharacterEncoding() { return this.servletContext.getRequestCharacterEncoding(); }
+    public void setRequestCharacterEncoding(String encoding) { this.servletContext.setRequestCharacterEncoding(encoding); }
+    public String getResponseCharacterEncoding() { return this.servletContext.getResponseCharacterEncoding(); }
+    public void setResponseCharacterEncoding(String encoding) { this.servletContext.setResponseCharacterEncoding(encoding); }
+
 }

@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.environment.impl;
 
+import java.util.Collections;
 import java.util.Map;
 
 import jakarta.servlet.ServletContext;
@@ -42,28 +43,33 @@ public abstract class AbstractSession
         throw new UnsupportedOperationException();
     }
 
+    // SERVLET5-SHIM: the members below were removed from HttpSession in Servlet 6.0.
+    // They are implemented here so that the whole AbstractSession hierarchy satisfies the
+    // Servlet 5.0 interface during the EE 9 checkpoint. Phase 3 of
+    // plans/jakarta-ee10-fork.md deletes every SERVLET5-SHIM block.
+
+    /** @deprecated removed in Servlet 6.0; always returns null, as the spec required since 2.1. */
     public HttpSessionContext getSessionContext() {
-        // TODO Deprecated method that was added when Session was made extending HttpSession, should it be implemented?
-        throw new UnsupportedOperationException();
+        return null;
     }
 
+    /** @deprecated removed in Servlet 6.0; use {@link #getAttribute(String)}. */
     public Object getValue(String name) {
-        // TODO Deprecated method that was added when Session was made extending HttpSession, should it be implemented?
-        throw new UnsupportedOperationException();
+        return getAttribute(name);
     }
 
+    /** @deprecated removed in Servlet 6.0; use {@link #getAttributeNames()}. */
     public String[] getValueNames() {
-        // TODO Deprecated method that was added when Session was made extending HttpSession, should it be implemented?
-        throw new UnsupportedOperationException();
+        return Collections.list(getAttributeNames()).toArray(new String[0]);
     }
 
+    /** @deprecated removed in Servlet 6.0; use {@link #setAttribute(String, Object)}. */
     public void putValue(String name, Object value) {
-        // TODO Deprecated method that was added when Session was made extending HttpSession, should it be implemented?
-        throw new UnsupportedOperationException();
+        setAttribute(name, value);
     }
 
+    /** @deprecated removed in Servlet 6.0; use {@link #removeAttribute(String)}. */
     public void removeValue(String name) {
-        // TODO Deprecated method that was added when Session was made extending HttpSession, should it be implemented?
-        throw new UnsupportedOperationException();
+        removeAttribute(name);
     }
 }
