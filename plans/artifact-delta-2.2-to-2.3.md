@@ -219,6 +219,48 @@ Note also that JEXL 3.3 introduced a sandboxing permissions model that restricts
 into JDK internals by default. That is a security improvement, but it is a behavioural change:
 templates that call unusual Java APIs should be exercised before the default is flipped.
 
-**Recommendation:** add `jexl3` as an additional language rather than upgrading in place. It is
-the only option that delivers the ternary without putting every existing JX template at risk, and
-it can be done independently of the Jakarta work.
+### Implemented
+
+`jexl3` now ships, registered alongside `jexl`, in `cocoon-expression-language-impl`:
+
+- `org.apache.cocoon.el.impl.jexl3.Jexl3Compiler` — builds one shared `JexlEngine`, configured
+  for JEXL 1 semantics, with `strict`, `silent`, `safe`, `lenientArithmetic`, `permissions` and
+  `cacheSize` exposed as bean properties.
+- `Jexl3Expression` — wraps `ObjectModel` in a JEXL 3 `JexlContext`, resolving one name at a
+  time instead of materialising the whole scoped map as JEXL 1 required.
+- `JSUberspect` — the Rhino support, ported from `JSIntrospector`. The reflection hack that
+  poked a private static field is gone; JEXL 3 accepts the uberspect as a builder argument.
+- `META-INF/cocoon/spring/Jexl3Compiler.xml` — registers
+  `org.apache.cocoon.el.ExpressionCompiler/jexl3`.
+
+21 tests cover it. The load-bearing ones are the parity suite, which runs the same expressions
+through both languages and fails on any disagreement, and `testApplicationBeansAreReachable`,
+which pins the permissions decision below.
+
+### The sandbox, and why the default is `unrestricted`
+
+JEXL 3.3 added a permissions model and made `JexlPermissions.RESTRICTED` the default. Measured
+against this tree, that default **denies method access on application classes**: a plain public
+`getName()` on a public class in a named package is refused, while `java.util.ArrayList.size()`
+is allowed.
+
+The failure mode is the dangerous kind. It does not throw — `person.name` simply evaluates to
+null, so `person.age > 30 ? 'senior' : 'junior'` quietly returns the wrong branch. JEXL 1 had no
+sandbox at all, so `UNRESTRICTED` is the faithful equivalent and is the default here.
+`permissions="restricted"` opts in, and there is a test asserting the sandbox really does bite
+when it is switched on, so the knob cannot rot.
+
+### Rhino
+
+An application embedding Cocoon commonly overrides Rhino: this tree builds against
+`rhino:js:1.6R7`, while a consuming application may use `org.mozilla:rhino:1.7R5`. The
+introspector is the one piece of Cocoon that touches the Rhino API directly, so this was checked
+rather than assumed. `JSUberspect` compiles against both versions to **byte-identical class
+files**, and all 21 tests pass under either.
+
+> **Note, and a third instance of the collision pattern above:** `rhino:js` and
+> `org.mozilla:rhino` are different Maven coordinates carrying the same `org.mozilla.javascript`
+> packages — 311 classes against 479. Maven cannot see the conflict. An application that
+> overrides Rhino must exclude `rhino:js` from the Cocoon dependencies, exactly as it must drop
+> `cocoon-commons-jexl`. This is the same trap as section C, and it is worth grepping for as a
+> class of problem rather than as two incidents.

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!--
+    Registers Commons JEXL 3 as the "jexl3" expression language, in addition to the JEXL 1
+    based "jexl" language defined in JexlCompiler.xml. Nothing switches over by registering
+    this: expression languages are selected per expression, and the default for JXTemplate is
+    jxpath. Existing ${...} and jexl: expressions keep using JEXL 1 until they are changed.
+
+    The main reason to use jexl3 is that JEXL 1 has no conditional operator - "a ? b : c" does
+    not parse, because '?' is not a token in its grammar.
+
+    The defaults below are chosen to match JEXL 1 semantics rather than JEXL 3 defaults; see
+    the javadoc on Jexl3Compiler for the measured differences. In particular "permissions" is
+    unrestricted, because JEXL 3.3's default sandbox denies access to application classes and
+    would silently turn ${bean.property} into null.
+  -->
+  <bean name="org.apache.cocoon.el.ExpressionCompiler/jexl3"
+        class="org.apache.cocoon.el.impl.jexl3.Jexl3Compiler">
+    <property name="strict" value="false"/>
+    <property name="silent" value="true"/>
+    <property name="safe" value="true"/>
+    <property name="lenientArithmetic" value="true"/>
+    <property name="permissions" value="unrestricted"/>
+  </bean>
+
+</beans>

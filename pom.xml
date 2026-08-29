@@ -1702,6 +1702,14 @@
         <artifactId>commons-jexl</artifactId>
         <version>1.1</version>
       </dependency>
+      <!-- JEXL 3 for the 'jexl3' expression language. It coexists with commons-jexl 1.1
+           above: different package (org.apache.commons.jexl3), so both can be on the
+           classpath and templates can migrate one at a time. -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-jexl3</artifactId>
+        <version>3.5.0</version>
+      </dependency>
       <dependency>
         <groupId>commons-jxpath</groupId>
         <artifactId>commons-jxpath</artifactId>

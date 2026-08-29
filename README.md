@@ -91,6 +91,20 @@ status is visible without reading a POM. Several can never move: `javax.portlet`
 Jakarta equivalent, and JAX-RPC and JDO were never part of Jakarta EE. See
 [legacy-blocks/README.md](legacy-blocks/README.md).
 
+### Expression languages
+
+JEXL 3 is available as the `jexl3` expression language, registered alongside the existing
+JEXL 1 based `jexl`. JEXL 1 has no conditional operator — `a ? b : c` does not parse, because
+`?` is not a token in its grammar — so conditionals had to be written as `<jx:choose>`. `jexl3`
+brings the ternary and `?:`.
+
+Nothing switches over automatically: expression languages are selected per expression and the
+JXTemplate default is JXPath, so existing templates keep using JEXL 1 until they are changed.
+The `jexl3` defaults are tuned to JEXL 1 semantics rather than JEXL 3's, including turning off
+the JEXL 3.3 sandbox, which otherwise denies access to application beans *silently*. The
+reasoning and the measurements are in
+[plans/artifact-delta-2.2-to-2.3.md](plans/artifact-delta-2.2-to-2.3.md).
+
 `jakarta-shims/` republishes third-party jars that have no Jakarta release, with the
 namespace rewritten by Eclipse Transformer — currently Apache Axis 1.4 and the JAX-RPC API.
 
