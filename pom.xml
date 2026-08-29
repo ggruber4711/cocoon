@@ -1278,9 +1278,10 @@
     <slf4j.version>2.0.6</slf4j.version>
     <!-- Spring 6 baseline for Jakarta Servlet 5 and JDK 17 -->
     <spring.version>6.1.10</spring.version>
-    <jakarta.servlet.version>5.0.0</jakarta.servlet.version>
-    <jakarta.mail.version>2.0.1</jakarta.mail.version>
-    <jakarta.activation.version>2.0.1</jakarta.activation.version>
+    <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+    <jetty.version>12.0.16</jetty.version>
+    <jakarta.mail.version>2.1.3</jakarta.mail.version>
+    <jakarta.activation.version>2.1.3</jakarta.activation.version>
     <logback.version>1.4.5</logback.version>
     <exlipse.jdt.version>3.33.0</exlipse.jdt.version>
   </properties>

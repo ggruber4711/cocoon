@@ -140,26 +140,8 @@ public final class HttpResponse extends AbstractResponse implements Response {
         this.res.setStatus(sc);
     }
 
-    /**
-     * @deprecated As of Servlet 2.1+, use encodeURL(String url) instead
-     */
-    public String encodeUrl(String url) {
-        return this.res.encodeURL(url);
-    }
 
-    /**
-     * @deprecated As of Servlet 2.1+, use encodeRedirectURL(String url) instead
-     */
-    public String encodeRedirectUrl(String url) {
-        return this.res.encodeRedirectURL(url);
-    }
 
-    /**
-     * @deprecated As of Servlet 2.1+, use setStatus(int) instead
-     */
-    public void setStatus(int sc, String sm) {
-        this.res.setStatus(sc);
-    }
 
     /* The ServletResponse interface methods */
 

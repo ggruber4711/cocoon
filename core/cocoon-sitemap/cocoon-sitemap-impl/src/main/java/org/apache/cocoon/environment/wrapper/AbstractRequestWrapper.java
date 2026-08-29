@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.environment.wrapper;
 
+import jakarta.servlet.ServletConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.Principal;
@@ -549,12 +550,6 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
         return this.req.getRequestURL();
     }
 
-    /* (non-Javadoc)
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
-     */
-    public boolean isRequestedSessionIdFromUrl() {
-        return this.req.isRequestedSessionIdFromUrl();
-    }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletRequest#getLocalAddr()
@@ -591,12 +586,6 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
         return this.req.getReader();
     }
 
-    /* (non-Javadoc)
-     * @see javax.servlet.ServletRequest#getRealPath(java.lang.String)
-     */
-    public String getRealPath(String path) {
-        return this.req.getRealPath(path);
-    }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletRequest#getRemotePort()
@@ -612,4 +601,18 @@ public abstract class AbstractRequestWrapper extends AbstractRequest {
         return this.req.getRequestDispatcher(path);
     }
 
+
+    // Servlet 6.0 additions: delegate to the request we wrap.
+
+    public String getRequestId() {
+        return this.req.getRequestId();
+    }
+
+    public String getProtocolRequestId() {
+        return this.req.getProtocolRequestId();
+    }
+
+    public ServletConnection getServletConnection() {
+        return this.req.getServletConnection();
+    }
 }

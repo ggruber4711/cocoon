@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.environment.http;
 
+import jakarta.servlet.ServletConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -324,13 +325,6 @@ public final class HttpRequest extends AbstractRequest {
         return this.req.isRequestedSessionIdFromURL();
     }
 
-    /**
-     * @deprecated As of Version 2.1 of the Java Servlet API, use
-     *             {@link #isRequestedSessionIdFromURL()} instead.
-     */
-    public boolean isRequestedSessionIdFromUrl() {
-        return this.req.isRequestedSessionIdFromURL();
-    }
 
     /* The ServletRequest interface methods */
 
@@ -519,12 +513,6 @@ public final class HttpRequest extends AbstractRequest {
         return this.req.getServletContext();
     }
 
-    /**
-     * @deprecated As of Servlet 2.1, use ServletContext#getRealPath instead.
-     */
-    public String getRealPath(String path) {
-        return null;
-    }
 
     /**
      * @see org.apache.cocoon.environment.Request#searchAttribute(java.lang.String)
@@ -580,5 +568,19 @@ public final class HttpRequest extends AbstractRequest {
 
     public DispatcherType getDispatcherType() {
         return this.req.getDispatcherType();
+    }
+
+    // Servlet 6.0 additions: delegate to the request we wrap.
+
+    public String getRequestId() {
+        return this.req.getRequestId();
+    }
+
+    public String getProtocolRequestId() {
+        return this.req.getProtocolRequestId();
+    }
+
+    public ServletConnection getServletConnection() {
+        return this.req.getServletConnection();
     }
 }

@@ -85,20 +85,12 @@ public class ServletServiceResponse implements HttpServletResponse {
         return this.headers.containsKey(name);
     }
 
-    public String encodeRedirectUrl(String url) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public String encodeRedirectURL(String url) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public String encodeUrl(String url) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public String encodeURL(String url) {
         // TODO Auto-generated method stub

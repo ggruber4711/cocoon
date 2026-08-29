@@ -86,25 +86,13 @@ public class ServletContextWrapper implements ServletContext {
         return this.servletContext.getNamedDispatcher(name);
     }
 
-    public Servlet getServlet(String name) throws ServletException {
-        return this.servletContext.getServlet(name);
-    }
 
-    public Enumeration getServlets() {
-        return this.servletContext.getServlets();
-    }
 
-    public Enumeration getServletNames() {
-        return this.servletContext.getServletNames();
-    }
 
     public void log(String msg) {
         this.servletContext.log(msg);
     }
 
-    public void log(Exception exception, String msg) {
-        this.servletContext.log(exception, msg);
-    }
 
     public void log(String msg, Throwable throwable) {
         this.servletContext.log(msg, throwable);

@@ -220,10 +220,10 @@ class HttpServletResponseBufferingWrapper extends HttpServletResponseWrapper {
                                     + "prevent such situation.");
                 }
             } else {
-                if (message != null)
-                    super.setStatus(SC_NOT_FOUND, message);
-                else
-                    super.setStatus(SC_NOT_FOUND);
+                // Servlet 6.0 removed setStatus(int, String): HTTP/2 has no reason
+                // phrase, so the message is deliberately dropped here. It is still
+                // honoured in the sendError branch above, which does render it.
+                super.setStatus(SC_NOT_FOUND);
             }
         }
         

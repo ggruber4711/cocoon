@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpSessionContext;
 
 import org.apache.cocoon.environment.Session;
 
@@ -48,28 +47,8 @@ public abstract class AbstractSession
     // Servlet 5.0 interface during the EE 9 checkpoint. Phase 3 of
     // plans/jakarta-ee10-fork.md deletes every SERVLET5-SHIM block.
 
-    /** @deprecated removed in Servlet 6.0; always returns null, as the spec required since 2.1. */
-    public HttpSessionContext getSessionContext() {
-        return null;
-    }
 
-    /** @deprecated removed in Servlet 6.0; use {@link #getAttribute(String)}. */
-    public Object getValue(String name) {
-        return getAttribute(name);
-    }
 
-    /** @deprecated removed in Servlet 6.0; use {@link #getAttributeNames()}. */
-    public String[] getValueNames() {
-        return Collections.list(getAttributeNames()).toArray(new String[0]);
-    }
 
-    /** @deprecated removed in Servlet 6.0; use {@link #setAttribute(String, Object)}. */
-    public void putValue(String name, Object value) {
-        setAttribute(name, value);
-    }
 
-    /** @deprecated removed in Servlet 6.0; use {@link #removeAttribute(String)}. */
-    public void removeValue(String name) {
-        removeAttribute(name);
-    }
 }

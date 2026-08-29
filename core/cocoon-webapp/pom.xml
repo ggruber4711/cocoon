@@ -43,13 +43,19 @@
 
   <build>
     <plugins>
+      <!--
+        Jetty 12 / Jakarta EE 10 (Servlet 6.0). The old org.eclipse.jetty:jetty-maven-plugin
+        9.4 line is javax-only and can no longer deploy this webapp.
+      -->
       <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.53.v20231009</version>
+        <groupId>org.eclipse.jetty.ee10</groupId>
+        <artifactId>jetty-ee10-maven-plugin</artifactId>
+        <version>${jetty.version}</version>
         <configuration>
+          <webApp>
+            <contextPath>${jetty.context}</contextPath>
+          </webApp>
           <webAppSourceDirectory>./target/cocoon-webapp</webAppSourceDirectory>
-          <contextPath>${jetty.context}</contextPath>
         </configuration>
       </plugin>
       <plugin>
@@ -152,23 +158,6 @@
   </dependencies>
 
   <profiles>
-    <!-- Jakarta migration runtime: switch Jetty to 11.x (Servlet 5 / Jakarta) -->
-    <profile>
-      <id>jakarta</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-maven-plugin</artifactId>
-            <version>11.0.20</version>
-            <configuration>
-              <webAppSourceDirectory>./target/cocoon-webapp</webAppSourceDirectory>
-              <contextPath>${jetty.context}</contextPath>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>it</id>
       <build>

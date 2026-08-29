@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.processing.impl;
 
+import jakarta.servlet.ServletConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +33,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 
 import org.apache.cocoon.environment.Cookie;
 import org.apache.cocoon.environment.Request;
@@ -347,10 +347,6 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             throw new UnsupportedOperationException();
         }
 
-        public boolean isRequestedSessionIdFromUrl() {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
         public String getLocalAddr() {
             //FIXME: Implement this method if needed
@@ -377,10 +373,6 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             throw new UnsupportedOperationException();
         }
 
-        public String getRealPath(String path) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
         public int getRemotePort() {
             //FIXME: Implement this method if needed
@@ -392,6 +384,20 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             throw new UnsupportedOperationException();
         }
 
+
+        // Servlet 6.0 additions; this stub has no connection behind it.
+
+        public String getRequestId() {
+            throw new UnsupportedOperationException();
+        }
+
+        public String getProtocolRequestId() {
+            throw new UnsupportedOperationException();
+        }
+
+        public ServletConnection getServletConnection() {
+            throw new UnsupportedOperationException();
+        }
     }
     
     /**
@@ -473,15 +479,7 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             throw new UnsupportedOperationException();
         }
 
-        public String encodeRedirectUrl(String url) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
-        public String encodeUrl(String url) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
         public void sendError(int sc) throws IOException {
             //FIXME: Implement this method if needed
@@ -631,30 +629,10 @@ public class MockProcessInfoProvider implements ProcessInfoProvider {
             throw new UnsupportedOperationException();
         }
 
-        public HttpSessionContext getSessionContext() {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
-        public Object getValue(String name) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
-        public String[] getValueNames() {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
-        public void putValue(String name, Object value) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
 
-        public void removeValue(String name) {
-            //FIXME: Implement this method if needed
-            throw new UnsupportedOperationException();
-        }
         
     }
 

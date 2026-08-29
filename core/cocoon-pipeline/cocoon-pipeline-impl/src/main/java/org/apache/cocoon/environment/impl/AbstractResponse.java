@@ -36,15 +36,7 @@ public abstract class AbstractResponse
         throw new UnsupportedOperationException();
     }
 
-    public String encodeRedirectUrl(String url) {
-        // TODO The method was added when Response was made extending HttpServletResponse, implement the method
-        throw new UnsupportedOperationException();
-    }
 
-    public String encodeUrl(String url) {
-        // TODO The method was added when Response was made extending HttpServletResponse, implement the method
-        throw new UnsupportedOperationException();
-    }
 
     public void sendError(int sc) throws IOException {
         // TODO The method was added when Response was made extending HttpServletResponse, implement the method
@@ -66,10 +58,6 @@ public abstract class AbstractResponse
         throw new UnsupportedOperationException();
     }
 
-    public void setStatus(int sc, String sm) {
-        // TODO The method was added when Response was made extending HttpServletResponse, implement the method
-        throw new UnsupportedOperationException();
-    }
 
     public void flushBuffer() throws IOException {
         // TODO The method was added when Response was made extending HttpServletResponse, implement the method

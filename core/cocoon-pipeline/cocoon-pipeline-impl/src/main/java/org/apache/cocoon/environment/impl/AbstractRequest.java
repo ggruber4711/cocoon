@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.environment.impl;
 
+import jakarta.servlet.ServletConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
@@ -106,13 +107,6 @@ public abstract class AbstractRequest
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
-     */
-    public boolean isRequestedSessionIdFromUrl() {
-        // TODO The method was added when Request was made extending HttpServletRequest, implement the method
-        throw new UnsupportedOperationException();
-    }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletRequest#getReader()
@@ -122,13 +116,6 @@ public abstract class AbstractRequest
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see javax.servlet.ServletRequest#getRealPath(java.lang.String)
-     */
-    public String getRealPath(String path) {
-        // TODO The method was added when Request was made extending HttpServletRequest, implement the method
-        throw new UnsupportedOperationException();
-    }
 
     /* (non-Javadoc)
      * @see javax.servlet.ServletRequest#getRequestDispatcher(java.lang.String)
@@ -136,5 +123,45 @@ public abstract class AbstractRequest
     public RequestDispatcher getRequestDispatcher(String path) {
         // TODO The method was added when Request was made extending HttpServletRequest, implement the method
         throw new UnsupportedOperationException();
+    }
+
+    // ------------------------------------------------------------------------
+    // Servlet 6.0 additions. All three are abstract on ServletRequest, so every
+    // concrete Request implementation has to supply them.
+    //
+    // Cocoon's synthetic requests (CLI, background processing, internal pipeline
+    // calls) are not tied to a network connection. They report a per-instance id
+    // and a connection with empty ids, which is what the spec prescribes for
+    // protocols that do not multiplex requests. Subclasses backed by a real
+    // container request override these and delegate.
+    // ------------------------------------------------------------------------
+
+    public String getRequestId() {
+        return Integer.toHexString(System.identityHashCode(this));
+    }
+
+    public String getProtocolRequestId() {
+        return "";
+    }
+
+    public ServletConnection getServletConnection() {
+        return new ServletConnection() {
+            public String getConnectionId() {
+                return AbstractRequest.this.getRequestId();
+            }
+
+            public String getProtocol() {
+                final String protocol = AbstractRequest.this.getProtocol();
+                return protocol != null ? protocol : "HTTP/1.1";
+            }
+
+            public String getProtocolConnectionId() {
+                return "";
+            }
+
+            public boolean isSecure() {
+                return AbstractRequest.this.isSecure();
+            }
+        };
     }
 }

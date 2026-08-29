@@ -16,6 +16,7 @@
  */
 package org.apache.cocoon.servletservice.util;
 
+import jakarta.servlet.ServletConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +53,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.Part;
 
@@ -380,13 +380,6 @@ public class ServletServiceRequest implements HttpServletRequest {
         return this.parentRequest.getLocales();
     }
 
-    /**
-     * @deprecated
-     * @see jakarta.servlet.ServletRequest#getRealPath(java.lang.String)
-     */
-    public String getRealPath(String path) {
-        return null;
-    }
 
     public String getRemoteAddr() {
         return this.parentRequest.getRemoteAddr();
@@ -459,9 +452,6 @@ public class ServletServiceRequest implements HttpServletRequest {
         return this.parentRequest.isRequestedSessionIdFromCookie();
     }
 
-    public boolean isRequestedSessionIdFromUrl() {
-        return this.isRequestedSessionIdFromURL();
-    }
 
     public boolean isRequestedSessionIdFromURL() {
         return this.parentRequest.isRequestedSessionIdFromURL();
@@ -812,14 +802,6 @@ public class ServletServiceRequest implements HttpServletRequest {
             return this.context;
         }
 
-        public HttpSessionContext getSessionContext() {
-            throw new UnsupportedOperationException();
-        }
-
-        public String[] getValueNames() {
-            throw new UnsupportedOperationException();
-        }
-
         public void invalidate() {
             this.getRequest().parentRequest.getSession().invalidate();
         }
@@ -828,16 +810,11 @@ public class ServletServiceRequest implements HttpServletRequest {
             return this.getRequest().parentRequest.getSession().isNew();
         }
 
-        public void putValue(String name, Object value) {
-            this.setValue(name, value);
-        }
-
         public void removeAttribute(String name) {
-            this.removeValue(name);
-        }
-
-        public void removeValue(String name) {
-            this.removeAttribute(name);
+            // Was delegating to removeValue(), which delegated straight back here:
+            // any call would have ended in StackOverflowError and nothing was ever
+            // removed. removeValue() is gone in Servlet 6.0, so remove directly.
+            this.values.remove(name);
         }
 
         public void setAttribute(String name, Object value) {
@@ -861,4 +838,18 @@ public class ServletServiceRequest implements HttpServletRequest {
 
     }
 
+
+    // Servlet 6.0 additions: delegate to the request that started this servlet-service call.
+
+    public String getRequestId() {
+        return this.parentRequest.getRequestId();
+    }
+
+    public String getProtocolRequestId() {
+        return this.parentRequest.getProtocolRequestId();
+    }
+
+    public ServletConnection getServletConnection() {
+        return this.parentRequest.getServletConnection();
+    }
 }
