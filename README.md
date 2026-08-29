@@ -21,10 +21,12 @@ fail silently.
 |---|---|
 | Baseline | Jakarta EE 10 — `jakarta.servlet-api` 6.0.0, Spring 6.1.10, JDK 17 |
 | Runtime | Jetty 12 (`org.eclipse.jetty.ee10`) |
-| Default build | 79 modules, 319 tests, green |
-| With `-P samples` | 102 modules, green; demo webapp boots and serves |
+| Version | `2.3.1-workflow-jakarta-1-SNAPSHOT` |
+| Default build | 342 tests, green |
+| With `-P samples` | green; demo webapp boots and serves |
+| Integration tests (`-P samples,it`) | 59, green |
 | Phases 0–4 of the plan | done |
-| Phase 5 (publish, wire into the consuming application) | not started |
+| Phase 5 (publish, wire into the consuming application) | version set; not yet published |
 
 ## Building
 

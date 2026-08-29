@@ -47,7 +47,7 @@ pins **38 different version strings**: `cocoon-core:2.2.1-workflow-1`,
 `cocoon-forms-impl:1.0.0-workflow-3`, `cocoon-servlet-service-impl:1.3.3-workflow`,
 `cocoon-configuration-api:1.0.4`, and so on.
 
-**In 2.3 all of them are a single reactor version** (`2.3.1-SNAPSHOT` today). Every one of those
+**In 2.3 all of them are a single reactor version** (`2.3.1-workflow-jakarta-1-SNAPSHOT` in this fork). Every one of those
 38 pins collapses to one property. This is a simplification, but it is not a search-and-replace:
 each `<version>` line has a *different* old value, so the edit cannot be done with one
 substitution, and any pin left behind silently resolves to a 2.2 jar that will not link against

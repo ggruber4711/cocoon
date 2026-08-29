@@ -32,7 +32,7 @@ blocked.
 | Vaadin | 8.14.3 | — |
 | JDK | 8/11-era | 17 (`targetJdk=17`) |
 | Namespace | 100% javax (4357 `javax.persistence`, 1083 `javax.annotation`, 508 `javax.servlet`) | sources rewritten to jakarta, POMs largely not |
-| Cocoon artifacts consumed | `2.2.1-workflow-1`, `2.2.2-workflow`, `1.0.1-workflow` | this repo is the `2.3.1-SNAPSHOT` line |
+| Cocoon artifacts consumed | `2.2.1-workflow-1`, `2.2.2-workflow`, `1.0.1-workflow` | this repo was the `2.3.1-SNAPSHOT` line; the fork now publishes `2.3.1-workflow-jakarta-1-SNAPSHOT` |
 
 ### Decisions taken
 
@@ -244,7 +244,7 @@ Target **`jakarta.servlet-api:6.0.0`**, not 6.1.0. Servlet 6.1 additionally remo
 
 1. ~~Copy this plan to `plans/jakarta-ee10-fork.md`~~ — done; commit it.
 2. Branch `feature/jakarta-ee10-fork` from `chore/spring6-jakarta-pass1`.
-3. Set version to `2.3.1-workflow-jakarta-1-SNAPSHOT` across the reactor.
+3. ~~Set version to `2.3.1-workflow-jakarta-1-SNAPSHOT` across the reactor.~~ **done** — 236 POMs, `legacy-blocks/` included so a revived block still resolves its parent.
 4. Rewrite the reactor: default build = the §2 in-scope set only. Move everything else out to `legacy-blocks/`. Critically, `blocks/cocoon-portal/pom.xml:36-47` still lists the portlet modules
    unconditionally — that is why the earlier "moved to legacy-blocks" commit had no effect. Quarantine
    the whole `cocoon-portal` aggregate.
