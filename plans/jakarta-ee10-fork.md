@@ -68,7 +68,7 @@ Derived from the consuming application's Cocoon aggregator module and its parent
 **In scope — tooling:** `cocoon-maven-plugin` (maintained in its own repository,
 currently `1.0.10-workflow`), `tools/cocoon-rcl`.
 
-**Quarantined** (moved into a `legacy-blocks` profile excluded from the default reactor, code left in
+**Quarantined** (moved to the top-level `legacy-blocks/` directory, outside the reactor, code left in
 tree): all of `cocoon-portal`, `cocoon-jsp`, `cocoon-taglib`, `cocoon-xsp`, `cocoon-deli`,
 `cocoon-faces`, `cocoon-ojb`, `cocoon-jcr`, `cocoon-jms`, `cocoon-slide`, `cocoon-lucene`,
 `cocoon-velocity`, `cocoon-xmldb`, `cocoon-proxy`, `cocoon-profiler`, `cocoon-scratchpad`,
@@ -238,8 +238,7 @@ Target **`jakarta.servlet-api:6.0.0`**, not 6.1.0. Servlet 6.1 additionally remo
 1. ~~Copy this plan to `plans/jakarta-ee10-fork.md`~~ — done; commit it.
 2. Branch `feature/jakarta-ee10-fork` from `chore/spring6-jakarta-pass1`.
 3. Set version to `2.3.1-workflow-jakarta-1-SNAPSHOT` across the reactor.
-4. Rewrite the reactor: default build = the §2 in-scope set only. Move everything else into
-   `legacy-blocks`. Critically, `blocks/cocoon-portal/pom.xml:36-47` still lists the portlet modules
+4. Rewrite the reactor: default build = the §2 in-scope set only. Move everything else out to `legacy-blocks/`. Critically, `blocks/cocoon-portal/pom.xml:36-47` still lists the portlet modules
    unconditionally — that is why the earlier "moved to legacy-blocks" commit had no effect. Quarantine
    the whole `cocoon-portal` aggregate.
 5. Delete `javax.servlet-api`, `jsp-api`, `jstl`, `servlet-api-2.5` from root `dependencyManagement`
@@ -353,7 +352,8 @@ the existing the consuming application Jetty dev target.
   before Phase 5 commits to them. Worth timeboxing, with "drop SOAP from the consuming application" as the fallback.
 - **`cocoon-maven-plugin` is a separate repo** on its own release cadence — coordinate the two releases.
 - **Quarantined blocks rot.** Once out of the reactor they stop compiling entirely. That is accepted,
-  but record it in the fork's README so nobody expects `-P legacy-blocks` to work.
+  They now live in the top-level `legacy-blocks/` directory, with a README stating that
+  nothing there compiles, so the status is visible without reading a POM.
 
 
 ---

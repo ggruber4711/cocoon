@@ -39,18 +39,8 @@
         <artifactId>apache-rat-plugin</artifactId>
         <configuration>
           <excludes combine.children="append">
-            <!--
-              The following exclusions are only needed if the allblocks profile is not enabled as
-              well as for some disabled modules. For the allblocks modules it doesn't matter to add
-              them here as soon as it's enabled these will not match anyway.
-            -->
-            <exclude>cocoon-chaperon/cocoon-chaperon-sample/src/main/resources/COB-INF/grammars/java.grm</exclude>
-            <exclude>cocoon-faces/cocoon-faces-sample/src/main/resources/COB-INF/cardemo/*</exclude>
-            <exclude>cocoon-html/cocoon-html-impl/src/main/resources/org/apache/cocoon/html/*.properties</exclude>
-            <exclude>cocoon-jcr/cocoon-jcr-sample/src/main/resources/COB-INF/repotest/**</exclude>
-            <exclude>cocoon-midi/cocoon-midi-impl/src/test/resources/org/apache/cocoon/generation/*.dtd</exclude>
+            <!-- Binary/third-party resources that carry no ASF header. -->
             <exclude>cocoon-poi/cocoon-poi-impl/src/main/resources/org/apache/cocoon/components/elementprocessor/impl/poi/hssf/elements/**</exclude>
-            <exclude>cocoon-portal/cocoon-portal-portlet-impl/src/main/resources/org/apache/cocoon/portal/pluto/deployment/web-app_2_3.dtd</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -133,59 +123,6 @@
       </modules>
     </profile>
 
-    <!--
-      Quarantined blocks. NOT MIGRATED and NOT BUILDABLE: they are retained for reference
-      only. Several are permanently stuck on javax (javax.portlet has no Jakarta equivalent,
-      JAX-RPC and JDO were never part of Jakarta EE). Do not expect -P legacy-blocks to work.
-    -->
-    <profile>
-      <id>legacy-blocks</id>
-      <modules>
-        <module>cocoon-asciiart</module>
-        <module>cocoon-authentication-fw</module>
-        <module>cocoon-bsf</module>
-        <module>cocoon-captcha</module>
-        <module>cocoon-chaperon</module>
-        <module>cocoon-cron</module>
-        <module>cocoon-databases</module>
-        <module>cocoon-deli</module>
-        <module>cocoon-eventcache</module>
-        <module>cocoon-faces</module>
-        <module>cocoon-html</module>
-        <module>cocoon-imageop</module>
-        <module>cocoon-itext</module>
-        <module>cocoon-javaflow</module>
-        <module>cocoon-jcr</module>
-        <module>cocoon-jfor</module>
-        <module>cocoon-jms</module>
-        <module>cocoon-jsp</module>
-        <module>cocoon-lucene</module>
-        <module>cocoon-midi</module>
-        <module>cocoon-naming</module>
-        <module>cocoon-ojb</module>
-        <module>cocoon-petstore</module>
-        <module>cocoon-portal</module>
-        <module>cocoon-profiler</module>
-        <module>cocoon-proxy</module>
-        <module>cocoon-python</module>
-        <module>cocoon-qdox</module>
-        <module>cocoon-querybean</module>
-        <module>cocoon-repository</module>
-        <module>cocoon-scratchpad</module>
-        <module>cocoon-session-fw</module>
-        <module>cocoon-slide</module>
-        <module>cocoon-slop</module>
-        <module>cocoon-stx</module>
-        <module>cocoon-taglib</module>
-        <module>cocoon-tour</module>
-        <module>cocoon-validation</module>
-        <module>cocoon-velocity</module>
-        <module>cocoon-web3</module>
-        <module>cocoon-webdav</module>
-        <module>cocoon-xmldb</module>
-        <module>cocoon-xsp</module>
-      </modules>
-    </profile>
   </profiles>
 
 </project>

@@ -51,9 +51,12 @@ consuming application actually loads. Everything else is in a profile.
   flowscript, template, serializers, auth, mail, fop, batik, poi, axis, linkrewriter).
 - **`-P samples`** — the sample blocks, the demo webapp and the distribution assemblies.
   Only needed to run or verify the demo.
-- **`-P legacy-blocks`** — 43 blocks that are not part of the shipped set. **Not migrated
-  and not buildable**; retained for reference only. Several can never move: `javax.portlet`
-  has no Jakarta equivalent, and JAX-RPC and JDO were never part of Jakarta EE.
+
+`legacy-blocks/` holds the 43 blocks that are **not migrated and do not compile**. They are
+outside the reactor entirely — a separate directory rather than a Maven profile, so the
+status is visible without reading a POM. Several can never move: `javax.portlet` has no
+Jakarta equivalent, and JAX-RPC and JDO were never part of Jakarta EE. See
+[legacy-blocks/README.md](legacy-blocks/README.md).
 
 `jakarta-shims/` republishes third-party jars that have no Jakarta release, with the
 namespace rewritten by Eclipse Transformer — currently Apache Axis 1.4 and the JAX-RPC API.
@@ -98,8 +101,8 @@ wrong content type, which browsers then cache. `cocoon.sh` does this for you.
 ## Relationship to upstream
 
 This is a fork. It is not tracking Apache Cocoon trunk and is not intended to be merged
-back: the reactor has been cut down to one consumer's needs and 43 blocks are deliberately
-left unbuildable. Upstream is at <https://cocoon.apache.org/>.
+back: the reactor has been cut down to one consumer's needs and 43 blocks have been moved
+to `legacy-blocks/` and left unbuildable. Upstream is at <https://cocoon.apache.org/>.
 
 Contributor guidance for this repository is in [AGENTS.md](AGENTS.md) and
 [CONTRIBUTING.md](CONTRIBUTING.md); note that both predate the fork and still describe the
