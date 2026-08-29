@@ -25,6 +25,12 @@
 # plus another 128m for maven itself to fit its dependency tree.
 MAVEN_OPTS="-Xmx512m"
 
+# JDK 17 is the baseline. A system default of 18+ or 11- will not build this tree.
+if [ -z "$JAVA_HOME" ] && [ -x /usr/libexec/java_home ]; then
+  JAVA_HOME=`/usr/libexec/java_home -v 17 2>/dev/null`
+  export JAVA_HOME
+fi
+
 # Parse command line
 ARGS=""
 while [ "$#" -gt "0" ]
@@ -50,5 +56,11 @@ do
 done
 export MAVEN_OPTS
 
-# Invoke maven
-mvn -P allblocks $ARGS
+# Invoke maven.
+#
+# There is no -P allblocks any more. The default reactor is the artifact set this fork
+# ships; add -P samples for the sample blocks and the demo webapp. See README.md.
+#
+# Always build clean: a non-clean build can package stale Eclipse output from
+# target/classes into the jars.
+mvn $ARGS

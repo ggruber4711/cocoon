@@ -60,7 +60,7 @@
 
     <!--
       Quarantined: the blocks framework is superseded by cocoon-servlet-service and is not
-      part of the webdesk-facing artifact set. NOT MIGRATED and NOT BUILDABLE.
+      part of the shipped artifact set. NOT MIGRATED and NOT BUILDABLE.
     -->
     <profile>
       <id>legacy-blocks</id>

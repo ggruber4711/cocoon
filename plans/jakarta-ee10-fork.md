@@ -1,8 +1,8 @@
-# Cocoon → Jakarta EE 10: fork plan for webdesk
+# Cocoon → Jakarta EE 10: fork plan for the consuming application
 
 > **Status:** Phases 0-4 implemented on `feature/jakarta-ee10-fork`. Phase 5 not started.
 > **Written:** 2026-08-29 · **Basis:** `chore/spring6-jakarta-pass1` @ `390a2f2ba4`
-> **Consumer:** `webdesk` @ `master-hotfix`
+> **Consumer:** the embedding application
 >
 > Current state: 79 modules, `BUILD SUCCESS`, 316 tests, 0 failures on JDK 17 against
 > `jakarta.servlet-api` 6.0.0. With `-P samples`, 102 modules. See **Implementation notes**
@@ -12,17 +12,18 @@
 
 ## 1. Context
 
-`webdesk` embeds Apache Cocoon and is about to migrate **Spring 5.3 → 6, Hibernate 5.6 → 6,
-Vaadin 8 → 24**. All three of those force **Jakarta EE 10 / Servlet 6.0 / JDK 17**. Cocoon is the
-one component in the stack with no upstream Jakarta release, so webdesk needs a **fork** that
-publishes EE 10-compatible artifacts on the same timeline.
+The consuming application embeds Apache Cocoon and is migrating **Spring 5.3 → 6,
+Hibernate 5.6 → 6 and its UI toolkit**. All of those force **Jakarta EE 10 / Servlet 6.0 /
+JDK 17**. Cocoon is the one component in that stack with no upstream Jakarta release, so it
+needs a **fork** publishing EE 10-compatible artifacts on the same timeline.
 
 There is no mixed mode: a single webapp cannot host `javax.servlet` and `jakarta.servlet` against
-one container. The Cocoon fork must be ready **before** webdesk flips, or the flip is blocked.
+one container. The Cocoon fork must be ready **before** the application flips, or the flip is
+blocked.
 
 ### Measured state of both sides
 
-| | webdesk (`master-hotfix`) | cocoon (`chore/spring6-jakarta-pass1`) |
+| | consuming application | cocoon (`chore/spring6-jakarta-pass1`) |
 |---|---|---|
 | Spring | 5.3.39 | 6.1.10 |
 | Servlet | `javax.servlet-api` 3.1.0 | `jakarta.servlet-api` 5.0.0 |
@@ -40,7 +41,7 @@ one container. The Cocoon fork must be ready **before** webdesk flips, or the fl
    (matches the existing `-workflow` convention).
 3. **Base line:** fork from this 2.3 trunk. The 2.2 → 2.3 API delta is an explicit workstream.
 4. **Out-of-scope blocks:** quarantined, not deleted — `cocoon-portal` **in its entirety**, plus every
-   block webdesk does not consume.
+   block the consuming application does not consume.
 5. **Axis:** keep `cocoon-axis-impl`; jakarta-fy Axis 1.4 + `commons-discovery` with **Eclipse Transformer**
    and publish the transformed jars under the fork's coordinates.
 6. **IT harness:** retire the hand-rolled `tools/cocoon-it-fw` mojos in favour of
@@ -50,7 +51,7 @@ one container. The Cocoon fork must be ready **before** webdesk flips, or the fl
 
 ## 2. Scope: what the fork must actually ship
 
-Derived from `webdesk/core/webdesk-tools-webclient-cocoon/pom.xml` and `webdesk/parent/pom.xml`.
+Derived from the consuming application's Cocoon aggregator module and its parent POM.
 
 **In scope — core:** `cocoon-configuration-api`, `cocoon-util`, `cocoon-jnet`, `cocoon-xml-api`,
 `cocoon-xml-impl`, `cocoon-pipeline-api`, `cocoon-pipeline-impl`, `cocoon-pipeline-components`,
@@ -64,8 +65,8 @@ Derived from `webdesk/core/webdesk-tools-webclient-cocoon/pom.xml` and `webdesk/
 `cocoon-serializers-charsets`, `cocoon-auth-api`, `cocoon-auth-impl`, `cocoon-mail-impl`,
 `cocoon-fop-impl`, `cocoon-batik-impl`, `cocoon-poi-impl`, `cocoon-axis-impl`.
 
-**In scope — tooling:** `cocoon-maven-plugin` (separate repo
-`/Users/ggruber/develop/cocoon-maven-plugin`, currently `1.0.10-workflow`), `tools/cocoon-rcl`.
+**In scope — tooling:** `cocoon-maven-plugin` (maintained in its own repository,
+currently `1.0.10-workflow`), `tools/cocoon-rcl`.
 
 **Quarantined** (moved into a `legacy-blocks` profile excluded from the default reactor, code left in
 tree): all of `cocoon-portal`, `cocoon-jsp`, `cocoon-taglib`, `cocoon-xsp`, `cocoon-deli`,
@@ -80,7 +81,7 @@ A full `mvn -P allblocks -DskipTests -fn install` on JDK 17 today gives **186 su
 Filtered to the in-scope set, only **9 modules actually fail**: `cocoon-core`,
 `cocoon-servlet-service-impl`, `cocoon-servlet-service-components`, `cocoon-template-impl`,
 `cocoon-auth-api`, `cocoon-auth-impl`, `cocoon-mail-impl`, `cocoon-serializers-impl`,
-`cocoon-serializers-charsets`. The other 25 are blocks webdesk never loads.
+`cocoon-serializers-charsets`. The other 25 are blocks the consuming application never loads.
 
 **Reducing the reactor is therefore the single highest-leverage first move** — it converts a
 34-failure problem into a 9-failure problem before a line of Java is touched.
@@ -169,7 +170,7 @@ These pass `mvn install` and fail on first boot:
 `tools/cocoon-it-fw` is a Cocoon-owned Maven plugin whose `JettyContainer` imports
 `org.mortbay.jetty.*` and whose POM depends on `org.mortbay.jetty:servlet-api-2.5`. It is a dependency
 of `core/cocoon-webapp`. `tools/cocoon-rcl` exists on disk but is **not listed in `tools/pom.xml`**, so
-the `cocoon-rcl-webapp-wrapper` / `cocoon-rcl-spring-reloader` artifacts webdesk consumes are 2.2-era
+the `cocoon-rcl-webapp-wrapper` / `cocoon-rcl-spring-reloader` artifacts the consuming application consumes are 2.2-era
 javax builds with no source in this reactor.
 
 ### 3.7 Gap F — third-party jars compiled against javax
@@ -180,9 +181,9 @@ in scope because `cocoon-serializers-impl` depends on it.
 
 ### 3.8 Gap G — 2.2 → 2.3 artifact delta
 
-webdesk references three artifacts that **do not exist in this 2.3 tree**: `cocoon-commons-jexl`,
+the consuming application references three artifacts that **do not exist in this 2.3 tree**: `cocoon-commons-jexl`,
 `cocoon-expression-api`, `cocoon-expression-impl`. `cocoon-spring-configurator` is consumed as
-`2.2.2-workflow`, a separately maintained fork. These need explicit mapping before webdesk can switch.
+`2.2.2-workflow`, a separately maintained fork. These need explicit mapping before the consuming application can switch.
 
 ---
 
@@ -284,21 +285,20 @@ Target **`jakarta.servlet-api:6.0.0`**, not 6.1.0. Servlet 6.1 additionally remo
 22. For each hit, prefer an upstream Jakarta release; where none exists, run **Eclipse Transformer**
     and publish under `org.apache.cocoon` with a `-workflow-jakarta` classifier/version.
     Known targets: **Axis 1.4** and **commons-discovery 0.4** (both required by `cocoon-axis-impl`;
-    webdesk already pairs them with `jakarta.xml.rpc-api`).
+    the consuming application already pairs them with `jakarta.xml.rpc-api`).
 23. Add a build-time guard (enforcer rule or a small script in CI) that fails if any `javax/servlet`
     class reaches the runtime classpath.
 
-### Phase 5 — Publish and integrate with webdesk
+### Phase 5 — Publish and integrate with the consuming application
 
 24. Release `2.3.1-workflow-jakarta-1` to the internal repository.
-25. Re-release `cocoon-maven-plugin` from `/Users/ggruber/develop/cocoon-maven-plugin` against the
-    fork; audit it for servlet/Jetty coupling (`cocoon:prepare-jetty-webapp` and the RCL packaging are
+25. Re-release `cocoon-maven-plugin` from its own repository against the fork; audit it for servlet/Jetty coupling (`cocoon:prepare-jetty-webapp` and the RCL packaging are
     both container-facing).
-26. **Resolve the 2.2 → 2.3 delta (Gap G)** before webdesk switches: map `cocoon-commons-jexl`,
+26. **Resolve the 2.2 → 2.3 delta (Gap G)** before the consuming application switches: map `cocoon-commons-jexl`,
     `cocoon-expression-api`, `cocoon-expression-impl` to their 2.3 equivalents, and fold the
     `cocoon-spring-configurator:2.2.2-workflow` fork's changes into the 2.3 module.
-27. In `webdesk/parent/pom.xml`, point the Cocoon coordinates at the new version; in
-    `webdesk/core/webdesk-tools-webclient-cocoon/pom.xml`, swap the transformed Axis artifacts in.
+27. In the consuming application's parent POM, point the Cocoon coordinates at the new
+    version; in its Cocoon aggregator module, swap the transformed Axis artifacts in.
 
 ---
 
@@ -337,20 +337,20 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) mvn dependency:build-classpath -Dmdep.
 tr ':' '\n' < /tmp/cp.txt | while read j; do unzip -l "$j" 2>/dev/null | grep -q 'javax/servlet/' && echo "JAVAX: $j"; done
 ```
 
-Integration check (Phase 5): build `webdesk-tools-webclient-cocoon` against the published fork and run
-the existing webdesk Jetty dev target.
+Integration check (Phase 5): build `the consuming application-tools-webclient-cocoon` against the published fork and run
+the existing the consuming application Jetty dev target.
 
 ---
 
 ## 7. Risks and open items
 
-- **Vaadin 8 → 24 is a rewrite, not an upgrade.** Vaadin 8 has no Jakarta build. This is webdesk-side
+- **Vaadin 8 → 24 is a rewrite, not an upgrade.** Vaadin 8 has no Jakarta build. This is the consuming application-side
   work, but it gates the flip date; the Cocoon fork should be ready and shelved rather than blocking on it.
-- **Two jumps at once.** webdesk moves Cocoon 2.2.1-workflow-1 → 2.3.x *and* javax → jakarta in one
+- **Two jumps at once.** the consuming application moves Cocoon 2.2.1-workflow-1 → 2.3.x *and* javax → jakarta in one
   release. Gap G (§3.8) is the mitigation and must not be deferred to the end.
 - **Axis 1.4 under Transformer is unproven here.** Axis 1.x does its own reflection over servlet types;
   a transformed jar may need runtime testing beyond "it links". Phase 4 should prove the SOAP endpoints
-  before Phase 5 commits to them. Worth timeboxing, with "drop SOAP from webdesk" as the fallback.
+  before Phase 5 commits to them. Worth timeboxing, with "drop SOAP from the consuming application" as the fallback.
 - **`cocoon-maven-plugin` is a separate repo** on its own release cadence — coordinate the two releases.
 - **Quarantined blocks rot.** Once out of the reactor they stop compiling entirely. That is accepted,
   but record it in the fork's README so nobody expects `-P legacy-blocks` to work.
@@ -377,7 +377,7 @@ written up as Gap F — evaporated on a clean build.
 gate must run `clean`**.
 
 Related: `-Dmaven.test.skip=true` cannot be used at all. It skips test-jar creation, and
-several modules — plus webdesk — depend on `cocoon-*:test-jar`. Use `-DskipTests`.
+several modules — plus the consuming application — depend on `cocoon-*:test-jar`. Use `-DskipTests`.
 
 ### Scope corrections
 
@@ -403,7 +403,7 @@ several modules — plus webdesk — depend on `cocoon-*:test-jar`. Use `-DskipT
 - **JAX-RPC keeps its javax packages.** `jakarta.xml.rpc:jakarta.xml.rpc-api` renamed only
   the Maven coordinates; the spec was dropped from Jakarta EE and never got a package
   rename. `javax.xml.rpc` on the classpath is correct. This validates the coordinate
-  webdesk already pins (1.1.4).
+  the consuming application already pins (1.1.4).
 - **But that artifact still needed a shim.** Three of its classes reach into APIs that
   *were* renamed (`ServletEndpointContext`, `SOAPMessageContext`, `SOAPFaultException`)
   and would be `NoClassDefFoundError` on an EE 10 classpath. `jaxrpc-api-jakarta` fixes

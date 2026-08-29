@@ -2142,7 +2142,7 @@
         <version>2.9.4</version>
       </dependency>
       <!--
-        Jakarta Mail. API only: consumers (webdesk) supply the implementation
+        Jakarta Mail. API only: consumers supply the implementation
         (com.sun.mail:jakarta.mail for EE 9, org.eclipse.angus:angus-mail for EE 10).
       -->
       <dependency>

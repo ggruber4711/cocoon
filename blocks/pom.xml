@@ -102,7 +102,7 @@
   </build>
 
   <!--
-    Default reactor = the Jakarta-migrated artifact set consumed by webdesk.
+    Default reactor = the Jakarta-migrated artifact set this fork ships.
     Everything else lives in a profile; see plans/jakarta-ee10-fork.md section 2.
   -->
   <modules>

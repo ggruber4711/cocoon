@@ -44,7 +44,7 @@ previous one when samples handling moved into the `cocoon-welcome` block and the
 it eagerly. Without the file the Spring context fails with `Cannot resolve
 context://sitemap.xmap` and the webapp never deploys. Request routing does not go through
 it. The alternative fix -- making that xconf declaration conditional -- is a change to
-core behaviour that webdesk also depends on, so the file is the safer option here.
+core behaviour that the consuming application also depends on, so the file is the safer option here.
 
 ## Sample detail pages: fixed
 
@@ -71,7 +71,7 @@ style block's own service always did. Without them the pages rendered "Apache Co
 and "Copyright (c) ????" -- the same unset-parameter defect, just less visible than the
 missing stylesheet.
 
-Worth carrying into the webdesk migration: any generated link containing `//` is a 400 on
+Worth carrying into the downstream migration: any generated link containing `//` is a 400 on
 Jetty 12, anywhere in an application. It is a Jetty 9 -> 12 behaviour change, unrelated to
 the Jakarta namespace.
 
@@ -92,7 +92,7 @@ Two things make this worse than an ordinary stale cache:
   behaving as though a library did not load, check `performance.getEntriesByType('resource')`
   for a `transferSize` of 0 before suspecting the code.
 
-Worth carrying into the webdesk migration: if a deployment reuses its work directory across
+Worth carrying into the downstream migration: if a deployment reuses its work directory across
 an upgrade, clients can cache cross-wired resources, and no server-side check will catch it.
 
 Start with a fresh temp directory when the deployed blocks have changed:
@@ -107,7 +107,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) mvn -P samples -pl core/cocoon-webapp 
 ## Two defects found by running the samples
 
 Both predate the Jakarta migration. Neither is caused by anything on this branch, but
-both are in code webdesk consumes.
+both are in code the consuming application consumes.
 
 ### LinkRewriterReader was a Spring singleton (fixed)
 
@@ -131,12 +131,12 @@ Only `.css`, `.js` and the catch-all `**` are affected, because only those use
 Fixed by adding `scope="prototype"`. After the fix, three rounds of 40 concurrent mixed
 requests returned 120/120 correct responses, and the state no longer persists.
 
-This is the one to carry into webdesk: it is silent, it serves one user's resource for
+This is the one to carry into the consuming application: it is silent, it serves one user's resource for
 another's URL, and it survives in client caches.
 
 ### Concurrent requests against a cold cache corrupt the response (NOT fixed)
 
-This is the `setContentLength` failure that has bitten webdesk before. It is not fixed
+This is the `setContentLength` failure that has bitten the consuming application before. It is not fixed
 here. What follows is what was established while trying to, so the next attempt does not
 start from scratch.
 
@@ -154,7 +154,7 @@ warm returns 20/20, repeatably. Sequential cold requests are always fine.
 `LinkRewriterReader` involved, fails the same way: 15 of 20. Any reader that implements
 `CacheableProcessingComponent` is affected. This matters, because a per-reader workaround
 cannot fix it in general -- which is presumably why bundling resources was what finally
-made it go away in webdesk: fewer concurrent resource requests, so the window closes.
+made it go away in the consuming application: fewer concurrent resource requests, so the window closes.
 
 **The response is written more than once.** The "already written" figure is consistently
 close to a multiple of the resource size (7252 and 7462 against a 3653-byte file). The
@@ -192,10 +192,10 @@ reading: `HttpServletResponseBufferingWrapper.resetBufferedResponse` looks unsaf
 it silently does nothing when `bufferResponse` is false, but that flag is only false
 outside the 404-plus-super path that calls it.
 
-**This is a known defect, not a migration regression.** webdesk tracked it as WD-2490,
-opened 2015-12-23 against Jetty in dev mode and closed in 2019 with "since we are using
-WRO (Web resource optimizer) this problem is not relevant for production. For DEV mode we
-live with the problem." The 2015 diagnosis was the same shape as what is seen here: *"It
+**This is a known defect, not a migration regression.** It was reported downstream on
+2015-12-23 against Jetty in dev mode and closed in 2019 with "since we are using WRO (Web
+resource optimizer) this problem is not relevant for production. For DEV mode we live with
+the problem." That 2015 diagnosis is the same shape as what is seen here: *"It
 seems that 2 resources were messed up here: manifest.js and common.js"* -- one URL
 delivering another URL's content -- and the same pipeline frames
 (`AbstractCachingProcessingPipeline.processReader`, `PoolableProxyHandler`,

@@ -30,7 +30,7 @@
 
   <description>
     Whole-distribution guards for the Jakarta migration. This module ships no code:
-    it depends on the artifact set webdesk consumes and asserts properties of that
+    it depends on the artifact set this fork ships and asserts properties of that
     set that no single module can check on its own, and that the compiler cannot
     check at all.
 
@@ -38,7 +38,7 @@
   </description>
 
   <dependencies>
-    <!-- The webdesk-facing artifact set: whatever is in here is what gets checked. -->
+    <!-- The shipped artifact set: whatever is in here is what gets checked. -->
     <dependency><groupId>org.apache.cocoon</groupId><artifactId>cocoon-core</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>org.apache.cocoon</groupId><artifactId>cocoon-sitemap-impl</artifactId><version>${project.version}</version></dependency>
     <dependency><groupId>org.apache.cocoon</groupId><artifactId>cocoon-sitemap-components</artifactId><version>${project.version}</version></dependency>

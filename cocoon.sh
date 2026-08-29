@@ -33,6 +33,26 @@ do
 done
 
 export MAVEN_OPTS
-cd core/cocoon-webapp && echo "Starting in `pwd`" && mvn jetty:run
+
+# JDK 17 is the baseline.
+if [ -z "$JAVA_HOME" ] && [ -x /usr/libexec/java_home ]; then
+  JAVA_HOME=`/usr/libexec/java_home -v 17 2>/dev/null`
+  export JAVA_HOME
+fi
+
+# Jetty 12 / Jakarta EE 10. The old `jetty:run` prefix resolved to the javax-only
+# org.eclipse.jetty:jetty-maven-plugin and no longer works here.
+#
+# run-war, not run: `run` adds the project's dependency classpath on top of the already
+# assembled WEB-INF/lib, and Jetty then rejects the duplicated spring-web web-fragment.
+#
+# A fresh temp directory per start: Cocoon's pipeline cache lives there, and reusing it
+# after block content has changed can serve one block's resource for another block's URL.
+COCOON_TMP=`mktemp -d`
+
+echo "Starting in `pwd` (tmpdir $COCOON_TMP)"
+mvn -P samples -pl core/cocoon-webapp \
+    org.eclipse.jetty.ee10:jetty-ee10-maven-plugin:12.0.16:run-war \
+    -Djetty.http.port=8888 -Djava.io.tmpdir="$COCOON_TMP"
 
 cd $CWD
