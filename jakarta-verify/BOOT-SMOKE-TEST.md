@@ -192,38 +192,41 @@ reading: `HttpServletResponseBufferingWrapper.resetBufferedResponse` looks unsaf
 it silently does nothing when `bufferResponse` is false, but that flag is only false
 outside the 404-plus-super path that calls it.
 
-**Measured at the servlet-service layer with temporary instrumentation.** Three facts,
-each of which removes a suspect:
+**This is a known defect, not a migration regression.** webdesk tracked it as WD-2490,
+opened 2015-12-23 against Jetty in dev mode and closed in 2019 with "since we are using
+WRO (Web resource optimizer) this problem is not relevant for production. For DEV mode we
+live with the problem." The 2015 diagnosis was the same shape as what is seen here: *"It
+seems that 2 resources were messed up here: manifest.js and common.js"* -- one URL
+delivering another URL's content -- and the same pipeline frames
+(`AbstractCachingProcessingPipeline.processReader`, `PoolableProxyHandler`,
+`ServletServiceContext$PathDispatcher.forward`). Only the final cause differs with the
+container: `IOException: Closed` on Jetty 6, `setContentLength(N) when already written M`
+on Jetty 12. Ten years and two servlet stacks apart, so it is neither Jakarta nor Jetty 12
+specific.
 
-- *The response object is not shared.* Logging `System.identityHashCode` of the
-  underlying response inside `HttpServletResponseBufferingWrapper.setHeader` during a
-  12-request burst produced a distinct identity for every request. Cross-request response
-  sharing is ruled out; the duplication happens within a single request.
-- *The reader is not running twice.* Logging every `ResourceReader.generate()` during the
-  same burst produced **three** invocations for twelve requests, each with a distinct
-  reader instance, a distinct response and a distinct output stream. The cache and its
-  lock are doing exactly what they are designed to do: one thread generates, the rest
-  reuse.
-- *The failures land on requests whose reader never ran.* Six of the twelve failed, and
-  they are not among the three that generated. They therefore fail on the cache-hit
-  branch of `processReader`:
+**Measured on a running samples webapp with temporary instrumentation** (removed again;
+see git history of this file for what was added):
 
-```java
-outputStream = environment.getOutputStream(0);
-environment.setContentLength(response.length);   // throws here
-outputStream.write(response);
-```
+- *Response objects are not shared and not recycled.* Logging `identityHashCode` of the
+  whole wrapper chain -- `HttpResponse` / `HttpServletResponseBufferingWrapper` /
+  `ServletApiResponse` -- gave a unique identity at every level for all 25 requests
+  across two bursts, with no value reappearing. Cross-request sharing and Jetty response
+  recycling are both ruled out.
+- *The reader is not run twice.* Instrumenting `ResourceReader.generate()` gave three
+  invocations for twelve concurrent requests, each with its own reader instance, response
+  and output stream. The cache lock does what it is meant to: one thread generates, the
+  rest reuse.
+- *The failing requests are the ones served from cache*, so they fail on the cache-hit
+  branch of `processReader` at `environment.setContentLength(response.length)`.
+- *The `getOutputStream` FIXME is a red herring.* Each environment calls
+  `getOutputStream` exactly once, with either the buffer size or 0, never both, so the
+  inconsistent second-call behaviour the FIXME describes never occurs on this path.
 
-So the open question is now narrow and concrete: **what writes to the response of a
-request that is about to be served from cache, before that branch runs?** The excess is
-not a whole extra copy -- 6341 and 7259 bytes against a 5084-byte resource -- so it is a
-complete body plus a partial one, or a body plus something else.
-
-One thing to look at first: `AbstractEnvironment.getOutputStream(0)` discards any
-`secureOutputStream` created earlier in the request rather than flushing or reusing it,
-and carries a FIXME from a previous maintainer saying the behaviour is inconsistent. That
-is the only place in this path that treats an already-established output stream as
-disposable.
+**One measurement that looks like evidence and is not.** An instrumented
+`setContentLength` reported that the environment had written 0 bytes at the moment it
+failed. That is true by construction -- the cache-hit branch sets the length before
+writing the body -- so it says nothing about who wrote the bytes Jetty is counting. Noted
+here because it is an easy trap to fall into twice.
 
 **Next step for whoever picks this up.** Reproduce one layer higher, with a real
 `HttpEnvironment` and the buffering wrapper in place, driving `BlockServlet` rather than
