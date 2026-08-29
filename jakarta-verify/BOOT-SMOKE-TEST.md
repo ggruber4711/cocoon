@@ -174,6 +174,29 @@ on how the reader is configured, so neither is the cause. Ruled out along the wa
 request/response/context beans in `cocoon-ssf-callstack.xml` are correctly
 `scope="call"` with scoped proxies.
 
+**A harness exists, and it does not reproduce it.**
+`core/cocoon-pipeline/cocoon-pipeline-impl/src/test/.../ReaderColdCacheConcurrencyTestCase`
+drives `processReader` with 20 concurrent threads against a shared cache and transient
+store, each thread with its own environment and pipeline instance, exactly as the Avalon
+pool arranges it. It also installs per-thread Spring request attributes, without which
+`generateLock` stores a null lock and the whole protocol is inert -- a test omitting that
+passes vacuously. A third case reuses one pipeline instance for two requests without
+`recycle()`, which is what `PoolableProxyHandler` does while the request scope has not
+been destroyed.
+
+All three pass: every response is written exactly once. So the duplication does not
+originate in the pipeline's cache and lock protocol. It must come from a layer the
+harness does not exercise -- the servlet-service block dispatch, `HttpEnvironment`,
+`HttpServletResponseBufferingWrapper`, or the call stack. Also checked and cleared by
+reading: `HttpServletResponseBufferingWrapper.resetBufferedResponse` looks unsafe because
+it silently does nothing when `bufferResponse` is false, but that flag is only false
+outside the 404-plus-super path that calls it.
+
+**Next step for whoever picks this up.** Reproduce one layer higher, with a real
+`HttpEnvironment` and the buffering wrapper in place, driving `BlockServlet` rather than
+the pipeline. The harness above is the starting point and shows what does not need
+re-testing.
+
 **Mitigation until it is fixed.** Warm the resource URLs before an instance takes traffic,
 or serve them through a bundler so there is no concurrent burst of first requests.
 
