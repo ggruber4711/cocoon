@@ -109,6 +109,7 @@
     <module>cocoon-ajax</module>
     <module>cocoon-apples</module>
     <module>cocoon-auth</module>
+    <module>cocoon-axis</module>
     <module>cocoon-batik</module>
     <module>cocoon-flowscript</module>
     <module>cocoon-fop</module>
@@ -121,19 +122,6 @@
   </modules>
 
   <profiles>
-    <!--
-      The Axis/SOAP block. webdesk depends on cocoon-axis-impl, but Axis 1.4 and its
-      JAX-RPC/SAAJ companions are compiled against javax.*, so the block cannot build
-      against jakarta.servlet until those jars are run through Eclipse Transformer.
-      Enabled by default again in Phase 4 of plans/jakarta-ee10-fork.md.
-    -->
-    <profile>
-      <id>axis</id>
-      <modules>
-        <module>cocoon-axis</module>
-      </modules>
-    </profile>
-
     <!-- Sample/demo blocks required to assemble core/cocoon-webapp for runtime verification. -->
     <profile>
       <id>samples</id>

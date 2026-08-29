@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache.cocoon</groupId>
+    <artifactId>cocoon-jakarta-shims</artifactId>
+    <version>2.3.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>jaxrpc-api-jakarta</artifactId>
+  <packaging>jar</packaging>
+  <name>JAX-RPC API [jakarta-compatible]</name>
+
+  <description>
+    jakarta.xml.rpc:jakarta.xml.rpc-api with Eclipse Transformer applied.
+
+    That artifact renamed only its Maven coordinates: JAX-RPC was dropped from Jakarta EE
+    and never got a package rename, so it still ships javax.xml.rpc classes -- correctly,
+    and this shim keeps them that way, because jakartaDefaults does not touch xml.rpc.
+
+    What it does fix is that three of those classes reach into APIs that *were* renamed,
+    and so no longer resolve on an EE 10 classpath:
+
+      javax.xml.rpc.server.ServletEndpointContext  -> javax.servlet.ServletContext
+      javax.xml.rpc.handler.soap.SOAPMessageContext -> javax.xml.soap.SOAPMessage
+      javax.xml.rpc.soap.SOAPFaultException         -> javax.xml.soap.Detail
+
+    Left alone these are NoClassDefFoundError waiting to happen on any code path that
+    touches a SOAP handler or a servlet endpoint context.
+  </description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.transformer</groupId>
+        <artifactId>transformer-maven-plugin</artifactId>
+        <version>${transformer.plugin.version}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>transform</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <jakartaDefaults>true</jakartaDefaults>
+              </rules>
+              <artifact>
+                <groupId>jakarta.xml.rpc</groupId>
+                <artifactId>jakarta.xml.rpc-api</artifactId>
+                <version>${jakarta.xml.rpc.version}</version>
+              </artifact>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.xml.soap</groupId>
+      <artifactId>jakarta.xml.soap-api</artifactId>
+      <version>${jakarta.xml.soap.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

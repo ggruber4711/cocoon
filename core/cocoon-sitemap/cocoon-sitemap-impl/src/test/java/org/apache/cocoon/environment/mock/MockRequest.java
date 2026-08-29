@@ -193,6 +193,10 @@ public class MockRequest extends AbstractRequest {
         return protocol;
     }
 
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
     /**
      * @see org.apache.cocoon.environment.Request#getScheme()
      */

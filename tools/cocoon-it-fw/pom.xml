@@ -29,9 +29,17 @@
 
   <artifactId>cocoon-it-fw</artifactId>
   <version>2.3.1-SNAPSHOT</version>
-  <packaging>maven-plugin</packaging>
+  <packaging>jar</packaging>
 
-  <name>Cocoon Integration Test Framework [maven-plugin]</name>
+  <name>Cocoon Integration Test Framework</name>
+
+  <!--
+    Was a maven-plugin providing jetty-start/jetty-stop mojos built on Jetty 6
+    (org.mortbay). Jetty 6 is Servlet 2.5 / javax and cannot host a Jakarta EE 10
+    webapp, so the mojos are gone and integration tests drive the container with
+    org.eclipse.jetty.ee10:jetty-ee10-maven-plugin instead. What remains here is
+    the HtmlUnit-based test base class the integration tests extend.
+  -->
 
   <properties>
     <docs.name>${project.name}</docs.name>
@@ -82,23 +90,6 @@
   </build>
 
   <dependencies>
-    <!-- The Maven 2 plugin -->
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mortbay.jetty</groupId>
-      <artifactId>jetty</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mortbay.jetty</groupId>
-      <artifactId>jetty-util</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mortbay.jetty</groupId>
-      <artifactId>servlet-api-2.5</artifactId>
-    </dependency>
     <!-- Base libraries for integration tests -->
     <dependency>
       <groupId>junit</groupId>

@@ -37,17 +37,15 @@
       <artifactId>cocoon-core</artifactId>
       <version>2.3.1-SNAPSHOT</version>
     </dependency>
+    <!--
+      Axis 1.4, jakarta-transformed; see jakarta-shims/axis-jakarta. The JAX-RPC
+      and SAAJ APIs come with it as real Jakarta artifacts rather than transformed
+      copies.
+    -->
     <dependency>
-      <groupId>org.apache.axis</groupId>
-      <artifactId>axis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.axis</groupId>
-      <artifactId>axis-jaxrpc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.axis</groupId>
-      <artifactId>axis-saaj</artifactId>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>axis-jakarta</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet</groupId>

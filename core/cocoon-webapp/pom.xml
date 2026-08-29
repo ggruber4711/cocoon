@@ -162,25 +162,40 @@
       <id>it</id>
       <build>
         <plugins>
-          <!-- Integration tests -->
+          <!--
+            Integration tests. Replaces the retired cocoon-it-fw jetty-start/jetty-stop
+            mojos, which were built on Jetty 6 (Servlet 2.5, javax) and cannot host a
+            Jakarta EE 10 webapp.
+          -->
           <plugin>
-            <groupId>org.apache.cocoon</groupId>
-            <artifactId>cocoon-it-fw</artifactId>
+            <groupId>org.eclipse.jetty.ee10</groupId>
+            <artifactId>jetty-ee10-maven-plugin</artifactId>
+            <version>${jetty.version}</version>
             <configuration>
-              <webAppDirectory>./target/cocoon-webapp</webAppDirectory>
+              <webAppSourceDirectory>./target/cocoon-webapp</webAppSourceDirectory>
+              <webApp>
+                <contextPath>${jetty.context}</contextPath>
+              </webApp>
+              <httpConnector>
+                <port>${jetty.port}</port>
+              </httpConnector>
+              <supportedPackagings>
+                <supportedPackaging>war</supportedPackaging>
+                <supportedPackaging>jar</supportedPackaging>
+              </supportedPackagings>
             </configuration>
             <executions>
               <execution>
                 <id>jetty-start</id>
                 <goals>
-                  <goal>jetty-start</goal>
+                  <goal>start</goal>
                 </goals>
                 <phase>pre-integration-test</phase>
               </execution>
               <execution>
                 <id>jetty-stop</id>
                 <goals>
-                  <goal>jetty-stop</goal>
+                  <goal>stop</goal>
                 </goals>
                 <phase>post-integration-test</phase>
               </execution>
