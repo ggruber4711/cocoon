@@ -134,24 +134,48 @@ requests returned 120/120 correct responses, and the state no longer persists.
 This is the one to carry into webdesk: it is silent, it serves one user's resource for
 another's URL, and it survives in client caches.
 
-### Concurrent first requests fail during sitemap compilation (not fixed)
+### Concurrent requests against a cold cache corrupt the response (NOT fixed)
 
-Distinct from the above and much less severe, because it fails loudly. On a cold start,
-the first burst of concurrent requests produces:
+This is the `setContentLength` failure that has bitten webdesk before. It is not fixed
+here. What follows is what was established while trying to, so the next attempt does not
+start from scratch.
+
+**Symptom.** On a cold cache, a burst of concurrent requests for the same resource fails:
 
 ```
 ProcessingException: Failed to process reader
-Caused by: IllegalArgumentException: setContentLength(3653) when already written 7462
+Caused by: IllegalArgumentException: setContentLength(3653) when already written 7252
 ```
 
-15 of 20 requests failed in a cold burst; an identical burst immediately afterwards
-returned 40/40 correct, and it does not recur once the pipelines are warm. The content
-length of one response is being applied to a response that has already had another
-response's bytes written to it, which points at the environment/response plumbing during
-concurrent sitemap compilation rather than at the reader.
+Measured: 15-17 of 20 concurrent first requests fail. An identical burst once the cache is
+warm returns 20/20, repeatably. Sequential cold requests are always fine.
 
-Practical impact: requests arriving concurrently in the seconds after a deploy can fail.
-Worth a warm-up request before putting an instance into a load balancer.
+**It is not the reader, and not link rewriting.** A plain `<map:read>` of a JPEG, with no
+`LinkRewriterReader` involved, fails the same way: 15 of 20. Any reader that implements
+`CacheableProcessingComponent` is affected. This matters, because a per-reader workaround
+cannot fix it in general -- which is presumably why bundling resources was what finally
+made it go away in webdesk: fewer concurrent resource requests, so the window closes.
+
+**The response is written more than once.** The "already written" figure is consistently
+close to a multiple of the resource size (7252 and 7462 against a 3653-byte file). The
+exception is therefore a symptom of duplication, not the fault itself.
+
+**The exception is load-bearing. Do not suppress it.** Making the reader non-cacheable
+(`getKey()` and `getValidity()` returning null) removes the exception completely -- and
+the cold burst then returns HTTP 200 `text/css` with 9987, 10905 and 11115 byte bodies for
+a 3653-byte file. Silently serving triplicated content is worse than failing loudly. This
+was tried and reverted.
+
+**Where it lives.** `AbstractCachingProcessingPipeline.processReader`, in the
+cache/lock protocol around `waitForLock` / `generateLock`. The two throw sites are the
+cache-hit branch and the `shouldSetContentLength()` branch; which one fires depends only
+on how the reader is configured, so neither is the cause. Ruled out along the way:
+`PoolableProxyHandler` holds its pooled component in a `ThreadLocal`, and the
+request/response/context beans in `cocoon-ssf-callstack.xml` are correctly
+`scope="call"` with scoped proxies.
+
+**Mitigation until it is fixed.** Warm the resource URLs before an instance takes traffic,
+or serve them through a bundler so there is no concurrent burst of first requests.
 
 ### CAPTCHA sample (fixed)
 
