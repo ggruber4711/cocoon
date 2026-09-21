@@ -102,6 +102,44 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
      * mode by setting optimization level on a context.
      */
     private static final int OPTIMIZATION_LEVEL = -1;
+
+    /**
+     * Enters every Context this interpreter uses, with thread-safe objects switched on.
+     *
+     * <p>Rhino reworked {@code ScriptableObject}'s slot storage after 1.7R5. Up to 1.7R5 slot
+     * access was synchronized; from 1.7.15 and 1.8.x onwards the map is a plain, non-thread-safe
+     * {@code SlotMapContainer} unless {@code FEATURE_THREAD_SAFE_OBJECTS} is enabled on the
+     * factory that created the Context.
+     *
+     * <p>Flowscript needs it. {@code fom_system.js} is a load-on-startup script, so every new
+     * session scope re-executes it, and it writes {@code sendPageAndWait}, {@code exit} and two
+     * more onto the <em>shared</em> {@code FOM_Cocoon} prototype. Sessions starting at the same
+     * moment therefore modify one slot map concurrently. Measured against this codebase with 16
+     * threads starting a session simultaneously, 150 rounds: 1.7R5 corrupted 0 rounds, 1.7.15
+     * corrupted 56, 1.8.0 corrupted 7. With this factory, 0.
+     *
+     * <p>The damage is silent and permanent. An accessor such as {@code request} or
+     * {@code context} simply disappears from the prototype, and every later request that touches
+     * it fails with "Cannot call method ... of undefined" until the JVM is restarted.
+     *
+     * <p>Deliberately a local factory rather than {@link ContextFactory#initGlobal}: initGlobal
+     * can be called only once per JVM and throws for the second caller, and a container may hold
+     * another Rhino user that claims it first. Cocoon's inner {@code Context.enter()} calls reuse
+     * whatever Context is already current on the thread, so entering from this factory at the
+     * interpreter's own entry points is enough -- including the one that runs
+     * {@code FOM_Cocoon.init}, because the feature is read when an object is created and the
+     * shared prototype must therefore be built under such a Context too.
+     */
+    /* Package-private rather than private so ThreadSafeObjectsTestCase can run the race
+     * against the factory that is actually used, instead of a copy of it. */
+    static final ContextFactory CONTEXT_FACTORY = new ContextFactory() {
+        protected boolean hasFeature(Context cx, int featureIndex) {
+            if (featureIndex == Context.FEATURE_THREAD_SAFE_OBJECTS) {
+                return true;
+            }
+            return super.hasFeature(cx, featureIndex);
+        }
+    };
     
     /**
      * When was the last time we checked for script modifications. Used
@@ -145,7 +183,7 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
             });
             db.setVisible(true);
             debugger = db;
-            debugger.attachTo(ContextFactory.getGlobal());
+            debugger.attachTo(CONTEXT_FACTORY);
         }
         return debugger;
     }
@@ -171,12 +209,12 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
             getDebugger().doBreak();
         }
         // Rhino 1.7 removed Context.setCompileFunctionsWithDynamicScope, which used to be
-        // called here and at the two other Context.enter() sites below. Its replacement is the
-        // FEATURE_DYNAMIC_SCOPE flag on a ContextFactory, which is global to the JVM and so a
-        // poor thing for a library to install. It is not reinstated because this interpreter
-        // does not rely on it: ThreadScope parents its scopes explicitly (see getSessionScope
-        // and createThreadScope), which is what dynamic scoping would otherwise have provided.
-        Context context = Context.enter();
+        // called here and at the two other entry points below. Its replacement is the
+        // FEATURE_DYNAMIC_SCOPE flag, which CONTEXT_FACTORY could now supply. Still not
+        // reinstated: this interpreter does not rely on it, because ThreadScope parents its
+        // scopes explicitly (see getSessionScope and createThreadScope), which is what dynamic
+        // scoping would otherwise have provided.
+        Context context = CONTEXT_FACTORY.enterContext();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
         // add support for Rhino objects to JXPath
@@ -566,7 +604,7 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
      */
     public void callFunction(String funName, List params, Redirector redirector)
     throws Exception {
-        Context context = Context.enter();
+        Context context = CONTEXT_FACTORY.enterContext();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL); 
         context.setGeneratingDebug(true);
         context.setErrorReporter(new JSErrorReporter());
@@ -662,7 +700,7 @@ public class FOM_JavaScriptInterpreter extends CompilingInterpreter
             throw new InvalidContinuationException("The continuation ID " + id + " is invalid.");
         }
 
-        Context context = Context.enter();
+        Context context = CONTEXT_FACTORY.enterContext();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
         LocationTrackingDebugger locationTracker = new LocationTrackingDebugger();

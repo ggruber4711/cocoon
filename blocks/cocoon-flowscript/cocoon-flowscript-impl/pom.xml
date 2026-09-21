@@ -64,7 +64,12 @@
       <artifactId>cocoon-expression-language-api</artifactId>
       <version>2.3.1-workflow-jakarta-1-SNAPSHOT</version>
     </dependency>
-  </dependencies>
+      <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+</dependencies>
   
   <profiles>
     <profile>

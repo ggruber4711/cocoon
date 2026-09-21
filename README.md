@@ -263,6 +263,30 @@ Now on `org.mozilla:rhino:1.7R5`. Four API changes, in six files:
   `ThreadScope.put` treated that as an implicit global declaration and refused it, which broke
   resuming; `Undefined` is now excluded from that check.
 
+**Thread safety is opt-in from 1.7.15 onwards, and flowscript needs it.** Rhino reworked
+`ScriptableObject`'s slot storage after 1.7R5: up to 1.7R5 slot access was synchronized, and from
+1.7.15 the map is a plain `SlotMapContainer` unless `FEATURE_THREAD_SAFE_OBJECTS` is enabled on
+the factory that created the Context. `fom_system.js` is a load-on-startup script, so every new
+session scope re-executes it and writes four methods onto the *shared* `FOM_Cocoon` prototype —
+outside the `compiledScripts` lock. Sessions starting together therefore modify one slot map at
+once, and an accessor such as `request` or `context` silently disappears from the prototype for
+the rest of the JVM's life; every later request touching it dies with
+`Cannot call method ... of undefined`.
+
+Only the first execution *inserts* those properties — later ones overwrite existing slots, which
+is safe — so this is a cold-start race. Measured here with 16 threads and 40 rounds: concurrent
+first inserts corrupt ~14 rounds on a stock factory, 0 with the feature on. That matches how it
+presents downstream: a container that comes up broken now and then and stays broken until it is
+restarted.
+
+`FOM_JavaScriptInterpreter.CONTEXT_FACTORY` enables the feature and is used at all three of the
+interpreter's `Context` entry points, including the one that runs `FOM_Cocoon.init` — the feature
+is read when an object is created, so the shared prototype must be built under it too. It is a
+local factory rather than `ContextFactory.initGlobal`, which can only be called once per JVM and
+throws for the second caller; a container may well hold another Rhino user that claims it first.
+`ThreadSafeObjectsTestCase` guards it, and includes a second test asserting a stock factory
+*still* corrupts, so the first cannot quietly become vacuous.
+
 Compiling against the new class proves nothing here, because the cast and the scope restore only
 happen on the *second* request. `FlowscriptContinuationTest` therefore drives both halves against
 a running container: it fetches a page that suspends a flowscript, asserts a continuation id was
